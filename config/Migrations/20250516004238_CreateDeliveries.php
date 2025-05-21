@@ -33,12 +33,11 @@ class CreateDeliveries extends BaseMigration
         ]);
         $table->addColumn('delivery_total','decimal',[
             'default'=>null,
-            'limit'=>255,
             'null'=>false,
         ]);
         $table->addColumn('delivery_date','date',[
             'default'=>null,
-            'null'=>null,
+            'null'=>false,
         ]);
         $table->addColumn('cutomer_id','string',[
             'default'=>null,
