@@ -5,7 +5,6 @@ use Migrations\BaseMigration;
 
 class CreateDeliveries extends BaseMigration
 {
-
     /**
      * Change Method.
      *
