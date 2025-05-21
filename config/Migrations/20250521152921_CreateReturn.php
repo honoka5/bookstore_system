@@ -30,9 +30,9 @@ class CreateReturn extends BaseMigration
             'limit' => 4,
             'null' => false,
         ]);
-         $table->addColumn('return_qty', 'smallint', [
+         $table->addColumn('return_qty', 'integer', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 5,
             'null' => false,
         ]);
          $table->addColumn('return_date', 'date', [
