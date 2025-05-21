@@ -11,6 +11,7 @@ return function (RouteBuilder $routes): void {
     $routes->scope('/', function (RouteBuilder $builder): void {
       
         $builder->connect('/', ['controller' => 'Home', 'action' => 'index']);
+        $builder->connect('/orders',['controller'=>'Orders','action'=>'index']);
 
       
         //$builder->connect('/pages/*', 'Pages::display');
