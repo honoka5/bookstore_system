@@ -5,19 +5,19 @@
  */
 ?>
 <div class="deliveries index content">
-    <?= $this->Html->link(__('New Delivery'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Deliveries') ?></h3>
+    <?= $this->Html->link(__('納品書作成'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <h3><?= __('納品書画面') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('delivery_id') ?></th>
-                    <th><?= $this->Paginator->sort('order_number') ?></th>
-                    <th><?= $this->Paginator->sort('order_id') ?></th>
-                    <th><?= $this->Paginator->sort('delivery_total') ?></th>
-                    <th><?= $this->Paginator->sort('delivery_date') ?></th>
-                    <th><?= $this->Paginator->sort('cutomer_id') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th><?= $this->Paginator->sort('納品書ID') ?></th>
+                    <th><?= $this->Paginator->sort('注文書番号') ?></th>
+                    <th><?= $this->Paginator->sort('注文書ID') ?></th>
+                    <th><?= $this->Paginator->sort('納品書一覧') ?></th>
+                    <th><?= $this->Paginator->sort('納品書ID') ?></th>
+                    <th><?= $this->Paginator->sort('お客様ID') ?></th>
+                    <th class="actions"><?= __('Actions？') ?></th>
                 </tr>
             </thead>
             <tbody>
