@@ -11,13 +11,13 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('納品書ID') ?></th>
-                    <th><?= $this->Paginator->sort('注文書番号') ?></th>
-                    <th><?= $this->Paginator->sort('注文書ID') ?></th>
-                    <th><?= $this->Paginator->sort('納品書一覧') ?></th>
-                    <th><?= $this->Paginator->sort('納品書ID') ?></th>
-                    <th><?= $this->Paginator->sort('お客様ID') ?></th>
-                    <th class="actions"><?= __('Actions？') ?></th>
+                    <th><?= $this->Paginator->sort('納品書ID') ?></th>//delivery_id
+                    <th><?= $this->Paginator->sort('注文書番号') ?></th>//order_number
+                    <th><?= $this->Paginator->sort('注文書ID') ?></th>//order_id
+                    <th><?= $this->Paginator->sort('納品書一覧') ?></th>//delivery_total
+                    <th><?= $this->Paginator->sort('納品書ID') ?></th>//delivery_date
+                    <th><?= $this->Paginator->sort('お客様ID') ?></th>//cutomer_id
+                    <th class="actions"><?= __('Actions？') ?></th>//Actions
                 </tr>
             </thead>
             <tbody>
