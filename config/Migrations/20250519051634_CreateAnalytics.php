@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use  Phinx\Migration\AbstractMigration;
 
-class CreateAnalytics extends BaseMigration
+class CreateAnalytics extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -12,7 +13,7 @@ class CreateAnalytics extends BaseMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function setConfig($config)
     {
         $table = $this->table('analytics');
         $table->addColumn('Managemen', 'string', [
@@ -21,5 +22,6 @@ class CreateAnalytics extends BaseMigration
             'null' => false,
         ]);
         $table->create();
+        $this->config = $config;
     }
 }

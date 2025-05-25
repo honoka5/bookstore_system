@@ -3,12 +3,21 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-/**
- * Home Controller
- *
- */
+
 class HomeController extends AppController
 {
+    // /**
+    //  * Home Table instance
+    //  *
+    //  * @var \App\Model\Table\HomeTable
+    //  */
+    protected  $home;
+
+    //  public function initialize(): void
+    // {
+    //     parent::initialize();
+    //     $this->home = $this->fetchTable('Homes');
+    // }
     /**
      * Index method
      *
@@ -26,9 +35,9 @@ class HomeController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id)
     {
-        $home = $this->Home->get($id, contain: []);
+        $home = $this->home->get($id, contain: []);
         $this->set(compact('home'));
     }
 
@@ -39,10 +48,10 @@ class HomeController extends AppController
      */
     public function add()
     {
-        $home = $this->Home->newEmptyEntity();
+        $home = $this->home->newEmptyEntity();
         if ($this->request->is('post')) {
-            $home = $this->Home->patchEntity($home, $this->request->getData());
-            if ($this->Home->save($home)) {
+            $home = $this->home->patchEntity($home, $this->request->getData());
+            if ($this->home->save($home)) {
                 $this->Flash->success(__('The home has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -52,19 +61,12 @@ class HomeController extends AppController
         $this->set(compact('home'));
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Home id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
+    public function edit(?string $id)
     {
-        $home = $this->Home->get($id, contain: []);
+        $home = $this->home->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $home = $this->Home->patchEntity($home, $this->request->getData());
-            if ($this->Home->save($home)) {
+            $home = $this->home->patchEntity($home, $this->request->getData());
+            if ($this->home->save($home)) {
                 $this->Flash->success(__('The home has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -74,18 +76,11 @@ class HomeController extends AppController
         $this->set(compact('home'));
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Home id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
+    public function delete(?string $id)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $home = $this->Home->get($id);
-        if ($this->Home->delete($home)) {
+        $home = $this->home->get($id);
+        if ($this->home->delete($home)) {
             $this->Flash->success(__('The home has been deleted.'));
         } else {
             $this->Flash->error(__('The home could not be deleted. Please, try again.'));

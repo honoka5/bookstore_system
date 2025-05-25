@@ -10,7 +10,11 @@ class OrdersController extends AppController
         parent::initialize();
         $this->loadComponent('Authentication.Authentication'); // ログインチェック用
     }
-
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function index()
     {
         $this->viewBuilder()->setLayout('default');

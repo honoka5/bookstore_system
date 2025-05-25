@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use  Phinx\Migration\AbstractMigration;
 
-class CreateDeliveries extends BaseMigration
+class CreateDeliveries extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -12,7 +13,7 @@ class CreateDeliveries extends BaseMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function setConfig($config)
     {
         $table = $this->table('deliveries',['id'=>false,'primary_key'=>['delivery_id']]);
         $table->addColumn('delivery_id','string',[
@@ -44,5 +45,6 @@ class CreateDeliveries extends BaseMigration
             'null'=>false,
         ]);
         $table->create();
+        $this->config = $config;
     }
 }

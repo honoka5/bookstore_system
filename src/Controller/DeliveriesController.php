@@ -10,6 +10,12 @@ namespace App\Controller;
  */
 class DeliveriesController extends AppController
 {
+
+     public function initialize(): void
+    {
+        parent::initialize();
+        $this->Deliveries = $this->fetchTable('Deliveries');
+    }
     /**
      * Index method
      *

@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateOrders extends BaseMigration
+class CreateOrders extends AbstractMigration
 {
+    protected $config;
+
     /**
      * Change Method.
      *
@@ -12,7 +14,7 @@ class CreateOrders extends BaseMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function setConfig($config)
     {
        $table = $this->table('orders');
         $table->addColumn('order_id', 'string', [
@@ -46,5 +48,6 @@ class CreateOrders extends BaseMigration
         ]);
         $table->addIndex(['order_id'], ['unique' => true]);
         $table->create();
+        $this->config = $config;
     }
 }

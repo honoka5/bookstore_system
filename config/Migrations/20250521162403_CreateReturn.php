@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use  Phinx\Migration\AbstractMigration;
 
-class CreateReturn extends BaseMigration
+class CreateReturn extends AbstractMigration
 {
+    protected $config;  
     /**
      * Change Method.
      *
@@ -12,7 +13,7 @@ class CreateReturn extends BaseMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function setConfig($config)
     {
         $table = $this->table('Return Management',['id'=>false,'primary_key'=>['return_id']]);
         $table->addColumn('return_id', 'string', [
@@ -60,5 +61,6 @@ class CreateReturn extends BaseMigration
             'null' => false,
         ]);
         $table->create();
+         $this->config = $config;
     }
 }

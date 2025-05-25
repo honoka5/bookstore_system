@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use  Phinx\Migration\AbstractMigration;
 
-class CreateCustomers extends BaseMigration
+class CreateCustomers extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -12,7 +13,7 @@ class CreateCustomers extends BaseMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function setConfig($config)
     {
         $table = $this->table('customers', ['id' => false, 'primary_key' => ['customer_id']]);
         $table->addColumn('customer_id', 'string', [
@@ -49,5 +50,6 @@ class CreateCustomers extends BaseMigration
             'null' => false,
         ]);
         $table->create();
+        $this->config = $config;
     }
 }

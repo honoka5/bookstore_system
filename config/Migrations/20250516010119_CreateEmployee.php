@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use  Phinx\Migration\AbstractMigration;
 
-class CreateEmployee extends BaseMigration
+class CreateEmployee extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -12,7 +13,7 @@ class CreateEmployee extends BaseMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function setConfig($config)
     {
         $table = $this->table('Employee Management',['id'=>false,'primary_key'=>['employee_id']]);
         $table->addColumn('employee_id', 'string', [
@@ -31,5 +32,6 @@ class CreateEmployee extends BaseMigration
             'null' => false,
         ]);
         $table->create();
+        $this->config = $config;
     }
 }
