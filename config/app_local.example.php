@@ -47,7 +47,7 @@ return [
             'username' => 'my_app',
             'password' => 'secret',
 
-            'database' => 'my_app',
+            'database' => 'cakephp',
             /*
              * If not using the default 'public' schema with the PostgreSQL driver
              * set it here.
@@ -68,7 +68,7 @@ return [
             //'port' => 'non_standard_port_number',
             'username' => 'my_app',
             'password' => 'secret',
-            'database' => 'test_myapp',
+            'database' => 'cakephp',
             //'schema' => 'myapp',
             'url' => env('DATABASE_TEST_URL', 'sqlite://127.0.0.1/tmp/tests.sqlite'),
         ],

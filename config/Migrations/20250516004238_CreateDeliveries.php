@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Migrations\BaseMigration;
+use Migrations\Db\Action\AddColumn;
 
 class CreateDeliveries extends BaseMigration
 {
@@ -21,19 +22,17 @@ class CreateDeliveries extends BaseMigration
             'limit'=>4,
             'null'=>false,
         ]);
-        $table->addColumn('order_number','string',[
+        $table->addColumn('book_title','string',[
             'default'=>null,
             'limit'=>255,
             'null'=>false,
         ]);
-        $table->addColumn('order_id','string',[
+        $table->addColumn('unit_price','decimal',[
             'default'=>null,
-            'limit'=>255,
             'null'=>false,
         ]);
-        $table->addColumn('delivery_total','decimal',[
+        $table->addColumn('total_quantity','integer',[
             'default'=>null,
-            'limit'=>255,
             'null'=>false,
         ]);
         $table->addColumn('delivery_date','date',[
@@ -43,6 +42,14 @@ class CreateDeliveries extends BaseMigration
         $table->addColumn('cutomer_id','string',[
             'default'=>null,
             'limit'=>255,
+            'null'=>false,
+        ]);
+        $table->addColumn('number_of_copies','integer',[
+            'default'=>null,
+            'null'=>false,
+        ]);
+         $table->addColumn('total_amount','decimal',[
+            'default'=>null,
             'null'=>false,
         ]);
         $table->create();
