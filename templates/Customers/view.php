@@ -39,10 +39,6 @@
                     <td><?= h($customer->Delivery_Conditions) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Email Address') ?></th>
-                    <td><?= h($customer->Email_Address) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Remark') ?></th>
                     <td><?= h($customer->remark) ?></td>
                 </tr>

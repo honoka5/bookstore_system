@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateEmployee extends BaseMigration
+class CreateOrderItems extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,18 +14,28 @@ class CreateEmployee extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('Employee Management',['id'=>false,'primary_key'=>['employee_id']]);
-        $table->addColumn('employee_id', 'string', [
+        $table = $this->table('order_Items');
+        $table->addColumn('orderItem_id', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('employee_name', 'string', [
+        $table->addColumn('order_id', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('password', 'string', [
+        $table->addColumn('book_name', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('unit_price', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('book_amount', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,

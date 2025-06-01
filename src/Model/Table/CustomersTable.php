@@ -81,12 +81,6 @@ class CustomersTable extends Table
             ->notEmptyString('Delivery_Conditions');
 
         $validator
-            ->scalar('Email_Address')
-            ->maxLength('Email_Address', 255)
-            ->requirePresence('Email_Address', 'create')
-            ->notEmptyString('Email_Address');
-
-        $validator
             ->date('Customer_Registration_Date')
             ->requirePresence('Customer_Registration_Date', 'create')
             ->notEmptyDate('Customer_Registration_Date');

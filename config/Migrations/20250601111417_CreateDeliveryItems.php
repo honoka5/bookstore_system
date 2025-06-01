@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateCustomers extends BaseMigration
+class CreateDeliveryItems extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,49 +14,48 @@ class CreateCustomers extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('customers');
-        $table->addColumn('id', 'integer', [
-            'default' => null,
-            'limit' => 11,
-            'null' => false,
-        ]);
-        $table->addColumn('Name', 'string', [
+        $table = $this->table('delivery_items');
+        $table->addColumn('deliveryItem_id', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('Address', 'string', [
+        $table->addColumn('delivery_id', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('Phone_Number', 'string', [
+        $table->addColumn('orderItem_id', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('Contact_Person', 'string', [
+        $table->addColumn('book_name', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('Delivery_Conditions', 'string', [
+        $table->addColumn('unit_price', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('Email_Address', 'string', [
+        $table->addColumn('book_amount', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('Customer_Registration_Date', 'date', [
+        $table->addColumn('isNotDeliveried', 'boolean', [
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('remark', 'string', [
+        $table->addColumn('leadTime', 'string', [
             'default' => null,
             'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('altDelivery_date', 'date', [
+            'default' => null,
             'null' => false,
         ]);
         $table->create();

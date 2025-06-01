@@ -27,7 +27,6 @@
                     echo $this->Form->control('Phone_Number');
                     echo $this->Form->control('Contact_Person');
                     echo $this->Form->control('Delivery_Conditions');
-                    echo $this->Form->control('Email_Address');
                     echo $this->Form->control('Customer_Registration_Date');
                     echo $this->Form->control('remark');
                 ?>

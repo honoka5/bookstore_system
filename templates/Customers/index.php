@@ -17,7 +17,6 @@
                     <th><?= $this->Paginator->sort('Phone_Number') ?></th>
                     <th><?= $this->Paginator->sort('Contact_Person') ?></th>
                     <th><?= $this->Paginator->sort('Delivery_Conditions') ?></th>
-                    <th><?= $this->Paginator->sort('Email_Address') ?></th>
                     <th><?= $this->Paginator->sort('Customer_Registration_Date') ?></th>
                     <th><?= $this->Paginator->sort('remark') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
@@ -32,7 +31,6 @@
                     <td><?= h($customer->Phone_Number) ?></td>
                     <td><?= h($customer->Contact_Person) ?></td>
                     <td><?= h($customer->Delivery_Conditions) ?></td>
-                    <td><?= h($customer->Email_Address) ?></td>
                     <td><?= h($customer->Customer_Registration_Date) ?></td>
                     <td><?= h($customer->remark) ?></td>
                     <td class="actions">

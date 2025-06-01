@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateAnalytics extends BaseMigration
+class CreateOrders extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,10 +14,19 @@ class CreateAnalytics extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('analytics');
-        $table->addColumn('Managemen', 'string', [
+        $table = $this->table('orders');
+        $table->addColumn('order_id', 'string', [
             'default' => null,
             'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('customer_id', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('order_date', 'date', [
+            'default' => null,
             'null' => false,
         ]);
         $table->create();

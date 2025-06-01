@@ -14,7 +14,6 @@ use Cake\ORM\Entity;
  * @property string $Phone_Number
  * @property string $Contact_Person
  * @property string $Delivery_Conditions
- * @property string $Email_Address
  * @property \Cake\I18n\Date $Customer_Registration_Date
  * @property string $remark
  */
@@ -35,7 +34,6 @@ class Customer extends Entity
         'Phone_Number' => true,
         'Contact_Person' => true,
         'Delivery_Conditions' => true,
-        'Email_Address' => true,
         'Customer_Registration_Date' => true,
         'remark' => true,
     ];
