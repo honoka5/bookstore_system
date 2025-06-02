@@ -49,7 +49,7 @@ class RegOrdersController extends AppController
                     'lead_time' => null,
                     'altDelivery_date' => null,
                 ]);
-                $deliveryItemsTable->saveOrFail($deliveryitem);
+                $deliveryItemsTable->saveOrFail($deliveryItem);
             }
 
             $this->Flash->success('注文が登録されました');

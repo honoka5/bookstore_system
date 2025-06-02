@@ -2,7 +2,7 @@
 
 <p><?= $this->Html->link('注文管理', ['controller' => 'Orders', 'action' => 'index'], ['class' => 'button']) ?></p>
 <p><?= $this->Html->link('納品書管理', ['controller' => 'Deliveries', 'action' => 'index'], ['class' => 'button']) ?></p>
-<p><?= $this->Html->link('注文書作成', ['controller' => 'Reg_Orders', 'action' => 'index'], ['class' => 'button']) ?></p>
+<p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'selectCustomer'], ['class' => 'button']) ?></p>
 <p></p>
 <p></p>
 
