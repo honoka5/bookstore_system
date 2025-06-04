@@ -27,7 +27,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Migrations\\": "config/Migrations/"
+            "Migrations\\": "config/Migrations/BaseMigration.php"
         }
     },
     "autoload-dev": {

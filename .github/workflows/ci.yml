@@ -52,7 +52,7 @@ jobs:
     - name: Run PHPUnit
       run: vendor/bin/phpunit
       env:
-        DATABASE_TEST_URL: sqlite://./testdb.sqlite
+        DATABASE_TEST_URL: mysql://root:null@127.0.0.1/cakephp
 
   coding-standard:
     name: Coding Standard & Static Analysis
@@ -80,3 +80,18 @@ jobs:
       run: phpstan
       env:
         SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
+
+services:
+  mysql:
+    image: mysql:10.0
+    ports: [3307:3307]
+    env:
+      MYSQL_ROOT_PASSWORD: null
+      MYSQL_DATABASE: cakephp
+      MYSQL_USER: root
+      MYSQL_PASSWORD: null
+    options: >-
+      --health-cmd="mysqladmin ping --silent"
+      --health-interval=10s
+      --health-timeout=5s
+      --health-retries=3
