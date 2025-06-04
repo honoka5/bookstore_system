@@ -3,6 +3,8 @@
     <input type="text" name="keyword" value="<?= h($keyword ?? '') ?>" placeholder="顧客名で検索">
     <button type="submit">検索</button>
 </form>
+
+<?php if (!empty($keyword)): ?>
 <table>
     <tr><th>ID</th><th>顧客名</th><th>住所</th><th>操作</th></tr>
     <?php foreach ($customers as $customer): ?>
@@ -14,4 +16,5 @@
     </tr>
     <?php endforeach; ?>
 </table>
+<?php endif; ?>
 
