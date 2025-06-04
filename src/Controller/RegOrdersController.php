@@ -1,5 +1,5 @@
 <?php
-    // src/Controller/OrdersController.php
+// src/Controller/OrdersController.php
 namespace App\Controller;
 
 class RegOrdersController extends AppController
@@ -17,6 +17,24 @@ class RegOrdersController extends AppController
         $this->set(compact('customers', 'keyword'));
     }
 
+    /**
+     * 指定テーブルのIDを自動採番（最大値+1、n桁ゼロ埋め）で生成する
+     *
+     * @param \Cake\ORM\Table $table
+     * @param string $column カラム名
+     * @param int $length 桁数
+     * @return string
+     */
+    private function generateNextId($table, $column, $length)
+    {
+        $max = $table->find()
+            ->select([$column])
+            ->order([$column => 'DESC'])
+            ->first();
+        $next = $max ? str_pad(((int)$max[$column]) + 1, $length, '0', STR_PAD_LEFT) : str_pad('1', $length, '0', STR_PAD_LEFT);
+        return $next;
+    }
+
     public function newOrder($customerId = null)
     {
         if ($this->request->is('post')) {
@@ -25,11 +43,20 @@ class RegOrdersController extends AppController
             $ordersTable = $this->fetchTable('Orders');
             $orderItemsTable = $this->fetchTable('OrderItems');
             $deliveryItemsTable = $this->fetchTable('DeliveryItems');
+            $orderDetailsTable = $this->fetchTable('OrderDetails');
+
+            // 各IDの自動採番
+            $nextOrderId = $this->generateNextId($ordersTable, 'order_id', 5);
+            $nextOrderItemId = $this->generateNextId($orderItemsTable, 'orderItem_id', 6);
+            $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
+            $nextOrderDetailId = $this->generateNextId($orderDetailsTable, 'orderDetail_id', 5);
 
             // 1. 注文書作成
             $order = $ordersTable->newEntity([
+                'order_id' => $nextOrderId,
                 'customer_id' => $customerId,
                 'order_date' => date('Y-m-d'),
+                'remark' => $data['orders']['remark'] ?? null, // 修正: フォームのname属性に合わせる
             ]);
             $ordersTable->saveOrFail($order);
 
@@ -39,16 +66,20 @@ class RegOrdersController extends AppController
                     continue;
                 }
 
-                $item = $orderItemsTable->newEntity([
-                    'order_id' => $order->id,
+                $orderItem = $orderItemsTable->newEntity([
+                    'orderItem_id' => str_pad((int)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
+                    'order_id' => $order->order_id,
                     'book_name' => $item['book_name'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],
+                    'book_summary' => $item['book_summary'] ?? null,
                 ]);
-                $orderItemsTable->saveOrFail($item);
+                $orderItemsTable->saveOrFail($orderItem);
 
                 $deliveryItem = $deliveryItemsTable->newEntity([
-                    'orderItem_id' => $item->id,
+                    'deliveryItem_id' => str_pad((int)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
+                    'orderItem_id' => $orderItem->orderItem_id,
+                    'delivery_id' => null,
                     'book_name' => $item['book_name'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],

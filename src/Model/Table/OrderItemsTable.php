@@ -78,6 +78,11 @@ class OrderItemsTable extends Table
             ->requirePresence('book_amount', 'create')
             ->notEmptyString('book_amount');
 
+        $validator
+            ->scalar('book_summary')
+            ->maxLength('book_summary', 255)
+            ->allowEmptyString('book_summary');
+
         return $validator;
     }
 

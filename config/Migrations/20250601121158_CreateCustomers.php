@@ -17,7 +17,7 @@ class CreateCustomers extends BaseMigration
         $table = $this->table('customers');
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 4,
             'null' => false,
         ]);
         $table->addColumn('customer_name', 'string', [
@@ -54,6 +54,7 @@ class CreateCustomers extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addPrimaryKey(['customer_id']);
         $table->create();
     }
 }

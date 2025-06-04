@@ -33,6 +33,7 @@ class DeliveryItem extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'deliveryItem_id' => true,
         'delivery_id' => true,
         'orderItem_id' => true,
         'book_name' => true,

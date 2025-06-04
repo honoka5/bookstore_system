@@ -17,12 +17,12 @@ class CreateDeliveries extends BaseMigration
         $table = $this->table('deliveries');
         $table->addColumn('delivery_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 4,
             'null' => false,
         ]);
         $table->addColumn('delivery_date', 'date', [
@@ -34,6 +34,7 @@ class CreateDeliveries extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addPrimaryKey(['delivery_id']);
         $table->create();
     }
 }

@@ -17,18 +17,24 @@ class CreateOrders extends BaseMigration
         $table = $this->table('orders');
         $table->addColumn('order_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 5, // 5桁まで
             'null' => false,
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 4,
             'null' => false,
         ]);
         $table->addColumn('order_date', 'date', [
             'default' => null,
             'null' => false,
         ]);
+        $table->addColumn('remark', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addPrimaryKey(['order_id']);
         $table->create();
     }
 }

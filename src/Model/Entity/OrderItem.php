@@ -28,10 +28,12 @@ class OrderItem extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'orderItem_id' => true,
         'order_id' => true,
         'book_name' => true,
         'unit_price' => true,
         'book_amount' => true,
+        'book_summary' => true,
         'order' => true,
     ];
 }

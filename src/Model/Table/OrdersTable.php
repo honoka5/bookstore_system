@@ -67,6 +67,11 @@ class OrdersTable extends Table
             ->requirePresence('order_date', 'create')
             ->notEmptyDate('order_date');
 
+        $validator
+            ->scalar('remark')
+            ->maxLength('remark', 255)
+            ->allowEmptyString('remark');
+
         return $validator;
     }
 

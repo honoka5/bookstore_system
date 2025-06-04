@@ -6,15 +6,27 @@
 
 <?php if (!empty($keyword)): ?>
 <table>
-    <tr><th>ID</th><th>顧客名</th><th>住所</th><th>操作</th></tr>
+    <tr><th>顧客名</th><th>電話番号</th><th>住所</th><th>操作</th></tr>
     <?php foreach ($customers as $customer): ?>
     <tr>
-        <td><?= h($customer->customer_id) ?></td>
         <td><?= h($customer->customer_name) ?></td>
+        <td><?= h($customer->phone_number) ?></td>
         <td><?= h($customer->address) ?></td>
         <td><?= $this->Html->link('選択', ['action' => 'newOrder', $customer->customer_id]) ?></td>
     </tr>
     <?php endforeach; ?>
 </table>
 <?php endif; ?>
+<!-- 戻るボタンを左下に配置 -->
+<div class="bottom-left-btn">
+    <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
+</div>
+<style>
 
+.bottom-left-btn {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 100;
+}
+</style>

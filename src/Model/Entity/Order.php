@@ -26,8 +26,10 @@ class Order extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'order_id' => true,
         'customer_id' => true,
         'order_date' => true,
+        'remark' => true,
         'customer' => true,
     ];
 }

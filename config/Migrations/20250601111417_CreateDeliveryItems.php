@@ -17,17 +17,17 @@ class CreateDeliveryItems extends BaseMigration
         $table = $this->table('delivery_items');
         $table->addColumn('deliveryItem_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 6,
             'null' => false,
         ]);
         $table->addColumn('delivery_id', 'string', [
             'default' => null,
-            'limit' => 255,
-            'null' => false,
+            'limit' => 5,
+            'null' => true,
         ]);
         $table->addColumn('orderItem_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 6,
             'null' => false,
         ]);
         $table->addColumn('book_name', 'string', [
@@ -46,18 +46,19 @@ class CreateDeliveryItems extends BaseMigration
             'null' => false,
         ]);
         $table->addColumn('isNotDeliveried', 'boolean', [
-            'default' => null,
+            'default' => true,
             'null' => false,
         ]);
         $table->addColumn('leadTime', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('altDelivery_date', 'date', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
+        $table->addPrimaryKey(['deliveryItem_id']);
         $table->create();
     }
 }

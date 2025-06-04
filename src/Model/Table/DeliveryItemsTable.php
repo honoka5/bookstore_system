@@ -65,7 +65,7 @@ class DeliveryItemsTable extends Table
         $validator
             ->scalar('delivery_id')
             ->maxLength('delivery_id', 5)
-            ->notEmptyString('delivery_id');
+            ->allowEmptyString('delivery_id');
 
         $validator
             ->scalar('orderItem_id')
@@ -95,13 +95,11 @@ class DeliveryItemsTable extends Table
 
         $validator
             ->decimal('leadTime')
-            ->requirePresence('leadTime', 'create')
-            ->notEmptyString('leadTime');
+            ->allowEmptyString('leadTime');
 
         $validator
             ->date('altDelivery_date')
-            ->requirePresence('altDelivery_date', 'create')
-            ->notEmptyDate('altDelivery_date');
+            ->allowEmptyDate('altDelivery_date');
 
         return $validator;
     }
@@ -116,7 +114,13 @@ class DeliveryItemsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['deliveryItem_id']), ['errorField' => 'deliveryItem_id']);
-        $rules->add($rules->existsIn(['delivery_id'], 'Deliveries'), ['errorField' => 'delivery_id']);
+        $rules->add(function ($entity, $options) {
+            // delivery_idがnullならOK、nullでなければexistsInチェック
+            if ($entity->delivery_id === null) {
+                return true;
+            }
+            return $this->Deliveries->exists(['delivery_id' => $entity->delivery_id]);
+        }, ['errorField' => 'delivery_id', 'message' => 'This value does not exist']);
         $rules->add($rules->existsIn(['orderItem_id'], 'OrderItems'), ['errorField' => 'orderItem_id']);
 
         return $rules;

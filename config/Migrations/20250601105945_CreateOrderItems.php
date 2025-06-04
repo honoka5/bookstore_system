@@ -17,12 +17,12 @@ class CreateOrderItems extends BaseMigration
         $table = $this->table('order_Items');
         $table->addColumn('orderItem_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 6,
             'null' => false,
         ]);
         $table->addColumn('order_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('book_name', 'string', [
@@ -40,6 +40,12 @@ class CreateOrderItems extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('book_summary', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => true,
+        ]);
+        $table->addPrimaryKey(['orderItem_id']);
         $table->create();
     }
 }

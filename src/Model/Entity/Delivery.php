@@ -27,6 +27,7 @@ class Delivery extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'delivery_id' => true,
         'customer_id' => true,
         'delivery_date' => true,
         'total_amount' => true,
