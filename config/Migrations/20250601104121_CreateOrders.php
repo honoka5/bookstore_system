@@ -34,7 +34,7 @@ class CreateOrders extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addPrimaryKey(['order_id']);
+        $table->addPrimaryKey('order_id');
         $table->create();
     }
 }
