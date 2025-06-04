@@ -43,13 +43,11 @@ class RegOrdersController extends AppController
             $ordersTable = $this->fetchTable('Orders');
             $orderItemsTable = $this->fetchTable('OrderItems');
             $deliveryItemsTable = $this->fetchTable('DeliveryItems');
-            $orderDetailsTable = $this->fetchTable('OrderDetails');
 
             // 各IDの自動採番
             $nextOrderId = $this->generateNextId($ordersTable, 'order_id', 5);
             $nextOrderItemId = $this->generateNextId($orderItemsTable, 'orderItem_id', 6);
             $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
-            $nextOrderDetailId = $this->generateNextId($orderDetailsTable, 'orderDetail_id', 5);
 
             // 1. 注文書作成
             $order = $ordersTable->newEntity([
