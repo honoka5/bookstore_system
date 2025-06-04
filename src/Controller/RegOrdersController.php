@@ -6,8 +6,15 @@ class RegOrdersController extends AppController
 {
     public function selectCustomer()
     {
-        $customers = $this->fetchTable('Customers')->find('all');
-        $this->set(compact('customers'));
+        $keyword = $this->request->getQuery('keyword');
+        $query = $this->fetchTable('Customers')->find('all');
+        if (!empty($keyword)) {
+            $query->where([
+                'customer_name LIKE' => '%' . $keyword . '%'
+            ]);
+        }
+        $customers = $query;
+        $this->set(compact('customers', 'keyword'));
     }
 
     public function newOrder($customerId = null)
