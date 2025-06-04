@@ -6,18 +6,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Customer Entity
+ * Delivery Entity
  *
+ * @property string $delivery_id
  * @property string $customer_id
- * @property string $customer_name
- * @property string $address
- * @property string $phone_number
- * @property string $contact_person
- * @property string $delivery_conditions
- * @property \Cake\I18n\Date $registration_date
- * @property string $remark
+ * @property \Cake\I18n\Date $delivery_date
+ * @property string $total_amount
+ *
+ * @property \App\Model\Entity\Customer $customer
  */
-class Customer extends Entity
+class Delivery extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -29,12 +27,9 @@ class Customer extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'customer_name' => true,
-        'address' => true,
-        'phone_number' => true,
-        'contact_person' => true,
-        'delivery_conditions' => true,
-        'registration_date' => true,
-        'remark' => true,
+        'customer_id' => true,
+        'delivery_date' => true,
+        'total_amount' => true,
+        'customer' => true,
     ];
 }

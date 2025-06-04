@@ -51,39 +51,39 @@ class CustomersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 255)
-            ->requirePresence('Name', 'create')
-            ->notEmptyString('Name');
+            ->scalar('customer_name')
+            ->maxLength('customer_name', 100)
+            ->requirePresence('customer_name', 'create')
+            ->notEmptyString('customer_name');
 
         $validator
-            ->scalar('Address')
-            ->maxLength('Address', 255)
-            ->requirePresence('Address', 'create')
-            ->notEmptyString('Address');
+            ->scalar('address')
+            ->maxLength('address', 50)
+            ->requirePresence('address', 'create')
+            ->notEmptyString('address');
 
         $validator
-            ->scalar('Phone_Number')
-            ->maxLength('Phone_Number', 255)
-            ->requirePresence('Phone_Number', 'create')
-            ->notEmptyString('Phone_Number');
+            ->scalar('phone_number')
+            ->maxLength('phone_number', 14)
+            ->requirePresence('phone_number', 'create')
+            ->notEmptyString('phone_number');
 
         $validator
-            ->scalar('Contact_Person')
-            ->maxLength('Contact_Person', 255)
-            ->requirePresence('Contact_Person', 'create')
-            ->notEmptyString('Contact_Person');
+            ->scalar('contact_person')
+            ->maxLength('contact_person', 15)
+            ->requirePresence('contact_person', 'create')
+            ->notEmptyString('contact_person');
 
         $validator
-            ->scalar('Delivery_Conditions')
-            ->maxLength('Delivery_Conditions', 255)
-            ->requirePresence('Delivery_Conditions', 'create')
-            ->notEmptyString('Delivery_Conditions');
+            ->scalar('delivery_conditions')
+            ->maxLength('delivery_conditions', 30)
+            ->requirePresence('delivery_conditions', 'create')
+            ->notEmptyString('delivery_conditions');
 
         $validator
-            ->date('Customer_Registration_Date')
-            ->requirePresence('Customer_Registration_Date', 'create')
-            ->notEmptyDate('Customer_Registration_Date');
+            ->date('registration_date')
+            ->requirePresence('registration_date', 'create')
+            ->notEmptyDate('registration_date');
 
         $validator
             ->scalar('remark')
@@ -92,5 +92,19 @@ class CustomersTable extends Table
             ->notEmptyString('remark');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->isUnique(['customer_id']), ['errorField' => 'customer_id']);
+
+        return $rules;
     }
 }
