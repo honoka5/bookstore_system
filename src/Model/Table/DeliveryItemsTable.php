@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -13,7 +12,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\DeliveriesTable&\Cake\ORM\Association\BelongsTo $Deliveries
  * @property \App\Model\Table\OrderItemsTable&\Cake\ORM\Association\BelongsTo $OrderItems
- *
  * @method \App\Model\Entity\DeliveryItem newEmptyEntity()
  * @method \App\Model\Entity\DeliveryItem newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\DeliveryItem> newEntities(array $data, array $options = [])
@@ -119,6 +117,7 @@ class DeliveryItemsTable extends Table
             if ($entity->delivery_id === null) {
                 return true;
             }
+
             return $this->Deliveries->exists(['delivery_id' => $entity->delivery_id]);
         }, ['errorField' => 'delivery_id', 'message' => 'This value does not exist']);
         $rules->add($rules->existsIn(['orderItem_id'], 'OrderItems'), ['errorField' => 'orderItem_id']);

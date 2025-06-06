@@ -1,16 +1,26 @@
 <?php
+declare(strict_types=1);
+
 // src/Controller/OrdersController.php
 namespace App\Controller;
 
+use Cake\ORM\Table;
+
 class RegOrdersController extends AppController
 {
+    /**
+     * 顧客選択画面の表示・検索処理。
+     * キーワードで顧客名を部分一致検索します。
+     *
+     * @return void
+     */
     public function selectCustomer()
     {
         $keyword = $this->request->getQuery('keyword');
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
-                'customer_name LIKE' => '%' . $keyword . '%'
+                'customer_name LIKE' => '%' . $keyword . '%',
             ]);
         }
         $customers = $query;
@@ -25,17 +35,27 @@ class RegOrdersController extends AppController
      * @param int $length 桁数
      * @return string
      */
-    private function generateNextId($table, $column, $length)
+    private function generateNextId(Table $table, string $column, int $length)
     {
         $max = $table->find()
             ->select([$column])
             ->order([$column => 'DESC'])
             ->first();
-        $next = $max ? str_pad(((int)$max[$column]) + 1, $length, '0', STR_PAD_LEFT) : str_pad('1', $length, '0', STR_PAD_LEFT);
+        $next = $max
+            ? str_pad((string)(((int)$max[$column]) + 1), $length, '0', STR_PAD_LEFT)
+            : str_pad('1', $length, '0', STR_PAD_LEFT);
+
         return $next;
     }
 
-    public function newOrder($customerId = null)
+    /**
+     * 新規注文登録処理。
+     * POST時は注文・注文内容・納品内容を登録し、完了後に顧客選択画面へリダイレクトします。
+     *
+     * @param string|null $customerId 顧客ID
+     * @return \Cake\Http\Response|null レスポンスまたはリダイレクト
+     */
+    public function newOrder(?string $customerId = null)
     {
         if ($this->request->is('post')) {
             $data = $this->request->getData();
@@ -65,7 +85,7 @@ class RegOrdersController extends AppController
                 }
 
                 $orderItem = $orderItemsTable->newEntity([
-                    'orderItem_id' => str_pad((int)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
+                    'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
                     'order_id' => $order->order_id,
                     'book_name' => $item['book_name'],
                     'unit_price' => $item['unit_price'],
@@ -75,7 +95,7 @@ class RegOrdersController extends AppController
                 $orderItemsTable->saveOrFail($orderItem);
 
                 $deliveryItem = $deliveryItemsTable->newEntity([
-                    'deliveryItem_id' => str_pad((int)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
+                    'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
                     'delivery_id' => null,
                     'book_name' => $item['book_name'],
@@ -89,12 +109,10 @@ class RegOrdersController extends AppController
             }
 
             $this->Flash->success('注文が登録されました');
+
             return $this->redirect(['action' => 'selectCustomer']);
         }
 
         $this->set(compact('customerId'));
     }
 }
-
-
-

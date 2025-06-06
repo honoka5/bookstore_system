@@ -3,9 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - '4.x'
-      - '4.next'
-      - '5.x'
+      - '*'
   pull_request:
     branches:
       - '*'
@@ -22,8 +20,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_RANDOM_ROOT_PASSWORD: yes
-          MYSQL_DATABASE: cakephp
+          MYSQL_ROOT_PASSWORD: null          
+          MYSQL_DATABASE: cakephp_test
         ports:
           - 3306:3306
         options: >-
@@ -67,7 +65,7 @@ jobs:
     - name: Run PHPUnit
       run: vendor/bin/phpunit
       env:
-        DATABASE_TEST_URL: mysql://root:null@127.0.0.1/cakephp
+        DATABASE_TEST_URL: mysql://root:null@127.0.0.1/cakephp_test
 
   coding-standard:
     name: Coding Standard & Static Analysis
