@@ -65,7 +65,7 @@ jobs:
     - name: Run PHPUnit
       run: vendor/bin/phpunit
       env:
-        DATABASE_TEST_URL: mysql://root:null@127.0.0.1/cakephp_test
+        DATABASE_TEST_URL: mysql://root@127.0.0.1/cakephp_test
 
   coding-standard:
     name: Coding Standard & Static Analysis
