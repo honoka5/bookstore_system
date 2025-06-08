@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateOrders extends BaseMigration
+class CreateOrders extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,17 @@ class CreateOrders extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('orders');
+        $table = $this->table('orders', [
+            'id' => false,               // デフォルトのID列を無効化
+            'primary_key' => 'order_id', // これで order_id を主キーにできる
+            'foreign_key' => [
+                'columns' => 'customer_id',
+                'references' => 'customers',
+                'limit' => 4, // order_id の桁数に合わせる
+                'delete' => 'CASCADE', // 外部キー制約の削除時の挙動
+                'update' => 'NO_ACTION', // 外部キー制約の更新時の挙動
+            ],
+        ]);
         $table->addColumn('order_id', 'string', [
             'default' => null,
             'limit' => 5, // 5桁まで
@@ -34,7 +44,6 @@ class CreateOrders extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addPrimaryKey('order_id');
         $table->create();
     }
 }

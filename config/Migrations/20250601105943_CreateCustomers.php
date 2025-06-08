@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateCustomers extends BaseMigration
+class CreateCustomers extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,10 @@ class CreateCustomers extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('customers');
+        $table = $this->table('customers', [
+            'id' => false,
+            'primary_key' => ['customer_id'],
+        ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
             'limit' => 4,
@@ -54,7 +57,7 @@ class CreateCustomers extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addPrimaryKey('customer_id');
+        $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
     }
 }

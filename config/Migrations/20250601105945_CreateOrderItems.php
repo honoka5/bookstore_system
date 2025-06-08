@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateOrderItems extends BaseMigration
+class CreateOrderItems extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,10 @@ class CreateOrderItems extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('order_Items');
+        $table = $this->table('order_Items', [
+            'id' => false,
+            'primary_key' => ['orderItem_id'],
+        ]);
         $table->addColumn('orderItem_id', 'string', [
             'default' => null,
             'limit' => 6,
@@ -45,7 +48,9 @@ class CreateOrderItems extends BaseMigration
             'limit' => 255,
             'null' => true,
         ]);
-        $table->addPrimaryKey('orderItem_id');
+        $table->addIndex(['orderItem_id'], ['unique' => true]);
+        $table->addIndex(['order_id']);
+        $table->addForeignKey('order_id', 'orders', 'order_id');
         $table->create();
     }
 }

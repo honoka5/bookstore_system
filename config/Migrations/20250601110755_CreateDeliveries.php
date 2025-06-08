@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateDeliveries extends BaseMigration
+class CreateDeliveries extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,10 @@ class CreateDeliveries extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('deliveries');
+        $table = $this->table('deliveries', [
+            'id' => false,
+            'primary_key' => ['delivery_id'],
+        ]);
         $table->addColumn('delivery_id', 'string', [
             'default' => null,
             'limit' => 5,
@@ -34,7 +37,9 @@ class CreateDeliveries extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addPrimaryKey('delivery_id');
+        $table->addIndex(['delivery_id'], ['unique' => true]);
+        $table->addIndex(['customer_id']);
+        $table->addForeignKey('customer_id', 'customers', 'customer_id');
         $table->create();
     }
 }
