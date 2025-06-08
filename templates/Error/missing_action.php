@@ -1,8 +1,12 @@
 <?php
 /**
- * @var string $controller
- * @var string $action
+ * @var string $class   呼び出し元コントローラの完全クラス名
+ * @var string $method  参照しようとしたアクション名
  */
 ?>
-<h1>Action Not Found</h1>
-<p>Controller <?= h($controller) ?> has no action <?= h($action) ?>.</p>
+<h1>Missing Action</h1>
+<p>
+  Controller <strong><?= h($class) ?></strong>  
+  does not have an action named  
+  <strong><?= h($method) ?></strong>.
+</p>
