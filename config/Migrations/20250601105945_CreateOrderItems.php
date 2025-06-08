@@ -45,7 +45,7 @@ class CreateOrderItems extends BaseMigration
             'limit' => 255,
             'null' => true,
         ]);
-        $table->addPrimaryKey(['orderItem_id']);
+        $table->addPrimaryKey('orderItem_id');
         $table->create();
     }
 }

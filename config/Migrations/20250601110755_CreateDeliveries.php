@@ -34,7 +34,7 @@ class CreateDeliveries extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addPrimaryKey(['delivery_id']);
+        $table->addPrimaryKey('delivery_id');
         $table->create();
     }
 }

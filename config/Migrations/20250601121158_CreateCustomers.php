@@ -54,7 +54,7 @@ class CreateCustomers extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addPrimaryKey(['customer_id']);
+        $table->addPrimaryKey('customer_id');
         $table->create();
     }
 }
