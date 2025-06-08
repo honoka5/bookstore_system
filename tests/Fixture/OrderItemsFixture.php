@@ -19,11 +19,12 @@ class OrderItemsFixture extends TestFixture
     {
         $this->records = [
             [
-                'orderItem_id' => '24190201-964a-43de-b156-5b399a139dbe',
-                'order_id' => 'Lor',
+                'orderItem_id' => '241902',
+                'order_id' => 'Lor22',
                 'book_name' => 'Lorem ipsum dolor sit amet',
-                'unit_price' => 1.5,
-                'book_amount' => 1.5,
+                'unit_price' => 1000,
+                'book_amount' => 12,
+                'book_summary' => 'Lorem ipsum dolor sit amet',
             ],
         ];
         parent::init();
