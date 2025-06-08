@@ -14,7 +14,7 @@ class CreateOrderItems extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('order_Items', [
+        $table = $this->table('order_items', [
             'id' => false,
             'primary_key' => ['orderItem_id'],
         ]);
