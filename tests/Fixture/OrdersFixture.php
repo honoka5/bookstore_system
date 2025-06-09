@@ -22,7 +22,7 @@ class OrdersFixture extends TestFixture
                 'order_id' => '00001',
                 'customer_id' => '0001',
                 'order_date' => '2025-06-03',
-                'remark' => 'abcdefg hijk lmn'
+                'remark' => 'abcdefg hijk lmn',
             ],
         ];
         parent::init();
