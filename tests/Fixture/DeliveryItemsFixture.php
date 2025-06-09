@@ -19,14 +19,14 @@ class DeliveryItemsFixture extends TestFixture
     {
         $this->records = [
             [
-                'deliveryItem_id' => 'db6769',
-                'delivery_id' => 'Lor11',
-                'orderItem_id' => 'Lore11',
+                'deliveryItem_id' => '000001',
+                'delivery_id' => '00001',
+                'orderItem_id' => '000001',
                 'book_name' => 'Lorem ipsum dolor sit amet',
                 'unit_price' => 1000,
                 'book_amount' => 2,
                 'isNotDeliveried' => 1,
-                'leadTime' => 1.5,
+                'leadTime' => 4,
                 'altDelivery_date' => '2025-06-03',
             ],
         ];
