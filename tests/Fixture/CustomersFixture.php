@@ -19,14 +19,14 @@ class CustomersFixture extends TestFixture
     {
         $this->records = [
             [
-                'customer_id' => '8245',
-                'customer_name' => 'Lorem ipsum dolor sit amet',
-                'address' => 'Lorem ipsum dolor sit amet',
-                'phone_number' => 'Lorem ipsum ',
-                'contact_person' => 'Lorem ipsum d',
-                'delivery_conditions' => 'Lorem ipsum dolor sit amet',
+                'customer_id' => '0001',
+                'customer_name' => '田中太郎',
+                'address' => 'A県A市A町',
+                'phone_number' => '111-1111-1111',
+                'contact_person' => '田中太郎',
+                'delivery_conditions' => '日中不在',
                 'registration_date' => '2025-06-03',
-                'remark' => 'Lorem ipsum dolor sit amet',
+                'remark' => 'Lorem ipsum dolor sit ame',
             ],
         ];
         parent::init();
