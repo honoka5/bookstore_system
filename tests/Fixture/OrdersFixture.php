@@ -19,8 +19,8 @@ class OrdersFixture extends TestFixture
     {
         $this->records = [
             [
-                'order_id' => '81bdd',
-                'customer_id' => 'Lo1122',
+                'order_id' => '00001',
+                'customer_id' => '0001',
                 'order_date' => '2025-06-03',
             ],
         ];
