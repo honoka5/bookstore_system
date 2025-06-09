@@ -5,8 +5,6 @@
  */
 ?>
 <h1>Missing Action</h1>
-<p>
-  Controller <strong><?= h($class) ?></strong>  
-  does not have an action named  
-  <strong><?= h($method) ?></strong>.
-</p>
+<p>クラス: <?= $class ?? '' ?></p>
+<p>メソッド: <?= $method ?? '' ?></p>
+
