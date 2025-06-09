@@ -64,7 +64,10 @@ class CreateDeliveryItems extends AbstractMigration
         $table->addIndex(['deliveryItem_id'], ['unique' => true]);
         $table->addIndex(['delivery_id']);
         $table->addIndex(['orderItem_id']);
-        $table->addForeignKey('delivery_id', 'deliveries', 'delivery_id');
+        $table->addForeignKey('delivery_id', 'deliveries', 'delivery_id', [
+            'delete'=> 'SET_NULL',
+            'update'=> 'NO_ACTION',
+        ]);
         $table->addForeignKey('orderItem_id', 'order_items', 'orderItem_id');
         $table->create();
     }
