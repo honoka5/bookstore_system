@@ -30,6 +30,7 @@ class Customer extends Entity
      */
     protected array $_accessible = [
         'customer_id' => true,
+        'bookstore_name' => true,
         'customer_name' => true,
         'address' => true,
         'phone_number' => true,
