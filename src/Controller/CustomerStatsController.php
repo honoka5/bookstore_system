@@ -72,7 +72,7 @@ class CustomerStatsController extends AppController
             // 統計情報テーブルへ保存
             $stat = $statsTable->find()->where(['customer_id' => $customerId, 'calc_date' => $now])->first();
             if (!$stat) {
-                $stat = $statsTable->newEntity();
+                $stat = $statsTable->newEntity([]);
             }
             $stat->calc_date = $now;
             $stat->customer_id = $customerId;

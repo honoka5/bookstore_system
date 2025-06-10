@@ -24,7 +24,7 @@ class CreateStatistics extends BaseMigration
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 4,
             'null' => false,
         ]);
         $table->addColumn('avg_leadtime', 'string', [
@@ -37,6 +37,7 @@ class CreateStatistics extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addIndex(['customer_id']);
         $table->addForeignKey('customer_id', 'customers', 'customer_id');
         $table->create();
     }

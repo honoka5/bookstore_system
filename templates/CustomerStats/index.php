@@ -27,29 +27,34 @@
         <table>
             <thead>
                 <tr>
-                    <th>顧客ID</th>
-                    <th>書店名</th>
                     <th>顧客名</th>
-                    <th>住所</th>
-                    <th>電話番号</th>
-                    <th>担当者名</th>
-                    <th>配達先条件等</th>
-                    <th>顧客登録日</th>
-                    <th>備考</th>
+                    <th>累計売上金額</th>
+                    <th>平均リードタイム</th>
+
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($customers as $customer): ?>
+                    <?php
+                        // 統計情報テーブルから該当顧客の最新統計を取得
+                        $stat = null;
+                        if (isset($customer->customer_id)) {
+                            $stat = \Cake\ORM\TableRegistry::getTableLocator()->get('Statistics')
+                                ->find()
+                                ->where(['customer_id' => $customer->customer_id])
+                                ->order(['calc_date' => 'DESC'])
+                                ->first();
+                        }
+                    ?>
                     <tr>
-                        <td><?= h($customer->customer_id) ?></td>
-                        <td><?= h($customer->bookstore_name) ?></td>
                         <td><?= h($customer->customer_name) ?></td>
-                        <td><?= h($customer->address) ?></td>
-                        <td><?= h($customer->tel) ?></td>
-                        <td><?= h($customer->person_in_charge) ?></td>
-                        <td><?= h($customer->delivery_condition) ?></td>
-                        <td><?= h($customer->registered) ?></td>
-                        <td><?= h($customer->remark) ?></td>
+                        <?php if ($stat): ?>
+                            <td><?= h($stat->total_purchace_amt) ?></td>
+                            <td><?= h($stat->avg_leadtime) ?></td>
+                        <?php else: ?>
+                            <td></td>
+                            <td></td>
+                        <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
