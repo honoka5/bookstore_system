@@ -19,11 +19,10 @@ class StatisticsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
                 'calc_date' => '2025-06-09',
-                'customer_id' => 'Lorem ipsum dolor sit amet',
-                'avg_leadtime' => 'Lorem ipsum dolor sit amet',
-                'total_purchace_amt' => 'Lorem ipsum dolor sit amet',
+                'customer_id' => '0001',
+                'avg_leadtime' => '2',
+                'total_purchace_amt' => '2000',
             ],
         ];
         parent::init();
