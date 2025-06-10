@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Phinx\Migration\AbstractMigration;
+use Migrations\AbstractMigration;
 
-class CreateOrders extends AbstractMigration
+class CreateordersDetail extends AbstractMigration
 {
     protected $config;
-
     /**
      * Change Method.
      *
@@ -16,7 +15,7 @@ class CreateOrders extends AbstractMigration
      */
     public function change(): void
     {
-       $table = $this->table('orders' ,['id' => false, 'primary_key' => ['order_id']]);
+        $table = $this->table('orders_detail', ['id' => false, 'primary_key' => ['order_id']]);
         $table->addColumn('order_id', 'string', [
             'default' => null,
             'limit' => 4,
@@ -24,13 +23,15 @@ class CreateOrders extends AbstractMigration
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
-        $table->addColumn('order_date', 'date', [
+        $table->addColumn('remarks', 'string', [
             'default' => null,
+            'limit' => 255,
             'null' => false,
         ]);
         $table->create();
     }
 }
+

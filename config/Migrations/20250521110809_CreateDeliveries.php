@@ -13,7 +13,7 @@ class CreateDeliveries extends AbstractMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function setConfig($config)
+    public function change(): void
     {
         $table = $this->table('deliveries',['id'=>false,'primary_key'=>['delivery_id']]);
         $table->addColumn('delivery_id','string',[
@@ -34,17 +34,18 @@ class CreateDeliveries extends AbstractMigration
         $table->addColumn('delivery_total','decimal',[
             'default'=>null,
             'null'=>false,
+            'precision' => 10, // 全体の桁数（整数部＋小数部）
+            'scale' => 2,      // 小数点以下の桁数
         ]);
         $table->addColumn('delivery_date','date',[
             'default'=>null,
             'null'=>false,
         ]);
-        $table->addColumn('cutomer_id','string',[
+        $table->addColumn('customer_id','string',[
             'default'=>null,
             'limit'=>255,
             'null'=>false,
         ]);
         $table->create();
-        $this->config = $config;
     }
 }
