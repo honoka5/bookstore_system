@@ -1,6 +1,3 @@
-
-
-
 <!-- ナビゲーションバー -->
 <div class="navbar">
     <div class="navbar-item">MBS</div>
@@ -10,7 +7,7 @@
 
 <!-- メインコンテンツ -->
 <div class="button-grid">
-    <a href="#" class="button">一覧確認</a>
+    <a href="List/List.php" class="button">一覧確認</a>
     <a href="#" class="button">注文書作成</a>
     <a href="#" class="button">統計情報</a>
     <a href="#" class="button">納品書作成</a>
