@@ -17,6 +17,10 @@ class RegOrdersController extends AppController
     public function selectCustomer()
     {
         $keyword = $this->request->getQuery('keyword');
+        // 全角スペースもトリム
+        if ($keyword !== null) {
+            $keyword = preg_replace('/^[\s　]+|[\s　]+$/u', '', $keyword);
+        }
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
