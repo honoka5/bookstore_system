@@ -76,8 +76,8 @@ class CustomerStatsController extends AppController
             }
             $stat->calc_date = $now;
             $stat->customer_id = $customerId;
-            $stat->total_amount = $totalAmount;
-            $stat->avg_lead_time = $avgLeadTime;
+            $stat->total_purchace_amt = $totalAmount; // ←ここを修正
+            $stat->avg_leadtime = $avgLeadTime;       // ←ここを修正
             $statsTable->save($stat);
         }
         $this->Flash->success('統計情報を計算・保存しました');

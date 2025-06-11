@@ -27,7 +27,7 @@ class CreateStatistics extends BaseMigration
             'limit' => 4,
             'null' => false,
         ]);
-        $table->addColumn('avg_leadtime', 'string', [
+        $table->addColumn('avg_leadtime', 'decimal', [
             'default' => null,
             'limit' => 255,
             'null' => false,

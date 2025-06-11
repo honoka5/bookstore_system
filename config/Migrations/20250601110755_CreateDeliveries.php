@@ -32,9 +32,9 @@ class CreateDeliveries extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('total_amount', 'string', [
+        $table->addColumn('total_amount', 'integer', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 4,
             'null' => false,
         ]);
         $table->addIndex(['delivery_id'], ['unique' => true]);

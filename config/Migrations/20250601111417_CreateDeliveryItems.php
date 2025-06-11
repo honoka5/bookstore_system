@@ -52,9 +52,10 @@ class CreateDeliveryItems extends AbstractMigration
             'default' => true,
             'null' => false,
         ]);
-        $table->addColumn('leadTime', 'string', [
+        $table->addColumn('leadTime', 'decimal', [
             'default' => null,
-            'limit' => 255,
+            'precision' => 10,
+            'scale' => 2,
             'null' => true,
         ]);
         $table->addColumn('altDelivery_date', 'date', [
