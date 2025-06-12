@@ -11,18 +11,18 @@ use Cake\Validation\Validator;
  * Customers Model
  *
  * @method \App\Model\Entity\Customer newEmptyEntity()
- * @method \App\Model\Entity\Customer newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\Customer> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Customer get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Customer findOrCreate($search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\Customer patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\Customer> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Customer|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Customer saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false saveMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Customer newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Customer> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Customer get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\Customer findOrCreate($search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Customer patchEntity(\App\Model\Entity\Customer $entity, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Customer> patchEntities(iterable<\App\Model\Entity\Customer> $entities, array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Customer|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Customer saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false saveMany(iterable<\App\Model\Entity\Customer> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable<\App\Model\Entity\Customer> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable<\App\Model\Entity\Customer> $entities, array<string, mixed> $options = [])
  */
 class CustomersTable extends Table
 {
