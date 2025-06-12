@@ -20,6 +20,7 @@ class ListController extends AppController
 
     /**
      * 顧客一覧画面
+     * @return \Cake\Http\Response|null|void Renders view
      */
     public function customer()
     {
@@ -28,6 +29,7 @@ class ListController extends AppController
 
     /**
      * 注文書一覧画面
+     * @return \Cake\Http\Response|null|void Renders view
      */
     public function order()
     {
@@ -36,6 +38,7 @@ class ListController extends AppController
 
     /**
      * 納品書一覧画面
+     * @return \Cake\Http\Response|null|void Renders view
      */
     public function product()
     {

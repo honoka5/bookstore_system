@@ -84,6 +84,7 @@ class RegOrdersController extends AppController
                     continue;
                 }
 
+                /** @var \App\Model\Entity\Order $order */
                 $orderItem = $orderItemsTable->newEntity([
                     'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
                     'order_id' => $order->order_id,
@@ -94,6 +95,7 @@ class RegOrdersController extends AppController
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
 
+                /** @var \App\Model\Entity\OrderItem $orderItem */
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
@@ -110,9 +112,10 @@ class RegOrdersController extends AppController
 
             $this->Flash->success('注文が登録されました');
 
-            return $this->redirect(['action' => 'selectCustomer']);
+            
         }
-
         $this->set(compact('customerId'));
+
+        return $this->redirect(['action' => 'selectCustomer']);
     }
 }

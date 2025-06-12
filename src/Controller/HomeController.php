@@ -2,12 +2,26 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use App\Model\Table\HomeTable;
+use Cake\ORM\TableRegistry;
 
 /**
  * Home Controller
  */
 class HomeController extends AppController
 {
+    
+    /**
+     * @var \App\Model\Table\HomeTable
+     */
+    public HomeTable $Home;
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Home = $this->fetchTable('Home');
+    }
+
     /**
      * Index method
      *
