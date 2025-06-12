@@ -20,7 +20,7 @@ class CreateordersContentMagemant extends AbstractMigration
         $table = $this->table('orders_content_magemant', ['id' => false, 'primary_key' => ['order_ID']]);
         $table->addColumn('order_ID', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('book_title', 'string', [
@@ -39,20 +39,12 @@ class CreateordersContentMagemant extends AbstractMigration
             'null' => false,
             'signed' => false,
         ]);
-        $table->addColumn('orders_date', 'date', [
+        $table->addColumn('summary', 'string', [
             'default' => null,
+            'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('total_amount', 'decimal', [
-            'default' => null,
-            'precision' => 10, // 全体の桁数（整数部＋小数部）
-            'scale' => 2,      // 小数点以下の桁数
-            'null' => false,
-        ]);
-        $table->addColumn('Partial delivery flag', 'boolean', [
-            'default' => null,
-            'null' => false,
-        ]);
+        
         $table = $this->table('orders_content_magemant');
         $this->config = $config;
         $table->create();

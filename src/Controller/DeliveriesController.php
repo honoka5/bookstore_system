@@ -39,7 +39,9 @@ class DeliveriesController extends AppController
      */
     public function view($id = null)
     {
-        $delivery = $this->Deliveries->get($id, contain: ['Orders']);
+        $delivery = $this->Deliveries->get($id, [
+            'contain' => ['Customers', 'Orders', 'DeliveryContentManagement'],
+        ]);
         $this->set(compact('delivery'));
     }
 
@@ -51,18 +53,19 @@ class DeliveriesController extends AppController
     public function add()
     {
         $delivery = $this->Deliveries->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $delivery = $this->Deliveries->patchEntity($delivery, $this->request->getData());
-            if ($this->Deliveries->save($delivery)) {
-                $this->Flash->success(__('The delivery has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The delivery could not be saved. Please, try again.'));
+    if ($this->request->is('post')) {
+        $delivery = $this->Deliveries->patchEntity($delivery, $this->request->getData());
+        if ($this->Deliveries->save($delivery)) {
+            $this->Flash->success(__('納品書を作成しました。'));
+            return $this->redirect(['action' => 'index']);
         }
-        $orders = $this->Deliveries->Orders->find('list', limit: 200)->all();
-        $this->set(compact('delivery', 'orders'));
+        $this->Flash->error(__('納品書の作成に失敗しました。もう一度お試しください。'));
     }
+    // 顧客リスト・注文書リストを取得
+    $customers = $this->Deliveries->Customers->find('list', ['keyField' => 'customer_id', 'valueField' => 'name'])->toArray();
+    $orders = $this->Deliveries->Orders->find('list', ['keyField' => 'order_id', 'valueField' => 'order_id'])->toArray();
+    $this->set(compact('delivery', 'customers', 'orders'));
+}
 
     /**
      * Edit method

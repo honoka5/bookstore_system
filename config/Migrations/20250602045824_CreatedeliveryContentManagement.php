@@ -15,8 +15,8 @@ class CreatedeliveryContentMagemant extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('delivery_content_management', ['id' => false, 'primary_key' => ['delivery_content_management_id']]);
-        $table->addColumn('delivery_content_management_id', 'string', [
+        $table = $this->table('deliverycontentmanagement', ['id' => false, 'primary_key' => ['deliverycontentmanagementid']]);
+        $table->addColumn('deliverycontentmanagement_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -46,16 +46,7 @@ class CreatedeliveryContentMagemant extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('delivery_date', 'date', [
-            'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('total_amount', 'decimal', [
-            'default' => null,
-            'null' => false,
-            'precision' => 10, // 全体の桁数（整数部＋小数部）
-            'scale' => 2,      // 小数点以下の桁数
-        ]);
+        
         $table->addColumn('Unpaid_flag', 'boolean', [
             'default' => null,
             'null' => false,
@@ -66,6 +57,6 @@ class CreatedeliveryContentMagemant extends AbstractMigration
             'precision' => 10, // 全体の桁数（整数部＋小数部）
             'scale' => 2,      // 小数点以下の桁数
         ]);
-        
+        $table->create();
     }
 }
