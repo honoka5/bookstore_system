@@ -5,4 +5,7 @@ parameters:
     bootstrapFiles:
         - config/bootstrap.php
     paths:
-        - src/
+        - src/Controller/HomeController.php
+        - src/Controller/RegOrdersController.php
+        - src/Model/Entity
+        - src/Model/Table

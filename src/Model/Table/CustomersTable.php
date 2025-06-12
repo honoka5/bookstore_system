@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Customer newEmptyEntity()
  * @method \App\Model\Entity\Customer newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method array<\App\Model\Entity\Customer> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Customer get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\Customer get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Customer findOrCreate($search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Customer patchEntity(\App\Model\Entity\Customer $entity, array<string, mixed> $data, array<string, mixed> $options = [])
  * @method array<\App\Model\Entity\Customer> patchEntities(iterable<\App\Model\Entity\Customer> $entities, array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
