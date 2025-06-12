@@ -8,7 +8,7 @@
  */
 ?>
 <div class="customer-stats index content">
-    <h1>顧客情報一覧</h1>
+    <h1>統計情報確認</h1>
     <div class="filter-form">
         <form method="get">
             <label for="bookstore_name">書店名:</label>
