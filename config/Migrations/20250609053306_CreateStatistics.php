@@ -17,6 +17,8 @@ class CreateStatistics extends BaseMigration
         $table = $this->table('statistics', [
             'id' => false,
             'primary_key' => ['calc_date', 'customer_id'],
+            'collation' => 'utf8mb4_unicode_ci',
+            'engine'=> 'InnoDB',
         ]);
         $table->addColumn('calc_date', 'date', [
             'default' => null,
@@ -24,20 +26,18 @@ class CreateStatistics extends BaseMigration
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('avg_leadtime', 'decimal', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('total_purchace_amt', 'string', [
+        $table->addColumn('total_purchace_amt', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
-        $table->addIndex(['customer_id']);
+        $table->addIndex(['customer_id'], ['unique' => true]);
         $table->addForeignKey('customer_id', 'customers', 'customer_id');
         $table->create();
     }

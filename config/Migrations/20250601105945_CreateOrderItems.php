@@ -17,6 +17,8 @@ class CreateOrderItems extends AbstractMigration
         $table = $this->table('order_items', [
             'id' => false,
             'primary_key' => ['orderItem_id'],
+            'collation' => 'utf8mb4_unicode_ci',
+            'engine'=> 'InnoDB',
         ]);
         $table->addColumn('orderItem_id', 'string', [
             'default' => null,
@@ -33,14 +35,12 @@ class CreateOrderItems extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('unit_price', 'string', [
+        $table->addColumn('unit_price', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('book_amount', 'string', [
+        $table->addColumn('book_amount', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
         $table->addColumn('book_summary', 'string', [

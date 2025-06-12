@@ -20,19 +20,21 @@ class CreateOrders extends AbstractMigration
             'foreign_key' => [
                 'columns' => 'customer_id',
                 'references' => 'customers',
-                'limit' => 4, // order_id の桁数に合わせる
+                'limit' => 5, 
                 'delete' => 'CASCADE', // 外部キー制約の削除時の挙動
                 'update' => 'NO_ACTION', // 外部キー制約の更新時の挙動
             ],
+            'collation' => 'utf8mb4_unicode_ci',
+            'engine'=> 'InnoDB',
         ]);
         $table->addColumn('order_id', 'string', [
             'default' => null,
-            'limit' => 5, // 5桁まで
+            'limit' => 5, 
             'null' => false,
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('order_date', 'date', [
@@ -42,7 +44,7 @@ class CreateOrders extends AbstractMigration
         $table->addColumn('remark', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->create();
     }

@@ -17,6 +17,8 @@ class CreateDeliveryItems extends AbstractMigration
         $table = $this->table('delivery_items', [
             'id' => false,
             'primary_key' => ['deliveryItem_id'],
+            'collation' => 'utf8mb4_unicode_ci',
+            'engine'=> 'InnoDB',
         ]);
         $table->addColumn('deliveryItem_id', 'string', [
             'default' => null,
@@ -38,14 +40,12 @@ class CreateDeliveryItems extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('unit_price', 'string', [
+        $table->addColumn('unit_price', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('book_amount', 'string', [
+        $table->addColumn('book_amount', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
         $table->addColumn('isNotDeliveried', 'boolean', [
@@ -53,12 +53,6 @@ class CreateDeliveryItems extends AbstractMigration
             'null' => false,
         ]);
         $table->addColumn('leadTime', 'decimal', [
-            'default' => null,
-            'precision' => 10,
-            'scale' => 2,
-            'null' => true,
-        ]);
-        $table->addColumn('altDelivery_date', 'date', [
             'default' => null,
             'null' => true,
         ]);

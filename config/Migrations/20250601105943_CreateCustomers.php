@@ -17,10 +17,12 @@ class CreateCustomers extends AbstractMigration
         $table = $this->table('customers', [
             'id' => false,
             'primary_key' => ['customer_id'],
+            'collation' => 'utf8mb4_unicode_ci',
+            'engine'=> 'InnoDB',
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('bookstore_name', 'string', [
@@ -30,28 +32,28 @@ class CreateCustomers extends AbstractMigration
         ]);
         $table->addColumn('customer_name', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 100,
             'null' => false,
         ]);
         $table->addColumn('address', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 50,
             'null' => false,
         ]);
         $table->addColumn('phone_number', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 14,
             'null' => false,
         ]);
         $table->addColumn('contact_person', 'string', [
             'default' => null,
-            'limit' => 255,
-            'null' => false,
+            'limit' => 15,
+            'null' => true,
         ]);
         $table->addColumn('delivery_conditions', 'string', [
             'default' => null,
-            'limit' => 255,
-            'null' => false,
+            'limit' => 30,
+            'null' => true,
         ]);
         $table->addColumn('registration_date', 'date', [
             'default' => null,
@@ -60,7 +62,7 @@ class CreateCustomers extends AbstractMigration
         $table->addColumn('remark', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
