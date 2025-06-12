@@ -15,6 +15,11 @@ class HomeController extends AppController
      */
     public Table $Home;
 
+    /**
+     * Initialize method
+     *
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
