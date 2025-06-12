@@ -111,8 +111,6 @@ class RegOrdersController extends AppController
             }
 
             $this->Flash->success('注文が登録されました');
-
-            
         }
         $this->set(compact('customerId'));
 

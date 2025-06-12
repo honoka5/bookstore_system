@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
  * OrderItems Model
  *
  * @property \App\Model\Table\OrdersTable $orders
- * 
  * @method \App\Model\Entity\OrderItem newEmptyEntity()
  * @method \App\Model\Entity\OrderItem newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method array<\App\Model\Entity\OrderItem> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])

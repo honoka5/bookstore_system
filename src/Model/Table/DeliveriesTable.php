@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
  * Deliveries Model
  *
  * @property \App\Model\Table\CustomersTable $Customers
- *
  * @method \App\Model\Entity\Delivery newEmptyEntity()
  * @method \App\Model\Entity\Delivery newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method array<\App\Model\Entity\Delivery> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])

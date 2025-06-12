@@ -9,9 +9,9 @@ use Cake\Validation\Validator;
 
 /**
  * DeliveryItems Model
+ *
  * @property \App\Model\Table\DeliveriesTable $Deliveries
  * @property \App\Model\Table\OrderItemsTable $OrderItems
- *
  * @method \App\Model\Entity\DeliveryItem newEmptyEntity()
  * @method \App\Model\Entity\DeliveryItem newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method array<\App\Model\Entity\DeliveryItem> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
