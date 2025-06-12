@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -12,7 +11,6 @@ use Cake\Validation\Validator;
  * Statistics Model
  *
  * @property \App\Model\Table\CustomersTable&\Cake\ORM\Association\BelongsTo $Customers
- *
  * @method \App\Model\Entity\Statistic newEmptyEntity()
  * @method \App\Model\Entity\Statistic newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Statistic> newEntities(array $data, array $options = [])
@@ -41,7 +39,7 @@ class StatisticsTable extends Table
 
         $this->setTable('statistics');
         $this->setDisplayField('customer_id');
-        $this->setPrimaryKey('id');
+        $this->setPrimaryKey(['calc_date', 'customer_id']);
 
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',

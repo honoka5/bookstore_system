@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\ORM\TableRegistry;
-use Cake\Datasource\ConnectionManager;
 use Cake\I18n\FrozenDate;
 
 class CustomerStatsController extends AppController
 {
+    /**
+     * 書店一覧と選択された書店の顧客一覧を取得し、ビューに渡す
+     *
+     * @return void
+     */
     public function index()
     {
         $customersTable = $this->fetchTable('Customers');
@@ -27,6 +30,11 @@ class CustomerStatsController extends AppController
         $this->set(compact('bookstoreNames', 'selectedBookstore', 'customers'));
     }
 
+    /**
+     * 選択された書店の顧客ごとに累計購入金額・平均リードタイムを計算し、統計テーブルに保存する
+     *
+     * @return \Cake\Http\Response|null リダイレクトレスポンス
+     */
     public function calculate()
     {
         $selectedBookstore = $this->request->getData('bookstore_name');
@@ -40,35 +48,49 @@ class CustomerStatsController extends AppController
         $customers = $customersTable->find()->where(['bookstore_name' => $selectedBookstore])->all();
         foreach ($customers as $customer) {
             $customerId = $customer->customer_id;
+
             // DB操作2: 累計購入金額
             $deliveryIds = $deliveriesTable->find()->select(['delivery_id'])->where(['customer_id' => $customerId])->all()->extract('delivery_id')->toArray();
             $deliveredItems = $deliveryItemsTable->find()
-                ->where(['delivery_id IN' => $deliveryIds, 'isNotDeliveried' => false])
+                ->where(['delivery_id IN' => $deliveryIds, 'is_deliveried_flag' => true])
                 ->all();
             $totalAmount = 0;
             foreach ($deliveredItems as $item) {
-                $totalAmount += $item->unit_price * $item->quantity;
+                $totalAmount += $item->unit_price * $item->book_amount;
             }
+
             // DB操作3: 平均リードタイム
             $totalLeadTime = 0;
             $totalQuantity = 0;
-            $deliveryItems = $deliveryItemsTable->find()->where(['delivery_id IN' => $deliveryIds])->all();
+            // $deliveryItems = $deliveryItemsTable->find()->where(['delivery_id IN' => $deliveryIds])->all();
+            // 新しい流れ: customerId→order_id→orderItem_id
+            $orderIds = $ordersTable->find()->select(['order_id'])->where(['customer_id' => $customerId])->all()->extract('order_id')->toArray();
+            $orderItemIds = $orderItemsTable->find()->select(['orderItem_id'])->where(['order_id IN' => $orderIds])->all()->extract('orderItem_id')->toArray();
+            $deliveryItems = $deliveryItemsTable->find()->where(['orderItem_id IN' => $orderItemIds])->all();
             foreach ($deliveryItems as $item) {
-                if (!$item->isNotDeliveried) {
-                    $totalLeadTime += $item->lead_time * $item->quantity;
-                    $totalQuantity += $item->quantity;
+                if ($item->is_deliveried_flag) {
+                    $leadTime = $item->leadTime ?? 0; // DBにあれば
+                    $totalLeadTime += $leadTime * $item->book_amount;
+                    $totalQuantity += $item->book_amount;
                 } else {
                     $calcDate = $now;
-                    $orderItem = $orderItemsTable->find()->where(['orderItem_id' => $item->orderItem_id])->first();
-                    $order = $ordersTable->find()->where(['order_id' => $orderItem->order_id])->first();
-                    $orderDate = $order->order_date;
-                    $leadTime = $calcDate->diffInDays($orderDate);
-                    $item->lead_time = $leadTime;
-                    $totalLeadTime += $leadTime * $item->quantity;
-                    $totalQuantity += $item->quantity;
+                    // deliveryItem_id -> orderItem_id -> order_id -> order_date の流れでorder_dateを取得
+                    $orderItemId = $item->orderItem_id;
+                    $orderItem = $orderItemsTable->find()->select(['order_id'])->where(['orderItem_id' => $orderItemId])->first();
+                    if ($orderItem) {
+                        $orderId = $orderItem->order_id;
+                        $order = $ordersTable->find()->select(['order_date'])->where(['order_id' => $orderId])->first();
+                        if ($order) {
+                            $orderDate = $order->order_date;
+                            $leadTime = $calcDate->diffInDays($orderDate);
+                            $totalLeadTime += $leadTime * $item->book_amount;
+                            $totalQuantity += $item->book_amount;
+                        }
+                    }
                 }
             }
             $avgLeadTime = $totalQuantity > 0 ? round($totalLeadTime / $totalQuantity, 2) : 0;
+
             // 統計情報テーブルへ保存
             $stat = $statsTable->find()->where(['customer_id' => $customerId, 'calc_date' => $now])->first();
             if (!$stat) {
@@ -77,10 +99,11 @@ class CustomerStatsController extends AppController
             $stat->calc_date = $now;
             $stat->customer_id = $customerId;
             $stat->total_purchace_amt = $totalAmount; // ←ここを修正
-            $stat->avg_leadtime = $avgLeadTime;       // ←ここを修正
+            $stat->avg_leadtime = $avgLeadTime; // ←ここを修正
             $statsTable->save($stat);
         }
         $this->Flash->success('統計情報を計算・保存しました');
+
         return $this->redirect(['action' => 'index', '?' => ['bookstore_name' => $selectedBookstore]]);
     }
 }
