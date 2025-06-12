@@ -87,12 +87,10 @@ jobs:
       uses: ramsey/composer-install@v3
 
     - name: Run PHP CodeSniffer
-      continue-on-error: true
       run: vendor/bin/phpcs --report=checkstyle | cs2pr
 
     - name: Run phpstan
       if: always()
-      continue-on-error: true
       run: vendor/bin/phpstan --error-format=github
       env:
         SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144
