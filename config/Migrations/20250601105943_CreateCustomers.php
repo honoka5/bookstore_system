@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateReturn extends BaseMigration
+class CreateCustomers extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,51 +14,50 @@ class CreateReturn extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('Return Management',['id'=>false,'primary_key'=>['return_id']]);
-        $table->addColumn('return_id', 'string', [
+        $table = $this->table('customers', [
+            'id' => false,
+            'primary_key' => ['customer_id'],
+        ]);
+        $table->addColumn('customer_id', 'string', [
             'default' => null,
             'limit' => 4,
             'null' => false,
         ]);
-         $table->addColumn('return_id', 'string', [
-            'default' => null,
-            'limit' => 4,
-            'null' => false,
-        ]);
-         $table->addColumn('delivery_id', 'string', [
-            'default' => null,
-            'limit' => 4,
-            'null' => false,
-        ]);
-         $table->addColumn('return_qty', 'smallint', [
+        $table->addColumn('customer_name', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-         $table->addColumn('return_date', 'date', [
-            'default' => null,
-            'null' => false,
-        ]);
-         $table->addColumn('book_name', 'string', [
+        $table->addColumn('address', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-         $table->addColumn('total_qty', 'integer', [
+        $table->addColumn('phone_number', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-         $table->addColumn('unit_price', 'decimalr', [
+        $table->addColumn('contact_person', 'string', [
             'default' => null,
-            'limit' => 6,
+            'limit' => 255,
             'null' => false,
         ]);
-          $table->addColumn('total_amount', 'decimalr', [
+        $table->addColumn('delivery_conditions', 'string', [
             'default' => null,
-            'limit' => 6,
+            'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('registration_date', 'date', [
+            'default' => null,
+            'null' => false,
+        ]);
+        $table->addColumn('remark', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
     }
 }
