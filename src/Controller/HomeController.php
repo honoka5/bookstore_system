@@ -23,6 +23,7 @@ class HomeController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+        //$this->Home = $this->fetchTable('Home');
     }
 
     /**

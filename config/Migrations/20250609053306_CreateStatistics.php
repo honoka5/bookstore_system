@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Phinx\Migration\AbstractMigration;
 
-class CreateStatistics extends BaseMigration
+class CreateStatistics extends AbstractMigration
 {
     /**
      * Change Method.

@@ -4,14 +4,15 @@
     <div class="navbar-item">ホーム</div>
     <div class="navbar-item">ホーム</div>
 </div>
+
+
 <!-- メインコンテンツ -->
 <div class="button-grid">
     <a href="List/List.php" class="button">一覧確認</a>
     <a href="/RegOrders/selectCustomer" class="button">注文書作成</a>
-    <a href="#" class="button">統計情報</a>
+    <a href="/CustomerStats/index" class="button">統計情報</a>
     <a href="#" class="button">納品書作成</a>
 </div>
-
 <style>
 .navbar {
     display: flex;

@@ -48,8 +48,8 @@ class CreateDeliveryItems extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('isNotDeliveried', 'boolean', [
-            'default' => true,
+        $table->addColumn('is_deliveried_flag', 'boolean', [
+            'default' => false,
             'null' => false,
         ]);
         $table->addColumn('leadTime', 'decimal', [

@@ -8,7 +8,7 @@
  */
 ?>
 <div class="customer-stats index content">
-    <h1>顧客情報一覧</h1>
+    <h1>統計情報確認</h1>
     <div class="filter-form">
         <form method="get">
             <label for="bookstore_name">書店名:</label>
@@ -49,8 +49,8 @@
                     <tr>
                         <td><?= h($customer->customer_name) ?></td>
                         <?php if ($stat): ?>
-                            <td><?= h($stat->totalAmount) ?></td>
-                            <td><?= h($stat->avgLeadtime) ?></td>
+                            <td><?= h($stat->total_purchace_amt) ?></td>
+                            <td><?= h($stat->avg_leadtime) ?></td>
                         <?php else: ?>
                             <td></td>
                             <td></td>
