@@ -68,4 +68,9 @@
     <?php elseif ($selectedBookstore): ?>
         <p>該当する顧客情報がありません。</p>
     <?php endif; ?>
+
+</div>
+
+<div class="bottom-left-btn">
+    <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
 </div>
