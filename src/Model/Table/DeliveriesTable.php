@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Deliveries Model
  *
- * @property \App\Model\Table\OrdersTable&\Cake\ORM\Association\BelongsTo $Orders
+ *
  *
  * @method \App\Model\Entity\Delivery newEmptyEntity()
  * @method \App\Model\Entity\Delivery newEntity(array $data, array $options = [])
@@ -43,6 +43,15 @@ class DeliveriesTable extends Table
         $this->setDisplayField('delivery_id');
         $this->setPrimaryKey('delivery_id');
 
+        $this->belongsTo('Customers', [
+            'foreignKey' => 'customer_id',
+            'joinType' => 'INNER',
+        ]);
+        
+        $this->hasMany('DeliveryContentManagement', [
+            'foreignKey' => 'delivery_id',
+        ]);
+         // ここを追加
         $this->belongsTo('Orders', [
             'foreignKey' => 'order_id',
             'joinType' => 'INNER',
@@ -96,7 +105,7 @@ class DeliveriesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['order_id'], 'Orders'), ['errorField' => 'order_id']);
+        //$rules->add($rules->existsIn(['order_id'], 'Orders'), ['errorField' => 'order_id']);
 
         return $rules;
     }
