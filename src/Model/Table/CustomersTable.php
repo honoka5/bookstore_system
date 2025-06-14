@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,7 +10,6 @@ use Cake\Validation\Validator;
  * Customers Model
  *
  * @property \App\Model\Table\OrdersTable&\Cake\ORM\Association\HasMany $Orders
- *
  * @method \App\Model\Entity\Customer newEmptyEntity()
  * @method \App\Model\Entity\Customer newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Customer> newEntities(array $data, array $options = [])

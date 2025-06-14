@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -16,8 +15,7 @@ class HomeController extends AppController
     //  *
     //  * @var \App\Model\Table\HomeTable
     //  */
-    protected  $home;
-
+    protected $home;
 
     // }
     /**
@@ -44,6 +42,7 @@ class HomeController extends AppController
     public function index()
     {
         $this->viewBuilder()->setLayout('default');
+
         return null;
     }
 
@@ -58,6 +57,7 @@ class HomeController extends AppController
     {
         $home = $this->home->get($id, contain: []);
         $this->set(compact('home'));
+
         return null;
     }
 
@@ -79,6 +79,7 @@ class HomeController extends AppController
             $this->Flash->error(__('The home could not be saved. Please, try again.'));
         }
         $this->set(compact('home'));
+
         return null;
     }
 
@@ -95,6 +96,7 @@ class HomeController extends AppController
             $this->Flash->error(__('The home could not be saved. Please, try again.'));
         }
         $this->set(compact('home'));
+
         return null;
     }
 

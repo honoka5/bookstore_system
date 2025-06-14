@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
 /**
  * DeliveryContentManagement Controller
- *
  */
 class DeliveryContentManagementController extends AppController
 {
@@ -21,6 +19,7 @@ class DeliveryContentManagementController extends AppController
         $deliveryContentManagement = $this->paginate($query);
 
         $this->set(compact('deliveryContentManagement'));
+
         return null;
     }
 
@@ -31,7 +30,7 @@ class DeliveryContentManagementController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $deliveryContentManagement = $this->DeliveryContentManagement->get($id, contain: []);
         $this->set(compact('deliveryContentManagement'));
@@ -55,6 +54,7 @@ class DeliveryContentManagementController extends AppController
             $this->Flash->error(__('The delivery content management could not be saved. Please, try again.'));
         }
         $this->set(compact('deliveryContentManagement'));
+
         return null;
     }
 
@@ -65,7 +65,7 @@ class DeliveryContentManagementController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $deliveryContentManagement = $this->DeliveryContentManagement->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -87,7 +87,7 @@ class DeliveryContentManagementController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $deliveryContentManagement = $this->DeliveryContentManagement->get($id);

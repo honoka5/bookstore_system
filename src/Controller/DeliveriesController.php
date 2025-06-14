@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -11,12 +10,18 @@ namespace App\Controller;
  */
 class DeliveriesController extends AppController
 {
-
+    /**
+     * コントローラ初期化処理。
+     * Deliveriesテーブルのロードを行います。
+     *
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
         $this->Deliveries = $this->fetchTable('Deliveries');
     }
+
     /**
      * Index method
      *
@@ -38,7 +43,7 @@ class DeliveriesController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $delivery = $this->Deliveries->get($id, [
             'contain' => ['Customers', 'Orders', 'DeliveryContentManagement'],
@@ -58,6 +63,7 @@ class DeliveriesController extends AppController
             $delivery = $this->Deliveries->patchEntity($delivery, $this->request->getData());
             if ($this->Deliveries->save($delivery)) {
                 $this->Flash->success(__('納品書を作成しました。'));
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('納品書の作成に失敗しました。もう一度お試しください。'));
@@ -75,7 +81,7 @@ class DeliveriesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $delivery = $this->Deliveries->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -89,6 +95,7 @@ class DeliveriesController extends AppController
         }
         $orders = $this->Deliveries->Orders->find('list', limit: 200)->all();
         $this->set(compact('delivery', 'orders'));
+
         return null;
     }
 
@@ -99,7 +106,7 @@ class DeliveriesController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $delivery = $this->Deliveries->get($id);

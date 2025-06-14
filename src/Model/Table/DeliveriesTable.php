@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,8 +10,6 @@ use Cake\Validation\Validator;
 
 /**
  * Deliveries Model
- *
- *
  *
  * @method \App\Model\Entity\Delivery newEmptyEntity()
  * @method \App\Model\Entity\Delivery newEntity(array $data, array $options = [])

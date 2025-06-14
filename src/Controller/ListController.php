@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -17,6 +16,7 @@ class ListController extends AppController
     public function index()
     {
         $this->viewBuilder()->setLayout('default');
+
         return null;
     }
 
@@ -28,6 +28,7 @@ class ListController extends AppController
     public function customer()
     {
         $this->viewBuilder()->setLayout('default');
+
         return null;
     }
 
@@ -39,6 +40,7 @@ class ListController extends AppController
     public function order()
     {
         $this->viewBuilder()->setLayout('default');
+
         return null;
     }
 
@@ -50,6 +52,7 @@ class ListController extends AppController
     public function product()
     {
         $this->viewBuilder()->setLayout('default');
+
         return null;
     }
 }
