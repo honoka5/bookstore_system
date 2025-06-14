@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Http\Response;
 use Cake\ORM\Table;
 
 /**
@@ -16,12 +15,12 @@ class HomeController extends AppController
      * @var \App\Model\Table\HomesTable|null
      */
     public $home;
-    protected ?Table $Homes = null;
-
     public function initialize(): void
     {
         parent::initialize();
-        $this->Homes = $this->fetchTable('Homes');
+       // $this->home = $this->fetchTable('home');//これはHomeTableないんですか？と聞かれるので取らないで。
+
+       //CI/CDはこれないと怒りますが、ほっといてください
     }
 
     /**
