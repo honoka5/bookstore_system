@@ -75,6 +75,7 @@ class CustomersController extends AppController
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
         $this->set(compact('customer'));
+        return null;
     }
 
     /**

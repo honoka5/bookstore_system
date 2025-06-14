@@ -88,6 +88,7 @@ class DeliveriesController extends AppController
         }
         $orders = $this->Deliveries->Orders->find('list', limit: 200)->all();
         $this->set(compact('delivery', 'orders'));
+        return null;
     }
 
     /**

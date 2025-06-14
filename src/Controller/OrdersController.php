@@ -26,5 +26,6 @@ class OrdersController extends AppController
         $this->viewBuilder()->setLayout('default');
         //$orders = $this->Orders->find()->all(); // Orders テーブルから全件取得
         //$this->set(compact('orders')); // ビューに渡す
+        return null;
     }
 }

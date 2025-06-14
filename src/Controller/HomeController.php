@@ -17,10 +17,7 @@ class HomeController extends AppController
     //  */
     protected  $home;
 
-    //  public function initialize(): void
-    // {
-    //     parent::initialize();
-    //     $this->home = $this->fetchTable('Homes');
+   
     // }
     /**
      * @var \Cake\ORM\Table
@@ -35,6 +32,7 @@ class HomeController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+          //     $this->home = $this->fetchTable('Homes');
     }
 
     /**
@@ -45,6 +43,7 @@ class HomeController extends AppController
     public function index()
     {
         $this->viewBuilder()->setLayout('default');
+        return null;
     }
 
     /**
@@ -58,6 +57,7 @@ class HomeController extends AppController
     {
         $home = $this->home->get($id, contain: []);
         $this->set(compact('home'));
+        return null;
     }
 
     /**
@@ -78,6 +78,7 @@ class HomeController extends AppController
             $this->Flash->error(__('The home could not be saved. Please, try again.'));
         }
         $this->set(compact('home'));
+        return null;    
     }
 
     public function edit(?string $id)
@@ -93,6 +94,7 @@ class HomeController extends AppController
             $this->Flash->error(__('The home could not be saved. Please, try again.'));
         }
         $this->set(compact('home'));
+        return null;
     }
 
     public function delete(?string $id)

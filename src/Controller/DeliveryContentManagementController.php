@@ -20,6 +20,7 @@ class DeliveryContentManagementController extends AppController
         $deliveryContentManagement = $this->paginate($query);
 
         $this->set(compact('deliveryContentManagement'));
+        return null;
     }
 
     /**
@@ -53,6 +54,7 @@ class DeliveryContentManagementController extends AppController
             $this->Flash->error(__('The delivery content management could not be saved. Please, try again.'));
         }
         $this->set(compact('deliveryContentManagement'));
+        return null;
     }
 
     /**
