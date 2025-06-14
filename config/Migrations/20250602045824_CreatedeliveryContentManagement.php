@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreatedeliveryContentMagemant extends AbstractMigration
+class CreatedeliveryContentManagement extends AbstractMigration
 {
      protected $config;
     /**
