@@ -10,6 +10,7 @@ use Cake\ORM\Table;
  *  @property \App\Model\Table\HomesTable|null $Homes
  * Home Controller
  */
+
 class HomeController extends AppController
 {
      /**
