@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+
 /**
  * Customers Model
  *
@@ -18,12 +20,10 @@ use Cake\Validation\Validator;
  * @method array<\App\Model\Entity\Customer> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\Customer|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Customer saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false saveMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable $entities, array $options = [])
- * @method array<\App\Model\Entity\Customer> patchEntities(iterable<\App\Model\Entity\Customer> $entities, array $data, array $options = [])
- * @method array<\App\Model\Entity\Customer> deleteManyOrFail(iterable<\App\Model\Entity\Customer> $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false saveMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable $entities, array $options = [])
  */
 class CustomersTable extends Table
 {
