@@ -3,33 +3,24 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Http\Response;
 use Cake\ORM\Table;
 
 /**
+ *  @property \App\Model\Table\HomesTable|null $Homes
  * Home Controller
  */
 class HomeController extends AppController
 {
      /**
-     * @var \App\Model\Table\HomesTable
+     * @var \App\Model\Table\HomesTable|null
      */
-    protected ?Table $home;
+    protected ?Table $Homes = null;
 
-    // }
-    /**
-     * @var \Cake\ORM\Table
-     */
-    public Table $Homes;
-
-    /**
-     * Initialize method
-     *
-     * @return void
-     */
     public function initialize(): void
     {
         parent::initialize();
-        $this->home = $this->fetchTable('Homes');
+        $this->Homes = $this->fetchTable('Homes');
     }
 
     /**

@@ -63,7 +63,7 @@ jobs:
       run: composer run-script post-install-cmd --no-interaction
 
     - name: Run PHPUnit
-      continue-on-error: true
+      continue-on-error: false
       run: vendor/bin/phpunit
       env:
         DATABASE_TEST_URL: mysql://root:secret@127.0.0.1/cakephp_test

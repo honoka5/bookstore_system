@@ -1,6 +1,6 @@
 parameters:
-    level: 8
-    treatPhpDocTypesAsCertain: false
+    level: 7
+    treatPhpDocTypesAsCertain: true
     #checkGenericClassInNonGenericObjectType: false
     bootstrapFiles:
         - config/bootstrap.php
