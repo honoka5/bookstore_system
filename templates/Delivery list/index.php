@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,14 +18,14 @@
             background-color: #f0f0f0;
             padding: 20px;
         }
-        
+
         .container {
             background-color: #f0f0f0;
             border: 2px solid #000;
             width: 480px;
             margin: 0 auto;
         }
-        
+
         .header-tabs {
             display: flex;
             border-bottom: 1px solid #000;
@@ -47,7 +48,7 @@
         .tab:last-child {
             border-right: none;
         }
-        
+
         .content-area {
             padding: 15px;
             background-color: #f0f0f0;
@@ -77,7 +78,7 @@
             cursor: pointer;
             height: 22px;
         }
-        
+
         .table-container {
             border: 1px solid #808080;
             background-color: white;
@@ -118,7 +119,7 @@
             background-color: #f0f0f0;
             cursor: pointer;
         }
-        
+
         .scrollbar-container {
             position: absolute;
             right: 0;
@@ -150,7 +151,7 @@
             font-size: 8px;
             cursor: pointer;
         }
-        
+
         .button-section {
             display: flex;
             justify-content: space-between;
@@ -170,13 +171,33 @@
         }
 
         /* テーブルの幅調整 */
-        th:nth-child(1), td:nth-child(1) { width: 80px; }
-        th:nth-child(2), td:nth-child(2) { width: 140px; }
-        th:nth-child(3), td:nth-child(3) { width: 80px; }
-        th:nth-child(4), td:nth-child(4) { width: 100px; }
-        th:nth-child(5), td:nth-child(5) { width: 80px; }
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 80px;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 140px;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 80px;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 100px;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 80px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Header Tabs -->
@@ -185,7 +206,7 @@
             <div class="tab">納品書一覧</div>
             <div class="tab">ホーム>一覧確認>納品書一覧</div>
         </div>
-        
+
         <div class="content-area">
             <!-- Search Section -->
             <div class="search-section">
@@ -229,7 +250,7 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <div class="scrollbar-container">
                     <div class="scrollbar-arrow" onclick="scrollUp()">▲</div>
                     <div class="scrollbar-thumb"></div>
@@ -254,12 +275,12 @@
                 r.classList.remove('row-selected');
                 r.classList.add('row-normal');
             });
-            
+
             // Add selection to clicked row
             row.classList.remove('row-normal');
             row.classList.add('row-selected');
         }
-        
+
         // Search functionality
         function searchItems() {
             const searchValue = document.querySelector('.search-input').value;
@@ -267,23 +288,23 @@
                 alert('検索: ' + searchValue);
             }
         }
-        
+
         // Scroll functions
         function scrollUp() {
             const container = document.querySelector('.table-container');
             container.scrollTop -= 20;
         }
-        
+
         function scrollDown() {
             const container = document.querySelector('.table-container');
             container.scrollTop += 20;
         }
-        
+
         // Button actions
         function goBack() {
             alert('戻る機能');
         }
-        
+
         function showDetails() {
             const selectedRow = document.querySelector('.row-selected');
             if (selectedRow) {
@@ -295,4 +316,5 @@
         }
     </script>
 </body>
+
 </html>
