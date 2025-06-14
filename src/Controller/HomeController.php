@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -17,7 +18,7 @@ class HomeController extends AppController
     //  */
     protected  $home;
 
-   
+
     // }
     /**
      * @var \Cake\ORM\Table
@@ -32,7 +33,7 @@ class HomeController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-          //     $this->home = $this->fetchTable('Homes');
+        //     $this->home = $this->fetchTable('Homes');
     }
 
     /**
@@ -78,7 +79,7 @@ class HomeController extends AppController
             $this->Flash->error(__('The home could not be saved. Please, try again.'));
         }
         $this->set(compact('home'));
-        return null;    
+        return null;
     }
 
     public function edit(?string $id)

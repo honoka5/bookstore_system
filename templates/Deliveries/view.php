@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Delivery $delivery
@@ -50,12 +51,12 @@
                 </tr>
                 <?php if (!empty($delivery->delivery_content_management)): ?>
                     <?php foreach ($delivery->delivery_content_management as $content): ?>
-                    <tr>
-                        <td><?= h($content->book_title) ?></td>
-                        <td><?= h($content->quantity) ?></td>
-                        <td><?= h($content->unit_price) ?></td>
-                        <td><?= h($content->total_amount) ?></td>
-                    </tr>
+                        <tr>
+                            <td><?= h($content->book_title) ?></td>
+                            <td><?= h($content->quantity) ?></td>
+                            <td><?= h($content->unit_price) ?></td>
+                            <td><?= h($content->total_amount) ?></td>
+                        </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>

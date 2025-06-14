@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Delivery $delivery
@@ -23,11 +24,11 @@
             <fieldset>
                 <legend><?= __('Edit Delivery') ?></legend>
                 <?php
-                    echo $this->Form->control('order_number');
-                    echo $this->Form->control('order_id', ['options' => $orders]);
-                    echo $this->Form->control('delivery_total');
-                    echo $this->Form->control('delivery_date');
-                    echo $this->Form->control('cutomer_id');
+                echo $this->Form->control('order_number');
+                echo $this->Form->control('order_id', ['options' => $orders]);
+                echo $this->Form->control('delivery_total');
+                echo $this->Form->control('delivery_date');
+                echo $this->Form->control('cutomer_id');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

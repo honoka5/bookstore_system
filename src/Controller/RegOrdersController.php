@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 // src/Controller/OrdersController.php
@@ -115,6 +116,5 @@ class RegOrdersController extends AppController
         }
         $this->set(compact('customerId'));
         return $this->render('new_order');
-
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -11,7 +12,7 @@ namespace App\Controller;
 class DeliveriesController extends AppController
 {
 
-     public function initialize(): void
+    public function initialize(): void
     {
         parent::initialize();
         $this->Deliveries = $this->fetchTable('Deliveries');
@@ -24,7 +25,7 @@ class DeliveriesController extends AppController
     public function index()
     {
         $query = $this->Deliveries->find();
-            // ->contain(['Orders']);
+        // ->contain(['Orders']);
         $deliveries = $this->paginate($query);
 
         $this->set(compact('deliveries'));
@@ -53,19 +54,19 @@ class DeliveriesController extends AppController
     public function add()
     {
         $delivery = $this->Deliveries->newEmptyEntity();
-    if ($this->request->is('post')) {
-        $delivery = $this->Deliveries->patchEntity($delivery, $this->request->getData());
-        if ($this->Deliveries->save($delivery)) {
-            $this->Flash->success(__('納品書を作成しました。'));
-            return $this->redirect(['action' => 'index']);
+        if ($this->request->is('post')) {
+            $delivery = $this->Deliveries->patchEntity($delivery, $this->request->getData());
+            if ($this->Deliveries->save($delivery)) {
+                $this->Flash->success(__('納品書を作成しました。'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('納品書の作成に失敗しました。もう一度お試しください。'));
         }
-        $this->Flash->error(__('納品書の作成に失敗しました。もう一度お試しください。'));
+        // 顧客リスト・注文書リストを取得
+        $customers = $this->Deliveries->Customers->find('list', ['keyField' => 'customer_id', 'valueField' => 'name'])->toArray();
+        $orders = $this->Deliveries->Orders->find('list', ['keyField' => 'order_id', 'valueField' => 'order_id'])->toArray();
+        $this->set(compact('delivery', 'customers', 'orders'));
     }
-    // 顧客リスト・注文書リストを取得
-    $customers = $this->Deliveries->Customers->find('list', ['keyField' => 'customer_id', 'valueField' => 'name'])->toArray();
-    $orders = $this->Deliveries->Orders->find('list', ['keyField' => 'order_id', 'valueField' => 'order_id'])->toArray();
-    $this->set(compact('delivery', 'customers', 'orders'));
-}
 
     /**
      * Edit method

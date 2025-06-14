@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -169,15 +170,27 @@
 
         /* テーブルの幅調整 */
         .data-table th:nth-child(1),
-        .data-table td:nth-child(1) { width: 80px; }
+        .data-table td:nth-child(1) {
+            width: 80px;
+        }
+
         .data-table th:nth-child(2),
-        .data-table td:nth-child(2) { width: 140px; }
+        .data-table td:nth-child(2) {
+            width: 140px;
+        }
+
         .data-table th:nth-child(3),
-        .data-table td:nth-child(3) { width: 80px; }
+        .data-table td:nth-child(3) {
+            width: 80px;
+        }
+
         .data-table th:nth-child(4),
-        .data-table td:nth-child(4) { width: 100px; }
+        .data-table td:nth-child(4) {
+            width: 100px;
+        }
     </style>
 </head>
+
 <body>
     <div class="main-container">
         <div class="header-tabs">
@@ -223,7 +236,7 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <div class="scrollbar-container">
                     <div class="scrollbar-arrow">▲</div>
                     <div class="scrollbar-thumb"></div>
@@ -242,7 +255,7 @@
         // テーブルの行をクリックしたときの処理
         document.addEventListener('DOMContentLoaded', function() {
             const rows = document.querySelectorAll('#orderTable tr');
-            
+
             rows.forEach(row => {
                 row.addEventListener('click', function() {
                     // 他の行の選択を解除
@@ -278,4 +291,5 @@
         });
     </script>
 </body>
+
 </html>

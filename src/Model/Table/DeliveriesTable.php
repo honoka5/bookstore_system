@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -47,11 +48,11 @@ class DeliveriesTable extends Table
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER',
         ]);
-        
+
         $this->hasMany('DeliveryContentManagement', [
             'foreignKey' => 'delivery_id',
         ]);
-         // ここを追加
+        // ここを追加
         $this->belongsTo('Orders', [
             'foreignKey' => 'order_id',
             'joinType' => 'INNER',
