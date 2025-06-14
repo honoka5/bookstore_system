@@ -5,7 +5,6 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
 /**
  * Customers Model
  *
@@ -23,6 +22,8 @@ use Cake\Validation\Validator;
  * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method array<\App\Model\Entity\Customer> patchEntities(iterable<\App\Model\Entity\Customer> $entities, array $data, array $options = [])
+ * @method array<\App\Model\Entity\Customer> deleteManyOrFail(iterable<\App\Model\Entity\Customer> $entities, array $options = [])
  */
 class CustomersTable extends Table
 {
@@ -38,7 +39,7 @@ class CustomersTable extends Table
 
         $this->setTable('customers');
         $this->setDisplayField('name');
-        $this->setPrimaryKey('Customer_ID');
+        $this->setPrimaryKey('customer_id');
 
         $this->hasMany('Orders', [
             'foreignKey' => 'customer_id',

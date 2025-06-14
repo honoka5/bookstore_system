@@ -15,7 +15,7 @@ class HomeController extends AppController
     //  *
     //  * @var \App\Model\Table\HomeTable
     //  */
-    protected $home;
+    protected ?Table $home;
 
     // }
     /**
@@ -66,7 +66,7 @@ class HomeController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(?string $id)
     {
         $home = $this->home->newEmptyEntity();
         if ($this->request->is('post')) {

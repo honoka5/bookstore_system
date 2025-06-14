@@ -86,10 +86,10 @@ class DeliveriesTable extends Table
             ->notEmptyDate('delivery_date');
 
         $validator
-            ->scalar('cutomer_id')
-            ->maxLength('cutomer_id', 255)
-            ->requirePresence('cutomer_id', 'create')
-            ->notEmptyString('cutomer_id');
+            ->scalar('customer_id')
+            ->maxLength('customer_id', 255)
+            ->requirePresence('customer_id', 'create')
+            ->notEmptyString('customer_id');
 
         return $validator;
     }
