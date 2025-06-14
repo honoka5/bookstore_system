@@ -5,7 +5,13 @@ namespace App\Controller;
 
 class OrdersController extends AppController
 {
-    public function initialize(): void
+    /**
+     * コントローラ初期化処理。
+     * 認証コンポーネントのロードを行います。
+     *
+     * @return void
+     */
+    public function initialize(): void // Initialize method
     {
         parent::initialize();
         $this->loadComponent('Authentication.Authentication'); // ログインチェック用

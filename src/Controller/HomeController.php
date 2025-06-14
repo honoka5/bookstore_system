@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\ORM\Table;
 
+/**
+ * Home Controller
+ */
 class HomeController extends AppController
 {
     // /**
@@ -18,6 +22,21 @@ class HomeController extends AppController
     //     parent::initialize();
     //     $this->home = $this->fetchTable('Homes');
     // }
+    /**
+     * @var \Cake\ORM\Table
+     */
+    public Table $Home;
+
+    /**
+     * Initialize method
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+    }
+
     /**
      * Index method
      *
