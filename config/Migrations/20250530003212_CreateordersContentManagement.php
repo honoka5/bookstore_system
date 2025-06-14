@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateordersContentMagemant extends AbstractMigration
+class CreateordersContentManagement extends AbstractMigration
 {
 
     protected $config;
@@ -17,7 +17,7 @@ class CreateordersContentMagemant extends AbstractMigration
      */
     public function setConfig($config)
     {
-        $table = $this->table('orders_content_magemant', ['id' => false, 'primary_key' => ['order_ID']]);
+        $table = $this->table('orders_content_management', ['id' => false, 'primary_key' => ['order_ID']]);
         $table->addColumn('order_ID', 'string', [
             'default' => null,
             'limit' => 5,
@@ -44,8 +44,8 @@ class CreateordersContentMagemant extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        
-        $table = $this->table('orders_content_magemant');
+
+        $table = $this->table('orders_content_management');
         $this->config = $config;
         $table->create();
     }

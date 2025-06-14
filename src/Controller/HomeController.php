@@ -10,12 +10,12 @@ use Cake\ORM\Table;
  *  @property \App\Model\Table\HomesTable|null $Homes
  * Home Controller
  */
-
 class HomeController extends AppController
 {
      /**
      * @var \App\Model\Table\HomesTable|null
      */
+    public $home;
     protected ?Table $Homes = null;
 
     public function initialize(): void
