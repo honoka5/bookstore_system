@@ -17,22 +17,17 @@ class CreateOrders extends AbstractMigration
         $table = $this->table('orders', [
             'id' => false,               // デフォルトのID列を無効化
             'primary_key' => 'order_id', // これで order_id を主キーにできる
-            'foreign_key' => [
-                'columns' => 'customer_id',
-                'references' => 'customers',
-                'limit' => 4, // order_id の桁数に合わせる
-                'delete' => 'CASCADE', // 外部キー制約の削除時の挙動
-                'update' => 'NO_ACTION', // 外部キー制約の更新時の挙動
-            ],
+            'collation' => 'utf8mb4_general_ci', 
+            'engine' => 'InnoDB',      
         ]);
         $table->addColumn('order_id', 'string', [
             'default' => null,
-            'limit' => 5, // 5桁まで
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
         $table->addColumn('order_date', 'date', [
@@ -42,8 +37,10 @@ class CreateOrders extends AbstractMigration
         $table->addColumn('remark', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
+        $index = $table->addIndex(['customer_id']);
+        $index->addForeignKey('customer_id', 'customers', 'customer_id');
         $table->create();
     }
 }
