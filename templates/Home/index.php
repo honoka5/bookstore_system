@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,7 @@
             padding: 10px;
             min-height: 100vh;
         }
-        
+
         .main-container {
             background-color: #f0f0f0;
             border: 2px solid #000;
@@ -100,24 +101,24 @@
                 padding: 5px;
                 font-size: 11px;
             }
-            
+
             .main-container {
                 border-width: 1px;
             }
-            
+
             .tab {
                 padding: 6px 8px;
                 font-size: 10px;
             }
-            
+
             .content-area {
                 padding: 10px;
             }
-            
+
             .button-grid {
                 gap: 10px;
             }
-            
+
             .menu-button {
                 padding: 25px 15px;
                 min-height: 80px;
@@ -131,24 +132,24 @@
                 padding: 2px;
                 font-size: 10px;
             }
-            
+
             .tab {
                 padding: 4px 6px;
                 font-size: 9px;
             }
-            
+
             .tab:first-child {
                 max-width: 60px;
             }
-            
+
             .content-area {
                 padding: 8px;
             }
-            
+
             .button-grid {
                 gap: 8px;
             }
-            
+
             .menu-button {
                 padding: 20px 12px;
                 min-height: 60px;
@@ -161,7 +162,7 @@
             .button-grid {
                 max-width: 800px;
             }
-            
+
             .menu-button {
                 min-height: 140px;
                 font-size: 16px;
@@ -170,6 +171,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="main-container">
         <!-- Header Tabs -->
@@ -178,15 +180,16 @@
             <div class="tab">ホーム</div>
             <div class="tab">ホーム</div>
         </div>
-        
+
         <div class="content-area">
             <div class="button-grid">
                 <p><?= $this->Html->link('一覧確認', ['controller' => 'List', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
-                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'new_order'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'menu-button']) ?></p>
                 <p><?= $this->Html->link('統計情報', '#', ['class' => 'menu-button']) ?></p>
                 <p><?= $this->Html->link('納品書作成', ['controller' => 'Deliveries', 'action' => 'add'], ['class' => 'menu-button']) ?></p>
             </div>
         </div>
     </div>
 </body>
+
 </html>

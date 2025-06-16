@@ -1,9 +1,13 @@
 <?php
-declare(strict_types=1);
+namespace Migrations;
+use  Phinx\Migration\AbstractMigration;
 
-use Phinx\Migration\AbstractMigration;
-
-abstract class BaseMigration extends AbstractMigration
+class BaseMigration extends AbstractMigration
 {
-    // 共通のマイグレーション処理やヘルパーをここに記述できます
+    // 必要な処理を書く
+    public function setConfig($config){
+
+
+        $this->config = $config;
+    }
 }

@@ -111,9 +111,11 @@ class RegOrdersController extends AppController
             }
 
             $this->Flash->success('注文が登録されました');
+
+            return $this->redirect(['action' => 'selectCustomer']);
         }
         $this->set(compact('customerId'));
 
-        return $this->redirect(['action' => 'selectCustomer']);
+        return $this->render('new_order');
     }
 }

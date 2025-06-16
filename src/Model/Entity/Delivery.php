@@ -9,11 +9,13 @@ use Cake\ORM\Entity;
  * Delivery Entity
  *
  * @property string $delivery_id
- * @property string $customer_id
+ * @property string $order_number
+ * @property string $order_id
+ * @property string $delivery_total
  * @property \Cake\I18n\Date $delivery_date
- * @property string $total_amount
+ * @property string $cutomer_id
  *
- * @property \App\Model\Entity\Customer $customer
+ * @property \App\Model\Entity\Order $order
  */
 class Delivery extends Entity
 {
@@ -27,10 +29,11 @@ class Delivery extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'delivery_id' => true,
-        'customer_id' => true,
+        'order_number' => true,
+        'order_id' => true,
+        'delivery_total' => true,
         'delivery_date' => true,
-        'total_amount' => true,
-        'customer' => true,
+        'cutomer_id' => true,
+        'order' => true,
     ];
 }

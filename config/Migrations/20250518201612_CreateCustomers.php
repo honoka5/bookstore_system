@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Phinx\Migration\AbstractMigration;
+use  Phinx\Migration\AbstractMigration;
 
 class CreateCustomers extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -13,51 +14,48 @@ class CreateCustomers extends AbstractMigration
      * @return void
      */
     public function change(): void
-    {
-        $table = $this->table('customers', [
-            'id' => false,
-            'primary_key' => ['customer_id'],
-        ]);
-        $table->addColumn('customer_id', 'string', [
-            'default' => null,
-            'limit' => 4,
-            'null' => false,
-        ]);
-        $table->addColumn('customer_name', 'string', [
+{
+        $table = $this->table('customers', ['id' => false, 'primary_key' => ['Customer_ID']]);
+        $table->addColumn('Customer_ID', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('address', 'string', [
+        $table->addColumn('Name', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 100,
             'null' => false,
         ]);
-        $table->addColumn('phone_number', 'string', [
+        $table->addColumn('Phone_Number', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 14,
             'null' => false,
         ]);
-        $table->addColumn('contact_person', 'string', [
+        $table->addColumn('Address', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 50,
             'null' => false,
         ]);
-        $table->addColumn('delivery_conditions', 'string', [
+        $table->addColumn('Delivery_Conditions', 'string', [
             'default' => null,
-            'limit' => 255,
-            'null' => false,
+            'limit' => 30,
+            'null' => true,
         ]);
-        $table->addColumn('registration_date', 'date', [
+        $table->addColumn('Contact_Person', 'string', [
             'default' => null,
+            'limit' => 15,
             'null' => false,
         ]);
         $table->addColumn('remark', 'string', [
             'default' => null,
             'limit' => 255,
+            'null' => true,
+        ]);
+        $table->addColumn('Customer_Registration_Date', 'date', [
+            'default' => null,
             'null' => false,
         ]);
-        $table->addIndex(['customer_id'], ['unique' => true]);
+        
         $table->create();
     }
 }

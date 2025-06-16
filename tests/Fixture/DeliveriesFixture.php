@@ -19,10 +19,12 @@ class DeliveriesFixture extends TestFixture
     {
         $this->records = [
             [
-                'delivery_id' => '00001',
-                'customer_id' => '0001',
-                'delivery_date' => '2025-06-03',
-                'total_amount' => 5,
+                'delivery_id' => '85f7e334-8a25-4328-9b13-4bddf463bc78',
+                'order_number' => 'Lorem ipsum dolor sit amet',
+                'order_id' => 'Lorem ipsum dolor sit amet',
+                'delivery_total' => 1.5,
+                'delivery_date' => '2025-05-20',
+                'cutomer_id' => 'Lorem ipsum dolor sit amet',
             ],
         ];
         parent::init();

@@ -44,9 +44,10 @@ return [
              */
             //'port' => 'non_standard_port_number',
 
-            'username' => 'my_app',
+            'username' => 'root',
             'password' => 'secret',
-            'database' => 'test_myapp',
+
+            'database' => 'cakephp',
             /*
              * If not using the default 'public' schema with the PostgreSQL driver
              * set it here.
@@ -65,7 +66,7 @@ return [
         'test' => [
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
+            'username' => 'root',
             'password' => 'secret',
             'database' => 'test_myapp',
             //'schema' => 'myapp',

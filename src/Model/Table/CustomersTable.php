@@ -1,28 +1,29 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Customers Model
  *
+ * @property \App\Model\Table\OrdersTable&\Cake\ORM\Association\HasMany $Orders
  * @method \App\Model\Entity\Customer newEmptyEntity()
- * @method \App\Model\Entity\Customer newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
- * @method array<\App\Model\Entity\Customer> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Customer get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Customer findOrCreate($search, ?callable $callback = null, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Customer patchEntity(\App\Model\Entity\Customer $entity, array<string, mixed> $data, array<string, mixed> $options = [])
- * @method array<\App\Model\Entity\Customer> patchEntities(iterable<\App\Model\Entity\Customer> $entities, array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Customer|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Customer saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false saveMany(iterable<\App\Model\Entity\Customer> $entities, array<string, mixed> $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable<\App\Model\Entity\Customer> $entities, array<string, mixed> $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method iterable<\App\Model\Entity\Customer>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable<\App\Model\Entity\Customer> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Customer newEntity(array $data, array $options = [])
+ * @method array<\App\Model\Entity\Customer> newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Customer get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\Customer findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\Customer patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method array<\App\Model\Entity\Customer> patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Customer|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Customer saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false saveMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer>|false deleteMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Customer> deleteManyOrFail(iterable $entities, array $options = [])
  */
 class CustomersTable extends Table
 {
@@ -37,8 +38,12 @@ class CustomersTable extends Table
         parent::initialize($config);
 
         $this->setTable('customers');
-        $this->setDisplayField('customer_id');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('customer_id');
+
+        $this->hasMany('Orders', [
+            'foreignKey' => 'customer_id',
+        ]);
     }
 
     /**
@@ -50,60 +55,44 @@ class CustomersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('customer_name')
-            ->maxLength('customer_name', 100)
-            ->requirePresence('customer_name', 'create')
-            ->notEmptyString('customer_name');
+            ->scalar('Name')
+            ->maxLength('Name', 100)
+            ->requirePresence('Name', 'create')
+            ->notEmptyString('Name');
 
         $validator
-            ->scalar('address')
-            ->maxLength('address', 50)
-            ->requirePresence('address', 'create')
-            ->notEmptyString('address');
+            ->scalar('Phone_Number')
+            ->maxLength('Phone_Number', 14)
+            ->requirePresence('Phone_Number', 'create')
+            ->notEmptyString('Phone_Number');
 
         $validator
-            ->scalar('phone_number')
-            ->maxLength('phone_number', 14)
-            ->requirePresence('phone_number', 'create')
-            ->notEmptyString('phone_number');
+            ->scalar('Address')
+            ->maxLength('Address', 50)
+            ->requirePresence('Address', 'create')
+            ->notEmptyString('Address');
 
         $validator
-            ->scalar('contact_person')
-            ->maxLength('contact_person', 15)
-            ->requirePresence('contact_person', 'create')
-            ->notEmptyString('contact_person');
+            ->scalar('Delivery_Conditions')
+            ->maxLength('Delivery_Conditions', 30)
+            ->allowEmptyString('Delivery_Conditions');
 
         $validator
-            ->scalar('delivery_conditions')
-            ->maxLength('delivery_conditions', 30)
-            ->requirePresence('delivery_conditions', 'create')
-            ->notEmptyString('delivery_conditions');
-
-        $validator
-            ->date('registration_date')
-            ->requirePresence('registration_date', 'create')
-            ->notEmptyDate('registration_date');
+            ->scalar('Contact_Person')
+            ->maxLength('Contact_Person', 15)
+            ->requirePresence('Contact_Person', 'create')
+            ->notEmptyString('Contact_Person');
 
         $validator
             ->scalar('remark')
             ->maxLength('remark', 255)
-            ->requirePresence('remark', 'create')
-            ->notEmptyString('remark');
+            ->allowEmptyString('remark');
+
+        $validator
+            ->date('Customer_Registration_Date')
+            ->requirePresence('Customer_Registration_Date', 'create')
+            ->notEmptyDate('Customer_Registration_Date');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->isUnique(['customer_id']), ['errorField' => 'customer_id']);
-
-        return $rules;
     }
 }
