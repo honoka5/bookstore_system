@@ -17,11 +17,11 @@ class CreateCustomers extends AbstractMigration
 {
         $table = $this->table('customers', [
             'id' => false,
-            'primary_key' => 'Customer_id',
+            'primary_key' => 'customer_id',
             'collation' => 'utf8mb4_general_ci',
             'engine' => 'InnoDB',
         ]);
-        $table->addColumn('Customer_id', 'string', [
+        $table->addColumn('customer_id', 'string', [
             'default' => null,
             'limit' => 5,
             'null' => false,
