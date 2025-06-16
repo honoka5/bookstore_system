@@ -61,6 +61,7 @@ class CreateCustomers extends AbstractMigration
             'null' => false,
         ]);
         
+        $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
     }
 }
