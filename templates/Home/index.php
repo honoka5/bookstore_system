@@ -184,7 +184,7 @@
         <div class="content-area">
             <div class="button-grid">
                 <p><?= $this->Html->link('一覧確認', ['controller' => 'List', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
-                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'new_order'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'menu-button']) ?></p>
                 <p><?= $this->Html->link('統計情報', '#', ['class' => 'menu-button']) ?></p>
                 <p><?= $this->Html->link('納品書作成', ['controller' => 'Deliveries', 'action' => 'add'], ['class' => 'menu-button']) ?></p>
             </div>
