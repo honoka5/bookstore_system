@@ -8,14 +8,16 @@ use Cake\ORM\Entity;
 /**
  * Customer Entity
  *
- * @property string $customer_id
- * @property string $customer_name
- * @property string $address
- * @property string $phone_number
- * @property string $contact_person
- * @property string $delivery_conditions
- * @property \Cake\I18n\Date $registration_date
- * @property string $remark
+ * @property string $Customer_ID
+ * @property string $Name
+ * @property string $Phone_Number
+ * @property string $Address
+ * @property string|null $Delivery_Conditions
+ * @property string $Contact_Person
+ * @property string|null $remark
+ * @property \Cake\I18n\Date $Customer_Registration_Date
+ *
+ * @property \App\Model\Entity\Order[] $orders
  */
 class Customer extends Entity
 {
@@ -29,14 +31,13 @@ class Customer extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'customer_id' => true,
-        'bookstore_name' => true,
-        'customer_name' => true,
-        'address' => true,
-        'phone_number' => true,
-        'contact_person' => true,
-        'delivery_conditions' => true,
-        'registration_date' => true,
+        'Name' => true,
+        'Phone_Number' => true,
+        'Address' => true,
+        'Delivery_Conditions' => true,
+        'Contact_Person' => true,
         'remark' => true,
+        'Customer_Registration_Date' => true,
+        'orders' => true,
     ];
 }

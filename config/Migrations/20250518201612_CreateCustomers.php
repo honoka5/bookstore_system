@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Phinx\Migration\AbstractMigration;
+use  Phinx\Migration\AbstractMigration;
 
 class CreateCustomers extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -35,28 +36,29 @@ class CreateCustomers extends AbstractMigration
             'limit' => 100,
             'null' => false,
         ]);
-        $table->addColumn('address', 'string', [
+        $table->addColumn('Name', 'string', [
             'default' => null,
-            'limit' => 50,
+            'limit' => 100,
             'null' => false,
         ]);
-        $table->addColumn('phone_number', 'string', [
+        $table->addColumn('Phone_Number', 'string', [
             'default' => null,
             'limit' => 14,
             'null' => false,
         ]);
-        $table->addColumn('contact_person', 'string', [
+        $table->addColumn('Address', 'string', [
             'default' => null,
-            'limit' => 15,
-            'null' => true,
+            'limit' => 50,
+            'null' => false,
         ]);
-        $table->addColumn('delivery_conditions', 'string', [
+        $table->addColumn('Delivery_Conditions', 'string', [
             'default' => null,
             'limit' => 30,
             'null' => true,
         ]);
-        $table->addColumn('registration_date', 'date', [
+        $table->addColumn('Contact_Person', 'string', [
             'default' => null,
+            'limit' => 15,
             'null' => false,
         ]);
         $table->addColumn('remark', 'string', [
@@ -64,7 +66,11 @@ class CreateCustomers extends AbstractMigration
             'limit' => 255,
             'null' => true,
         ]);
-        $table->addIndex(['customer_id'], ['unique' => true]);
+        $table->addColumn('Customer_Registration_Date', 'date', [
+            'default' => null,
+            'null' => false,
+        ]);
+        
         $table->create();
     }
 }

@@ -18,15 +18,16 @@ class OrdersController extends AppController
     }
 
     /**
-     * Orders一覧画面の表示処理。
-     * レイアウトの設定を行います。
+     * Index method
      *
-     * @return void
+     * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()// Index method
+    public function index()
     {
         $this->viewBuilder()->setLayout('default');
         //$orders = $this->Orders->find()->all(); // Orders テーブルから全件取得
         //$this->set(compact('orders')); // ビューに渡す
+
+        return null;
     }
 }

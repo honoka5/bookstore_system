@@ -58,7 +58,7 @@ class OrdersTable extends Table
     {
         $validator
             ->scalar('customer_id')
-            ->maxLength('customer_id', 4)
+            ->maxLength('customer_id', 5)
             ->notEmptyString('customer_id');
 
         $validator
