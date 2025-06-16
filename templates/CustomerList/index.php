@@ -51,7 +51,7 @@
 
         .content {
             padding: 15px;
-            background-color: #e8e8e8;
+            background-color:rgb(255, 234, 151);
         }
 
         .search-section {
@@ -64,7 +64,7 @@
         .search-input {
             width: 120px;
             height: 20px;
-            border: 1px inset #c0c0c0;
+            border: 1px insetrgb(16, 62, 246);
             padding: 2px 4px;
             font-size: 11px;
         }
@@ -72,8 +72,8 @@
         .search-button {
             width: 50px;
             height: 26px;
-            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
-            border: 1px outset #c0c0c0;
+            background: linear-gradient(to bottom,rgb(60, 0, 255),rgb(17, 0, 255));
+            border: 1px outsetrgb(203, 243, 26);
             font-size: 11px;
             cursor: pointer;
         }
