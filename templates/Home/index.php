@@ -84,6 +84,7 @@
             align-items: center;
             justify-content: center;
             word-wrap: break-word;
+            text-decoration: none; /* 追加: テキストの下線を削除 */
         }
 
         .menu-button:hover {
@@ -182,35 +183,13 @@
 
         <div class="content-area">
             <div class="button-grid">
-                <button class="menu-button" onclick="handleMenuClick('一覧確認')">
-                    一覧確認
-                </button>
-                <button class="menu-button" onclick="handleMenuClick('注文書作成')">
-                    注文書作成
-                </button>
-                <button class="menu-button" onclick="handleMenuClick('統計情報')">
-                    統計情報
-                </button>
-                <button class="menu-button" onclick="handleMenuClick('納品書作成')">
-                    納品書作成
-                </button>
+                <p><?= $this->Html->link('一覧確認', ['controller' => 'List', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'new_order'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('統計情報', '#', ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('納品書作成', ['controller' => 'Deliveries', 'action' => 'add'], ['class' => 'menu-button']) ?></p>
             </div>
         </div>
     </div>
-
-    <script>
-        // メニューボタンクリック処理
-        function handleMenuClick(menuName) {
-            alert(menuName + 'が選択されました');
-            // 実際のアプリケーションでは、ここで該当ページへの遷移処理を行う
-            console.log('選択されたメニュー:', menuName);
-        }
-
-        // ページ読み込み時の初期化
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('MBS Dashboard initialized');
-        });
-    </script>
 </body>
 
 </html>
