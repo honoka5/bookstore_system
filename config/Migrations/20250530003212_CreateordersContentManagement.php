@@ -38,11 +38,10 @@ class CreateordersContentManagement extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('unit_price', 'decimal', [
+        $table->addColumn('unit_price', 'integer', [
             'default' => null,
-            'precision' => 6,
-            'scale' => 2,
             'null' => false,
+            'signed' => false,
         ]);
         $table->addColumn('total_quantity', 'integer', [
             'default' => null,
@@ -54,8 +53,9 @@ class CreateordersContentManagement extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-
-        $table = $this->table('orders_content_management');
+        $table->addIndex(['order_id']);
+        $table->addForeignKey('order_id', 'orders', 'order_id');
+        $table->addIndex(['orders_content_management_id'], ['unique' => true]);
         $table->create();
     }
 }
