@@ -3,16 +3,15 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\HomeController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\HomeController Test Case
+ * App\Controller\DeliveryContentMagemantController Test Case
  *
- * @uses \App\Controller\HomeController
+ * @uses \App\Controller\DeliveryContentMagemantController
  */
-class HomeControllerTest extends TestCase
+class DeliveryContentMagemantControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,14 +21,14 @@ class HomeControllerTest extends TestCase
      * @var list<string>
      */
     protected array $fixtures = [
-        'app.Home',
+        'app.DeliveryContentMagemant',
     ];
 
     /**
      * Test index method
      *
      * @return void
-     * @uses \App\Controller\HomeController::index()
+     * @uses \App\Controller\DeliveryContentMagemantController::index()
      */
     public function testIndex(): void
     {
@@ -40,7 +39,7 @@ class HomeControllerTest extends TestCase
      * Test view method
      *
      * @return void
-     * @uses \App\Controller\HomeController::view()
+     * @uses \App\Controller\DeliveryContentMagemantController::view()
      */
     public function testView(): void
     {
@@ -51,7 +50,7 @@ class HomeControllerTest extends TestCase
      * Test add method
      *
      * @return void
-     * @uses \App\Controller\HomeController::add()
+     * @uses \App\Controller\DeliveryContentMagemantController::add()
      */
     public function testAdd(): void
     {
@@ -62,7 +61,7 @@ class HomeControllerTest extends TestCase
      * Test edit method
      *
      * @return void
-     * @uses \App\Controller\HomeController::edit()
+     * @uses \App\Controller\DeliveryContentMagemantController::edit()
      */
     public function testEdit(): void
     {
@@ -73,7 +72,7 @@ class HomeControllerTest extends TestCase
      * Test delete method
      *
      * @return void
-     * @uses \App\Controller\HomeController::delete()
+     * @uses \App\Controller\DeliveryContentMagemantController::delete()
      */
     public function testDelete(): void
     {

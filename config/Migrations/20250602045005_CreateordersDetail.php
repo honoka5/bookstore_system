@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\BaseMigration;
+use Migrations\AbstractMigration;
 
-class CreateEmployee extends BaseMigration
+class CreateordersDetail extends AbstractMigration
 {
+    protected $config;
     /**
      * Change Method.
      *
@@ -14,18 +15,18 @@ class CreateEmployee extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('Employee Management',['id'=>false,'primary_key'=>['employee_id']]);
-        $table->addColumn('employee_id', 'string', [
+        $table = $this->table('orders_detail', ['id' => false, 'primary_key' => ['order_id']]);
+        $table->addColumn('order_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 4,
             'null' => false,
         ]);
-        $table->addColumn('employee_name', 'string', [
+        $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 5,
             'null' => false,
         ]);
-        $table->addColumn('password', 'string', [
+        $table->addColumn('remarks', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
@@ -33,3 +34,4 @@ class CreateEmployee extends BaseMigration
         $table->create();
     }
 }
+

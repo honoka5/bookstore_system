@@ -1,0 +1,58 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Controller;
+
+/**
+ * List Controller
+ */
+class ListController extends AppController
+{
+    /**
+     * 一覧画面表示
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
+    {
+        $this->viewBuilder()->setLayout('default');
+
+        return null;
+    }
+
+    /**
+     * 顧客一覧画面
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function customer()
+    {
+        $this->viewBuilder()->setLayout('default');
+
+        return null;
+    }
+
+    /**
+     * 注文書一覧画面
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function order()
+    {
+        $this->viewBuilder()->setLayout('default');
+
+        return null;
+    }
+
+    /**
+     * 納品書一覧画面
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function product()
+    {
+        $this->viewBuilder()->setLayout('default');
+
+        return null;
+    }
+}
