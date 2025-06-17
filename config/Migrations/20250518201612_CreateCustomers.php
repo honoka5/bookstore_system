@@ -14,12 +14,12 @@ class CreateCustomers extends AbstractMigration
      * @return void
      */
     public function change(): void
-    {
+{
         $table = $this->table('customers', [
             'id' => false,
-            'primary_key' => ['customer_id'],
-            'collation' => 'utf8mb4_unicode_ci',
-            'engine'=> 'InnoDB',
+            'primary_key' => 'customer_id',
+            'collation' => 'utf8mb4_general_ci',
+            'engine' => 'InnoDB',
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
@@ -29,11 +29,6 @@ class CreateCustomers extends AbstractMigration
         $table->addColumn('bookstore_name', 'string', [
             'default' => null,
             'limit' => 5,
-            'null' => false,
-        ]);
-        $table->addColumn('customer_name', 'string', [
-            'default' => null,
-            'limit' => 100,
             'null' => false,
         ]);
         $table->addColumn('Name', 'string', [
@@ -59,7 +54,7 @@ class CreateCustomers extends AbstractMigration
         $table->addColumn('Contact_Person', 'string', [
             'default' => null,
             'limit' => 15,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('remark', 'string', [
             'default' => null,
@@ -71,6 +66,7 @@ class CreateCustomers extends AbstractMigration
             'null' => false,
         ]);
         
+        $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
     }
 }

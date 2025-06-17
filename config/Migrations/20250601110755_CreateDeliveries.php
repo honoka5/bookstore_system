@@ -16,9 +16,9 @@ class CreateDeliveries extends AbstractMigration
     {
         $table = $this->table('deliveries', [
             'id' => false,
-            'primary_key' => ['delivery_id'],
-            'collation' => 'utf8mb4_unicode_ci',
-            'engine'=> 'InnoDB',
+            'primary_key' => 'delivery_id',
+            'collation' => 'utf8mb4_general_ci',
+            'engine' => 'InnoDB',
         ]);
         $table->addColumn('delivery_id', 'string', [
             'default' => null,
@@ -31,10 +31,6 @@ class CreateDeliveries extends AbstractMigration
             'null' => false,
         ]);
         $table->addColumn('delivery_date', 'date', [
-            'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('total_amount', 'integer', [
             'default' => null,
             'null' => false,
         ]);

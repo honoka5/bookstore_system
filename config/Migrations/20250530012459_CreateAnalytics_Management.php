@@ -19,14 +19,16 @@ class CreateAnalyticsManagement extends AbstractMigration
     
     public function change(): void
     {
-        $table = $this->table('analytics_management', ['id' => false, 'primary_key' => ['calculation_date']]);
-        $table->addColumn('calculation_date', 'date', [
-            'default' => null,
-            'null' => false,
+        $table = $this->table('analytics_management', [
+            'id' => false,
+            'primary_key' => 'customer_id',
+            'collation' => 'utf8mb4_general_ci',
+            'engine' => 'InnoDB',
         ]);
+
          $table->addColumn('customer_id', 'string', [
             'default' => null,
-            'limit' => 4,
+            'limit' => 5,
             'null' => false,
         ]);
          $table->addColumn('avg_lead_time', 'integer', [
@@ -39,6 +41,12 @@ class CreateAnalyticsManagement extends AbstractMigration
             'precision' => 10, // 全体の桁数（整数部＋小数部）
             'scale' => 2,      // 小数点以下の桁数
         ]);
+        $table->addColumn('calculation_date', 'date', [
+            'default' => null,
+            'null' => false,
+        ]);
+        $table->addIndex(['customer_id'], ['unique' => true]);
+        $table->addForeignKey('customer_id', 'customers', 'customer_id',);
         $table->create();
     }
 }

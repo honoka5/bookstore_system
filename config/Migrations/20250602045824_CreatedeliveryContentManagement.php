@@ -15,18 +15,23 @@ class CreatedeliveryContentManagement extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('deliverycontentmanagement', ['id' => false, 'primary_key' => ['deliverycontentmanagementid']]);
-        $table->addColumn('deliverycontentmanagement_id', 'string', [
+        $table = $this->table('delivery_content_management', [
+            'id' => false,
+            'primary_key' => 'delivery_content_management_id',
+            'collation' => 'utf8mb4_general_ci',
+            'engine' => 'InnoDB',
+        ]);
+        $table->addColumn('delivery_content_management_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
         ]);
-        $table->addColumn('delivery_ID', 'string', [
+        $table->addColumn('delivery_id', 'string', [
             'default' => null,
             'limit' => 5,
             'null' => false,
         ]);
-        $table->addColumn('orders_content_magemant_id', 'string', [
+        $table->addColumn('orders_content_managemant_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -53,7 +58,7 @@ class CreatedeliveryContentManagement extends AbstractMigration
         ]);
         $table->addColumn('lead_time', 'decimal', [
             'default' => null,
-            'null' => false,
+            'null' => true,
             'precision' => 10, // 全体の桁数（整数部＋小数部）
             'scale' => 2,      // 小数点以下の桁数
         ]);
