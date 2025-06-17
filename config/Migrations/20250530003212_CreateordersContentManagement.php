@@ -15,10 +15,20 @@ class CreateordersContentManagement extends AbstractMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function setConfig($config)
+    public function change(): void
     {
-        $table = $this->table('orders_content_management', ['id' => false, 'primary_key' => ['order_ID']]);
-        $table->addColumn('order_ID', 'string', [
+        $table = $this->table('orders_content_management', [
+            'id' => false,
+            'primary_key' => 'orders_content_management_id',
+            'collation' => 'utf8mb4_general_ci',
+            'engine' => 'InnoDB',
+        ]);
+        $table->addColumn('orders_content_management_id', 'string', [
+            'default' => null,
+            'limit' => 6,
+            'null' => false,
+        ]);
+        $table->addColumn('order_id', 'string', [
             'default' => null,
             'limit' => 5,
             'null' => false,
@@ -46,7 +56,6 @@ class CreateordersContentManagement extends AbstractMigration
         ]);
 
         $table = $this->table('orders_content_management');
-        $this->config = $config;
         $table->create();
     }
 }

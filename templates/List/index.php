@@ -21,9 +21,9 @@ session_start();
 
     <!-- メインコンテンツ -->
     <div class="button-grid">
-        <a href="customer_list.php" class="button">顧客一覧</a>
-        <a href="order_list.php" class="button">注文書一覧</a>
-        <a href="delivery_list.php" class="button">納品書一覧</a>
+        <p><?= $this->Html->link('顧客一覧', ['controller' => 'List', 'action' => 'customer'], ['class' => 'button']) ?></p>
+        <p><?= $this->Html->link('注文書一覧', ['controller' => 'List', 'action' => 'order'], ['class' => 'button']) ?></p>
+        <p><?= $this->Html->link('納品書一覧', ['controller' => 'List', 'action' => 'product'], ['class' => 'button']) ?></p>
     </div>
 
     <!-- 戻るボタン -->
