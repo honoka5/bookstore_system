@@ -15,13 +15,13 @@ class CreatedeliveryContentManagement extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('delivery_content_management', [
+        $table = $this->table('delivery_items', [
             'id' => false,
-            'primary_key' => 'delivery_content_management_id',
+            'primary_key' => 'deliveryItem_id',
             'collation' => 'utf8mb4_general_ci',
             'engine' => 'InnoDB',
         ]);
-        $table->addColumn('delivery_content_management_id', 'string', [
+        $table->addColumn('deliveryItem_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -62,7 +62,7 @@ class CreatedeliveryContentManagement extends AbstractMigration
             'precision' => 10, // 全体の桁数（整数部＋小数部）
             'scale' => 1,      // 小数点以下の桁数
         ]);
-        $table->addIndex(['delivery_content_management_id'], ['unique' => true]);
+        $table->addIndex(['deliveryItem_id'], ['unique' => true]);
         $table->addIndex(['delivery_id']);
         $table->addIndex(['orders_content_managemant_id']);
         $table->addForeignKey('delivery_id', 'deliveries', 'delivery_id');

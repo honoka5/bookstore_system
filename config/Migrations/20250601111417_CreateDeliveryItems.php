@@ -48,17 +48,13 @@ class CreateDeliveryItems extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('isNotDeliveried', 'boolean', [
+        $table->addColumn('is_deliveried_flag', 'boolean', [
             'default' => true,
             'null' => false,
         ]);
         $table->addColumn('leadTime', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => true,
-        ]);
-        $table->addColumn('altDelivery_date', 'date', [
-            'default' => null,
             'null' => true,
         ]);
         $table->addIndex(['deliveryItem_id'], ['unique' => true]);
