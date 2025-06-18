@@ -33,7 +33,7 @@ class CreateDeliveryItems extends AbstractMigration
             'limit' => 6,
             'null' => false,
         ]);
-        $table->addColumn('book_name', 'string', [
+        $table->addColumn('book_title', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,

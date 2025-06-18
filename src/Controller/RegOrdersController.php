@@ -80,7 +80,7 @@ class RegOrdersController extends AppController
 
             // 2. 各注文内容＆納品内容の登録
             foreach ($data['order_items'] as $item) {
-                if (empty($item['book_name'])) {
+                if (empty($item['book_title'])) {
                     continue;
                 }
 
@@ -88,7 +88,7 @@ class RegOrdersController extends AppController
                 $orderItem = $orderItemsTable->newEntity([
                     'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
                     'order_id' => $order->order_id,
-                    'book_name' => $item['book_name'],
+                    'book_title' => $item['book_title'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],
                     'book_summary' => $item['book_summary'] ?? null,
@@ -100,7 +100,7 @@ class RegOrdersController extends AppController
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
                     'delivery_id' => null,
-                    'book_name' => $item['book_name'],
+                    'book_title' => $item['book_title'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],
                     'isNotDeliveried' => true,

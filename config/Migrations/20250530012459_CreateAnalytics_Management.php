@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateAnalyticsManagement extends AbstractMigration
+class CreateStatisticsManagement extends AbstractMigration
 {
     protected $config;
 
@@ -19,7 +19,7 @@ class CreateAnalyticsManagement extends AbstractMigration
     
     public function change(): void
     {
-        $table = $this->table('analytics_management', [
+        $table = $this->table('statistics', [
             'id' => false,
             'primary_key' => 'customer_id',
             'collation' => 'utf8mb4_general_ci',
@@ -44,7 +44,7 @@ class CreateAnalyticsManagement extends AbstractMigration
         ]);
         $table->addColumn('calculation_date', 'date', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->addForeignKey('customer_id', 'customers', 'customer_id',);

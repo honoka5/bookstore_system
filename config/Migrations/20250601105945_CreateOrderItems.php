@@ -28,7 +28,7 @@ class CreateOrderItems extends AbstractMigration
             'limit' => 5,
             'null' => false,
         ]);
-        $table->addColumn('book_name', 'string', [
+        $table->addColumn('book_title', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,

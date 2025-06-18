@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property string $deliveryItem_id
  * @property string $delivery_id
  * @property string $orderItem_id
- * @property string $book_name
+ * @property string $book_title
  * @property string $unit_price
  * @property string $book_amount
  * @property bool $isNotDeliveried
@@ -36,7 +36,7 @@ class DeliveryItem extends Entity
         'deliveryItem_id' => true,
         'delivery_id' => true,
         'orderItem_id' => true,
-        'book_name' => true,
+        'book_title' => true,
         'unit_price' => true,
         'book_amount' => true,
         'isNotDeliveried' => true,
