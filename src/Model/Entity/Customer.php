@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
 /**
  * Customer Entity
  *
- * @property string $Customer_ID
+ * @property string $customer_id
  * @property string $Name
  * @property string $Phone_Number
  * @property string $Address

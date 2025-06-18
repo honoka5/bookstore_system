@@ -89,9 +89,9 @@ class DeliveryItemsTable extends Table
             ->notEmptyString('book_amount');
 
         $validator
-            ->boolean('isNotDeliveried')
-            ->requirePresence('isNotDeliveried', 'create')
-            ->notEmptyString('isNotDeliveried');
+            ->boolean('is_derivered_flag')
+            ->requirePresence('is_derivered_flag', 'create')
+            ->notEmptyString('is_derivered_flag');
 
         $validator
             ->decimal('leadTime')

@@ -14,9 +14,8 @@ use Cake\ORM\Entity;
  * @property string $book_title
  * @property string $unit_price
  * @property string $book_amount
- * @property bool $isNotDeliveried
+ * @property bool $is_delivered_flag
  * @property string $leadTime
- * @property \Cake\I18n\Date $altDelivery_date
  *
  * @property \App\Model\Entity\Delivery $delivery
  * @property \App\Model\Entity\OrderItem $order_item
@@ -39,9 +38,8 @@ class DeliveryItem extends Entity
         'book_title' => true,
         'unit_price' => true,
         'book_amount' => true,
-        'isNotDeliveried' => true,
+        'is_delivered_flag' => true,
         'leadTime' => true,
-        'altDelivery_date' => true,
         'delivery' => true,
         'order_item' => true,
     ];
