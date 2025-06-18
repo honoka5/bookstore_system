@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\I18n\FrozenDate;
+use Cake\ORM\Exception\MissingTableException;
 
 class CustomerStatsController extends AppController
 {
@@ -40,11 +41,17 @@ class CustomerStatsController extends AppController
         $selectedBookstore = $this->request->getData('bookstore_name');
         $customersTable = $this->fetchTable('Customers');
         $statsTable = $this->fetchTable('Statistics');
-        $deliveriesTable = $this->fetchTable('Deliveries');
+        // DeliveriesTableが存在しない場合はスキップ
+        try {
+            $deliveriesTable = $this->fetchTable('Deliveries');
+        } catch (\Cake\ORM\Exception\MissingTableException $e) {
+            $this->Flash->warning('納品書が存在しないため、計算処理をスキップしました');
+            return $this->redirect(['action' => 'index', '?' => ['bookstore_name' => $selectedBookstore]]);
+        }
         $deliveryItemsTable = $this->fetchTable('DeliveryItems');
         $orderItemsTable = $this->fetchTable('OrderItems');
         $ordersTable = $this->fetchTable('Orders');
-        $now = FrozenDate::now();
+        $now = \Cake\I18n\FrozenDate::now();
         $customers = $customersTable->find()->where(['bookstore_name' => $selectedBookstore])->all();
         foreach ($customers as $customer) {
             $customerId = $customer->customer_id;

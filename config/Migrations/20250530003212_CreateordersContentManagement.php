@@ -56,6 +56,9 @@ class CreateordersContentManagement extends AbstractMigration
         ]);
 
         $table = $this->table('orders_content_management');
+        $table->addIndex(['orders_content_management_id']);
+        $table->addIndex(['order_id']);
+        $table->addForeignKey('order_id', 'orders', 'order_id');
         $table->create();
     }
 }
