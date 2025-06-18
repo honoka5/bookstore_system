@@ -97,10 +97,6 @@ class DeliveryItemsTable extends Table
             ->decimal('leadTime')
             ->allowEmptyString('leadTime');
 
-        $validator
-            ->date('altDelivery_date')
-            ->allowEmptyDate('altDelivery_date');
-
         return $validator;
     }
 
