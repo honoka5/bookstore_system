@@ -27,10 +27,14 @@ class ListController extends AppController
      */
     public function customer()
     {
-        $this->viewBuilder()->setLayout('default');
+        //$this->viewBuilder()->setLayout('default');
 
+<<<<<<< Updated upstream
      
         $this->render('/CustomerList/index');
+=======
+        $this->render('/customerList/index');
+>>>>>>> Stashed changes
     }
 
     /**
@@ -41,6 +45,11 @@ class ListController extends AppController
     public function order()
     {
         $this->viewBuilder()->setLayout('default');
+<<<<<<< Updated upstream
+=======
+
+        
+>>>>>>> Stashed changes
     }
 
     /**
@@ -51,5 +60,10 @@ class ListController extends AppController
     public function product()
     {
         $this->viewBuilder()->setLayout('default');
+<<<<<<< Updated upstream
+=======
+
+        
+>>>>>>> Stashed changes
     }
 }
