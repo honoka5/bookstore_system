@@ -61,6 +61,7 @@ class CreateDeliveries extends AbstractMigration
         ['delivery_id' => '00019', 'customer_id' => '00019', 'delivery_date' => '2023-03-19'],
         ['delivery_id' => '00020', 'customer_id' => '00001', 'delivery_date' => '2023-03-20'],
         ];
+        $this->table('deliveries')->insert($rows)->saveData();
 
     }
 
