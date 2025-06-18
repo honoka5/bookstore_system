@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreatedeliveryContentManagement extends AbstractMigration
+class CreateDeliveryItems extends AbstractMigration
 {
      protected $config;
     /**
@@ -15,13 +15,13 @@ class CreatedeliveryContentManagement extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('delivery_content_management', [
+        $table = $this->table('delivery_items', [
             'id' => false,
-            'primary_key' => 'delivery_content_management_id',
+            'primary_key' => 'deliveryItem_id',
             'collation' => 'utf8mb4_general_ci',
             'engine' => 'InnoDB',
         ]);
-        $table->addColumn('delivery_content_management_id', 'string', [
+        $table->addColumn('deliveryItem_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -29,9 +29,9 @@ class CreatedeliveryContentManagement extends AbstractMigration
         $table->addColumn('delivery_id', 'string', [
             'default' => null,
             'limit' => 5,
-            'null' => false,
+            'null' => true,
         ]);
-        $table->addColumn('orders_content_managemant_id', 'string', [
+        $table->addColumn('orderItem_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -41,27 +41,35 @@ class CreatedeliveryContentManagement extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('unit_price', 'decimal', [
+        $table->addColumn('unit_price', 'integer', [
             'default' => null,
             'null' => false,
-            'precision' => 10, // 全体の桁数（整数部＋小数部）
-            'scale' => 2,      // 小数点以下の桁数
+            'signed' => false, // 符号なし整数として定義
         ]);
-        $table->addColumn('quantity', 'integer', [
+        $table->addColumn('book_amount', 'integer', [
             'default' => null,
             'null' => false,
+            'signed' => false, // 符号なし整数として定義
         ]);
         
-        $table->addColumn('Unpaid_flag', 'boolean', [
+        $table->addColumn('is_delivered_flag', 'boolean', [
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('lead_time', 'decimal', [
+        $table->addColumn('leadTime', 'decimal', [
             'default' => null,
             'null' => true,
             'precision' => 10, // 全体の桁数（整数部＋小数部）
-            'scale' => 2,      // 小数点以下の桁数
+            'scale' => 1,      // 小数点以下の桁数
         ]);
+        $table->addIndex(['deliveryItem_id'], ['unique' => true]);
+        $table->addIndex(['delivery_id']);
+        $table->addIndex(['orderItem_id']);
+        $table->addForeignKey('delivery_id', 'deliveries', 'delivery_id', [
+            'delete'=> 'SET_NULL',
+            'update'=> 'NO_ACTION',
+        ]);
+        $table->addForeignKey('orderItem_id', 'order_items', 'orderItem_id');
         $table->create();
     }
 }

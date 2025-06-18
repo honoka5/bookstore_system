@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateordersContentManagement extends AbstractMigration
+class CreateOrderItems extends AbstractMigration
 {
 
     protected $config;
@@ -17,13 +17,13 @@ class CreateordersContentManagement extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('orders_content_management', [
+        $table = $this->table('order_items', [
             'id' => false,
-            'primary_key' => 'orders_content_management_id',
+            'primary_key' => 'orderItem_id',
             'collation' => 'utf8mb4_general_ci',
             'engine' => 'InnoDB',
         ]);
-        $table->addColumn('orders_content_management_id', 'string', [
+        $table->addColumn('orderItem_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -38,27 +38,24 @@ class CreateordersContentManagement extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('unit_price', 'decimal', [
-            'default' => null,
-            'precision' => 6,
-            'scale' => 2,
-            'null' => false,
-        ]);
-        $table->addColumn('total_quantity', 'integer', [
+        $table->addColumn('unit_price', 'integer', [
             'default' => null,
             'null' => false,
             'signed' => false,
         ]);
-        $table->addColumn('summary', 'string', [
+        $table->addColumn('book_amount', 'integer', [
+            'default' => null,
+            'null' => false,
+            'signed' => false,
+        ]);
+        $table->addColumn('book_summary', 'string', [
             'default' => null,
             'limit' => 255,
-            'null' => false,
+            'null' => true,
         ]);
-
-        $table = $this->table('orders_content_management');
-        $table->addIndex(['orders_content_management_id']);
         $table->addIndex(['order_id']);
         $table->addForeignKey('order_id', 'orders', 'order_id');
+        $table->addIndex(['orderItem_id'], ['unique' => true]);
         $table->create();
     }
 }

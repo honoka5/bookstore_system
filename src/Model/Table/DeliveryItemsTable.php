@@ -73,10 +73,10 @@ class DeliveryItemsTable extends Table
             ->notEmptyString('orderItem_id');
 
         $validator
-            ->scalar('book_name')
-            ->maxLength('book_name', 255)
-            ->requirePresence('book_name', 'create')
-            ->notEmptyString('book_name');
+            ->scalar('book_title')
+            ->maxLength('book_title', 255)
+            ->requirePresence('book_title', 'create')
+            ->notEmptyString('book_title');
 
         $validator
             ->decimal('unit_price')
@@ -89,9 +89,9 @@ class DeliveryItemsTable extends Table
             ->notEmptyString('book_amount');
 
         $validator
-            ->boolean('isNotDeliveried')
-            ->requirePresence('isNotDeliveried', 'create')
-            ->notEmptyString('isNotDeliveried');
+            ->boolean('is_derivered_flag')
+            ->requirePresence('is_derivered_flag', 'create')
+            ->notEmptyString('is_derivered_flag');
 
         $validator
             ->decimal('leadTime')

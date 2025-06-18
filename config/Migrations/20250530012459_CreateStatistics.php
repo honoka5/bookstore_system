@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateAnalyticsManagement extends AbstractMigration
+class CreateStatistics extends AbstractMigration
 {
     protected $config;
 
@@ -19,7 +19,7 @@ class CreateAnalyticsManagement extends AbstractMigration
     
     public function change(): void
     {
-        $table = $this->table('analytics_management', [
+        $table = $this->table('statistics', [
             'id' => false,
             'primary_key' => 'customer_id',
             'collation' => 'utf8mb4_general_ci',
@@ -31,19 +31,20 @@ class CreateAnalyticsManagement extends AbstractMigration
             'limit' => 5,
             'null' => false,
         ]);
-         $table->addColumn('avg_lead_time', 'integer', [
+         $table->addColumn('avg_lead_time', 'decimal', [
             'default' => null,
             'null' => true,
+            'precision' => 10, // 全体の桁数（整数部＋小数部）
+            'scale' => 1,      // 小数点以下の桁数
         ]);
-         $table->addColumn('total_purchase_amt', 'decimal', [
+         $table->addColumn('total_purchase_amt', 'integer', [
             'default' => null,
             'null' => false,
-            'precision' => 10, // 全体の桁数（整数部＋小数部）
-            'scale' => 2,      // 小数点以下の桁数
+            'signed' => false,
         ]);
         $table->addColumn('calculation_date', 'date', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->addForeignKey('customer_id', 'customers', 'customer_id',);

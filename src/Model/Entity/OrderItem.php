@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property string $orderItem_id
  * @property string $order_id
- * @property string $book_name
+ * @property string $book_title
  * @property string $unit_price
  * @property string $book_amount
  *
@@ -30,7 +30,7 @@ class OrderItem extends Entity
     protected array $_accessible = [
         'orderItem_id' => true,
         'order_id' => true,
-        'book_name' => true,
+        'book_title' => true,
         'unit_price' => true,
         'book_amount' => true,
         'book_summary' => true,

@@ -62,10 +62,10 @@ class OrderItemsTable extends Table
             ->notEmptyString('order_id');
 
         $validator
-            ->scalar('book_name')
-            ->maxLength('book_name', 255)
-            ->requirePresence('book_name', 'create')
-            ->notEmptyString('book_name');
+            ->scalar('book_title')
+            ->maxLength('book_title', 255)
+            ->requirePresence('book_title', 'create')
+            ->notEmptyString('book_title');
 
         $validator
             ->decimal('unit_price')
