@@ -13,7 +13,7 @@ class CreateDeliveryItems extends AbstractMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function up(): void
     {
         $table = $this->table('delivery_items', [
             'id' => false,
@@ -51,7 +51,6 @@ class CreateDeliveryItems extends AbstractMigration
             'null' => false,
             'signed' => false, // 符号なし整数として定義
         ]);
-        
         $table->addColumn('is_delivered_flag', 'boolean', [
             'default' => null,
             'null' => false,
@@ -68,5 +67,10 @@ class CreateDeliveryItems extends AbstractMigration
         $table->addForeignKey('delivery_id', 'deliveries', 'delivery_id');
         $table->addForeignKey('orderItem_id', 'order_items', 'orderItem_id');
         $table->create();
+    }
+
+    public function down(): void
+    {
+        $this->table('delivery_items')->drop()->save();
     }
 }

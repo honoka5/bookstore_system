@@ -17,7 +17,7 @@ class CreateStatistics extends AbstractMigration
      * @return void
      */
     
-    public function change(): void
+    public function up(): void
     {
         $table = $this->table('statistics', [
             'id' => false,
@@ -25,19 +25,18 @@ class CreateStatistics extends AbstractMigration
             'collation' => 'utf8mb4_general_ci',
             'engine' => 'InnoDB',
         ]);
-
-         $table->addColumn('customer_id', 'string', [
+        $table->addColumn('customer_id', 'string', [
             'default' => null,
             'limit' => 5,
             'null' => false,
         ]);
-         $table->addColumn('avg_lead_time', 'decimal', [
+        $table->addColumn('avg_lead_time', 'decimal', [
             'default' => null,
             'null' => true,
             'precision' => 10, // 全体の桁数（整数部＋小数部）
             'scale' => 1,      // 小数点以下の桁数
         ]);
-         $table->addColumn('total_purchase_amt', 'integer', [
+        $table->addColumn('total_purchase_amt', 'integer', [
             'default' => null,
             'null' => false,
             'signed' => false,
@@ -49,5 +48,10 @@ class CreateStatistics extends AbstractMigration
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->addForeignKey('customer_id', 'customers', 'customer_id',);
         $table->create();
+    }
+
+    public function down(): void
+    {
+        $this->table('statistics')->drop()->save();
     }
 }

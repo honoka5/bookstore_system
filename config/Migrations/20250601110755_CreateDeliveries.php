@@ -12,7 +12,7 @@ class CreateDeliveries extends AbstractMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function up(): void
     {
         $table = $this->table('deliveries', [
             'id' => false,
@@ -38,5 +38,10 @@ class CreateDeliveries extends AbstractMigration
         $table->addIndex(['customer_id']);
         $table->addForeignKey('customer_id', 'customers', 'customer_id');
         $table->create();
+    }
+
+    public function down(): void
+    {
+        $this->table('deliveries')->drop()->save();
     }
 }

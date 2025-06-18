@@ -15,7 +15,7 @@ class CreateOrderItems extends AbstractMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
+    public function up(): void
     {
         $table = $this->table('order_items', [
             'id' => false,
@@ -57,5 +57,10 @@ class CreateOrderItems extends AbstractMigration
         $table->addForeignKey('order_id', 'orders', 'order_id');
         $table->addIndex(['orderItem_id'], ['unique' => true]);
         $table->create();
+    }
+
+    public function down(): void
+    {
+        $this->table('order_items')->drop()->save();
     }
 }

@@ -13,8 +13,8 @@ class CreateCustomers extends AbstractMigration
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
      * @return void
      */
-    public function change(): void
-{
+    public function up(): void
+    {
         $table = $this->table('customers', [
             'id' => false,
             'primary_key' => 'customer_id',
@@ -64,10 +64,9 @@ class CreateCustomers extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
-                //テストデータの追加
+        //テストデータの追加
         $rows = [
             ['customer_id' => '00001', 'Name' => '田中太郎', 'bookstore_name' => '田中書店', 'Phone_Number' => '09012345678', 'Address' => '東京都千代田区1-1-1', 'Delivery_Conditions' => '即日配送', 'Contact_Person' => '田中次郎', 'remark' => '常連客', 'Customer_Registration_Date' => '2023-01-01'],
             ['customer_id' => '00002', 'Name' => '佐藤花子', 'bookstore_name' => '佐藤ブックス', 'Phone_Number' => '08023456789', 'Address' => '大阪府大阪市2-2-2', 'Delivery_Conditions' => '週1回配送', 'Contact_Person' => '佐藤一郎', 'remark' => '新規顧客', 'Customer_Registration_Date' => '2023-01-02'],
@@ -90,5 +89,10 @@ class CreateCustomers extends AbstractMigration
             ['customer_id' => '00019', 'Name' => '森田花子', 'bookstore_name' => '森田書房', 'Phone_Number' => '09090123458', 'Address' => '滋賀県大津市19-19-19', 'Delivery_Conditions' => '即日配送', 'Contact_Person' => '森田誠', 'remark' => '', 'Customer_Registration_Date' => '2023-01-19'],
         ];
         $this->table('customers')->insert($rows)->saveData();
+    }
+
+    public function down(): void
+    {
+        $this->table('customers')->drop()->save();
     }
 }
