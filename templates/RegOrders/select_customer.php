@@ -17,9 +17,9 @@
             </tr>
             <?php foreach ($customers as $customer): ?>
                 <tr>
-                    <td><?= h($customer->customer_name) ?></td>
-                    <td><?= h($customer->phone_number) ?></td>
-                    <td><?= h($customer->address) ?></td>
+                    <td><?= h($customer->Name) ?></td>
+                    <td><?= h($customer->Phone_Number) ?></td>
+                    <td><?= h($customer->Address) ?></td>
                     <td><?= $this->Html->link('選択', ['action' => 'newOrder', $customer->customer_id]) ?></td>
                 </tr>
             <?php endforeach; ?>
