@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateStatisticsManagement extends AbstractMigration
+class CreateStatistics extends AbstractMigration
 {
     protected $config;
 

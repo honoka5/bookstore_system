@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreatedeliveryContentManagement extends AbstractMigration
+class CreateDeliveryItems extends AbstractMigration
 {
      protected $config;
     /**
@@ -31,7 +31,7 @@ class CreatedeliveryContentManagement extends AbstractMigration
             'limit' => 5,
             'null' => true,
         ]);
-        $table->addColumn('orders_content_managemant_id', 'string', [
+        $table->addColumn('orderItem_id', 'string', [
             'default' => null,
             'limit' => 6,
             'null' => false,
@@ -46,17 +46,17 @@ class CreatedeliveryContentManagement extends AbstractMigration
             'null' => false,
             'signed' => false, // 符号なし整数として定義
         ]);
-        $table->addColumn('quantity', 'integer', [
+        $table->addColumn('book_amount', 'integer', [
             'default' => null,
             'null' => false,
             'signed' => false, // 符号なし整数として定義
         ]);
         
-        $table->addColumn('Unpaid_flag', 'boolean', [
+        $table->addColumn('is_delivered_flag', 'boolean', [
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('lead_time', 'decimal', [
+        $table->addColumn('leadTime', 'decimal', [
             'default' => null,
             'null' => true,
             'precision' => 10, // 全体の桁数（整数部＋小数部）
@@ -64,9 +64,9 @@ class CreatedeliveryContentManagement extends AbstractMigration
         ]);
         $table->addIndex(['deliveryItem_id'], ['unique' => true]);
         $table->addIndex(['delivery_id']);
-        $table->addIndex(['orders_content_managemant_id']);
+        $table->addIndex(['orderItem_id']);
         $table->addForeignKey('delivery_id', 'deliveries', 'delivery_id');
-        $table->addForeignKey('orders_content_managemant_id', 'orders_content_management', 'orders_content_management_id');
+        $table->addForeignKey('orderItem_id', 'order_items', 'orderItem_id');
         $table->create();
     }
 }

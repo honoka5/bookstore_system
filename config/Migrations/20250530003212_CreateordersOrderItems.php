@@ -1,11 +1,14 @@
 <?php
 declare(strict_types=1);
 
-use Phinx\Migration\AbstractMigration;
+use Migrations\AbstractMigration;
 
 class CreateOrderItems extends AbstractMigration
 {
+
+    protected $config;
     /**
+     * 新注文内容管理テーブルを作成するマイグレーション
      * Change Method.
      *
      * More information on this method is available here:
@@ -16,7 +19,9 @@ class CreateOrderItems extends AbstractMigration
     {
         $table = $this->table('order_items', [
             'id' => false,
-            'primary_key' => ['orderItem_id'],
+            'primary_key' => 'orderItem_id',
+            'collation' => 'utf8mb4_general_ci',
+            'engine' => 'InnoDB',
         ]);
         $table->addColumn('orderItem_id', 'string', [
             'default' => null,
@@ -33,24 +38,24 @@ class CreateOrderItems extends AbstractMigration
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('unit_price', 'string', [
+        $table->addColumn('unit_price', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
+            'signed' => false,
         ]);
-        $table->addColumn('book_amount', 'string', [
+        $table->addColumn('book_amount', 'integer', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
+            'signed' => false,
         ]);
         $table->addColumn('book_summary', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => true,
         ]);
-        $table->addIndex(['orderItem_id'], ['unique' => true]);
         $table->addIndex(['order_id']);
         $table->addForeignKey('order_id', 'orders', 'order_id');
+        $table->addIndex(['orderItem_id'], ['unique' => true]);
         $table->create();
     }
 }
