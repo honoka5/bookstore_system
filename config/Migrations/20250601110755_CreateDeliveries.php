@@ -59,7 +59,7 @@ class CreateDeliveries extends AbstractMigration
         ['delivery_id' => '00017', 'customer_id' => '00017', 'delivery_date' => '2023-03-17'],
         ['delivery_id' => '00018', 'customer_id' => '00018', 'delivery_date' => '2023-03-18'],
         ['delivery_id' => '00019', 'customer_id' => '00019', 'delivery_date' => '2023-03-19'],
-        ['delivery_id' => '00020', 'customer_id' => '00020', 'delivery_date' => '2023-03-20'],
+        ['delivery_id' => '00020', 'customer_id' => '00001', 'delivery_date' => '2023-03-20'],
         ];
 
     }
