@@ -103,9 +103,8 @@ class RegOrdersController extends AppController
                     'book_title' => $item['book_title'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],
-                    'isNotDeliveried' => true,
-                    'lead_time' => null,
-                    'altDelivery_date' => null,
+                    'is_delivered_flag' => false,
+                    'leadTime' => null,
                 ]);
                 $deliveryItemsTable->saveOrFail($deliveryItem);
             }
