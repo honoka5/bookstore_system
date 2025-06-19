@@ -11,8 +11,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property \Cake\I18n\Date $calc_date
  * @property string $customer_id
- * @property string $avg_leadtime
- * @property string $total_purchace_amt
+ * @property string $avg_lead_time
+ * @property string $total_purchase_amt
  *
  * @property \App\Model\Entity\Customer $customer
  */
@@ -30,8 +30,8 @@ class Statistic extends Entity
     protected array $_accessible = [
         'calc_date' => true,
         'customer_id' => true,
-        'avg_leadtime' => true,
-        'total_purchace_amt' => true,
+        'avg_lead_time' => true,
+        'total_purchase_amt' => true,
         'customer' => true,
     ];
 }

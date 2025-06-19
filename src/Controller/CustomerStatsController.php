@@ -59,7 +59,7 @@ class CustomerStatsController extends AppController
             // DB操作2: 累計購入金額
             $deliveryIds = $deliveriesTable->find()->select(['delivery_id'])->where(['customer_id' => $customerId])->all()->extract('delivery_id')->toArray();
             $deliveredItems = $deliveryItemsTable->find()
-                ->where(['delivery_id IN' => $deliveryIds, 'is_deliveried_flag' => true])
+                ->where(['delivery_id IN' => $deliveryIds, 'is_delivered_flag' => true])
                 ->all();
             $totalAmount = 0;
             foreach ($deliveredItems as $item) {
@@ -75,7 +75,7 @@ class CustomerStatsController extends AppController
             $orderItemIds = $orderItemsTable->find()->select(['orderItem_id'])->where(['order_id IN' => $orderIds])->all()->extract('orderItem_id')->toArray();
             $deliveryItems = $deliveryItemsTable->find()->where(['orderItem_id IN' => $orderItemIds])->all();
             foreach ($deliveryItems as $item) {
-                if ($item->is_deliveried_flag) {
+                if ($item->is_delivered_flag) {
                     $leadTime = $item->leadTime ?? 0; // DBにあれば
                     $totalLeadTime += $leadTime * $item->book_amount;
                     $totalQuantity += $item->book_amount;
@@ -99,14 +99,13 @@ class CustomerStatsController extends AppController
             $avgLeadTime = $totalQuantity > 0 ? round($totalLeadTime / $totalQuantity, 2) : 0;
 
             // 統計情報テーブルへ保存
-            $stat = $statsTable->find()->where(['customer_id' => $customerId, 'calc_date' => $now])->first();
+            $stat = $statsTable->find()->where(['customer_id' => $customerId])->first();
             if (!$stat) {
-                $stat = $statsTable->newEntity([]);
+                $stat = $statsTable->newEntity(['customer_id' => $customerId]);
             }
+            $stat->total_purchase_amt = $totalAmount; // ←ここを修正
+            $stat->avg_lead_time = $avgLeadTime; // ←ここを修正
             $stat->calc_date = $now;
-            $stat->customer_id = $customerId;
-            $stat->total_purchace_amt = $totalAmount; // ←ここを修正
-            $stat->avg_leadtime = $avgLeadTime; // ←ここを修正
             $statsTable->save($stat);
         }
         $this->Flash->success('統計情報を計算・保存しました');

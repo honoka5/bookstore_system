@@ -39,7 +39,7 @@ class StatisticsTable extends Table
 
         $this->setTable('statistics');
         $this->setDisplayField('customer_id');
-        $this->setPrimaryKey(['calc_date', 'customer_id']);
+        $this->setPrimaryKey('customer_id');
 
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',
@@ -56,26 +56,26 @@ class StatisticsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->date('calc_date')
-            ->requirePresence('calc_date', 'create')
-            ->notEmptyDate('calc_date');
-
-        $validator
             ->scalar('customer_id')
             ->maxLength('customer_id', 255)
             ->notEmptyString('customer_id');
 
         $validator
-            ->scalar('avg_leadtime')
-            ->maxLength('avg_leadtime', 255)
-            ->requirePresence('avg_leadtime', 'create')
-            ->notEmptyString('avg_leadtime');
+            ->scalar('avg_lead_time')
+            ->maxLength('avg_lead_time', 255)
+            ->requirePresence('avg_lead_time', 'create')
+            ->notEmptyString('avg_lead_time');
 
         $validator
-            ->scalar('total_purchace_amt')
-            ->maxLength('total_purchace_amt', 255)
-            ->requirePresence('total_purchace_amt', 'create')
-            ->notEmptyString('total_purchace_amt');
+            ->scalar('total_purchase_amt')
+            ->maxLength('total_purchase_amt', 255)
+            ->requirePresence('total_purchase_amt', 'create')
+            ->notEmptyString('total_purchase_amt');
+        
+        $validator
+            ->date('calc_date')
+            ->requirePresence('calc_date', 'create')
+            ->notEmptyDate('calc_date');
 
         return $validator;
     }

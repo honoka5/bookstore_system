@@ -26,11 +26,6 @@ class CreateCustomers extends AbstractMigration
             'limit' => 5,
             'null' => false,
         ]);
-        $table->addColumn('bookstore_name', 'string', [
-            'default' => null,
-            'limit' => 5,
-            'null' => false,
-        ]);
         $table->addColumn('Name', 'string', [
             'default' => null,
             'limit' => 100,

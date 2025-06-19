@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
  * @property string $Contact_Person
  * @property string|null $remark
  * @property \Cake\I18n\Date $Customer_Registration_Date
+ * @property string $bookstore_name
  *
  * @property \App\Model\Entity\Order[] $orders
  */
@@ -31,6 +32,8 @@ class Customer extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'customer_id' => true,
+        'bookstore_name' => true,
         'Name' => true,
         'Phone_Number' => true,
         'Address' => true,

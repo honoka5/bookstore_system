@@ -47,10 +47,10 @@
                         }
                     ?>
                     <tr>
-                        <td><?= h($customer->customer_name) ?></td>
+                        <td><?= h($customer->Name) ?></td>
                         <?php if ($stat): ?>
-                            <td><?= h($stat->total_purchace_amt) ?></td>
-                            <td><?= h($stat->avg_leadtime) ?></td>
+                            <td><?= h($stat->total_purchase_amt) ?></td>
+                            <td><?= h($stat->avg_lead_time) ?></td>
                         <?php else: ?>
                             <td></td>
                             <td></td>
