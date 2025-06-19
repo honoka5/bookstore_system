@@ -67,17 +67,6 @@ class CustomersTable extends Table
             ->notEmptyString('Phone_Number');
 
         $validator
-            ->scalar('Address')
-            ->maxLength('Address', 50)
-            ->requirePresence('Address', 'create')
-            ->notEmptyString('Address');
-
-        $validator
-            ->scalar('Delivery_Conditions')
-            ->maxLength('Delivery_Conditions', 30)
-            ->allowEmptyString('Delivery_Conditions');
-
-        $validator
             ->scalar('Contact_Person')
             ->maxLength('Contact_Person', 15)
             ->requirePresence('Contact_Person', 'create')
@@ -87,11 +76,6 @@ class CustomersTable extends Table
             ->scalar('remark')
             ->maxLength('remark', 255)
             ->allowEmptyString('remark');
-
-        $validator
-            ->date('Customer_Registration_Date')
-            ->requirePresence('Customer_Registration_Date', 'create')
-            ->notEmptyDate('Customer_Registration_Date');
 
         return $validator;
     }
