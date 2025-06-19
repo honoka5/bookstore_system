@@ -16,9 +16,18 @@ class CustomersController extends AppController
     public function index()
     {
         $query = $this->Customers->find();
-        $customers = $this->paginate($query);
-
-        $this->set(compact('customers'));
+        $keyword = $this->request->getQuery('keyword');
+    if (!empty($keyword)) {
+        $query->where([
+            'OR' => [
+                'name LIKE' => '%' . $keyword . '%',
+                'phone_number LIKE' => '%' . $keyword . '%',
+                'contact_person LIKE' => '%' . $keyword . '%',
+            ]
+        ]);
+    }
+    $customers = $this->paginate($query);
+    $this->set(compact('customers'));
     }
 
     /**
