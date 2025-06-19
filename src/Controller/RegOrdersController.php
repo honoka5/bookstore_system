@@ -84,7 +84,7 @@ class RegOrdersController extends AppController
                     continue;
                 }
 
-                /** @var \App\Model\Entity\Order $order */
+                /** @var \App\Model\Entity\OrderItem $order */
                 $orderItem = $orderItemsTable->newEntity([
                     'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
                     'order_id' => $order->order_id,
@@ -95,7 +95,7 @@ class RegOrdersController extends AppController
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
 
-                /** @var \App\Model\Entity\OrderItem $orderItem */
+                /** @var \App\Model\Entity\DeriveryItem $DeliveryItem */
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
