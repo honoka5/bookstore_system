@@ -11,12 +11,9 @@ use Cake\ORM\Entity;
  * @property string $customer_id
  * @property string $Name
  * @property string $Phone_Number
- * @property string $Address
- * @property string|null $Delivery_Conditions
- * @property string $Contact_Person
  * @property string|null $remark
- * @property \Cake\I18n\Date $Customer_Registration_Date
  * @property string $bookstore_name
+ * @property string $Contact_Person
  *
  * @property \App\Model\Entity\Order[] $orders
  */
@@ -36,11 +33,8 @@ class Customer extends Entity
         'bookstore_name' => true,
         'Name' => true,
         'Phone_Number' => true,
-        'Address' => true,
-        'Delivery_Conditions' => true,
         'Contact_Person' => true,
         'remark' => true,
-        'Customer_Registration_Date' => true,
         'orders' => true,
     ];
 }
