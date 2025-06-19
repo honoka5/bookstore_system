@@ -20,7 +20,7 @@ class RegOrdersController extends AppController
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
-                'customer_name LIKE' => '%' . $keyword . '%',
+                'Name LIKE' => '%' . $keyword . '%',
             ]);
         }
         $customers = $query;

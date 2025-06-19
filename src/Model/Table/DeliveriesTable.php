@@ -46,8 +46,8 @@ class DeliveriesTable extends Table
             'joinType' => 'INNER',
         ]);
 
-        $this->hasMany('DeliveryContentManagement', [
-            'foreignKey' => 'delivery_id',
+        $this->hasMany('delivery_items', [
+            'foreignKey' => 'deliveryItem_id',
         ]);
         // ここを追加
         $this->belongsTo('Orders', [
@@ -65,31 +65,21 @@ class DeliveriesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('order_number')
-            ->maxLength('order_number', 255)
-            ->requirePresence('order_number', 'create')
-            ->notEmptyString('order_number');
+            ->scalar('delivery_id')
+            ->maxLength('delivery_id', 5)
+            ->requirePresence('delivery_id', 'create')
+            ->notEmptyString('delivery_id');
 
         $validator
-            ->scalar('order_id')
-            ->maxLength('order_id', 255)
-            ->notEmptyString('order_id');
-
-        $validator
-            ->decimal('delivery_total')
-            ->requirePresence('delivery_total', 'create')
-            ->notEmptyString('delivery_total');
+            ->scalar('customer_id')
+            ->maxLength('customer_id', 5)
+            ->requirePresence('customer_id', 'create')
+            ->notEmptyString('customer_id');
 
         $validator
             ->date('delivery_date')
             ->requirePresence('delivery_date', 'create')
             ->notEmptyDate('delivery_date');
-
-        $validator
-            ->scalar('customer_id')
-            ->maxLength('customer_id', 255)
-            ->requirePresence('customer_id', 'create')
-            ->notEmptyString('customer_id');
 
         return $validator;
     }
