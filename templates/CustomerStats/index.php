@@ -27,6 +27,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>顧客ID</th>
                     <th>顧客名</th>
                     <th>累計売上金額</th>
                     <th>平均リードタイム</th>
@@ -47,6 +48,7 @@
                         }
                     ?>
                     <tr>
+                        <td><?= h($customer->customer_id) ?></td>
                         <td><?= h($customer->Name) ?></td>
                         <?php if ($stat): ?>
                             <td><?= h($stat->total_purchase_amt) ?></td>
