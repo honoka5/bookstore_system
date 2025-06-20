@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 /**
  * Customers Controller
  */
@@ -51,17 +53,40 @@ class CustomersController extends AppController
     public function add()
     {
         $customer = $this->Customers->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $customer = $this->Customers->patchEntity($customer, $this->request->getData());
-            if ($this->Customers->save($customer)) {
-                $this->Flash->success(__('The customer has been saved.'));
+         // Excelアップロード処理
+    if ( $this->request->is('post') &&
+        $this->request->getData('excel_upload') !== null) {
+        $file = $this->request->getData('excel_file');
+        if ($file->getError() === UPLOAD_ERR_OK) {
+            $spreadsheet = IOFactory::load($file->getStream()->getMetadata('uri'));
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray();
 
-                return $this->redirect(['action' => 'index']);
+            // 1行目はヘッダーとしてスキップ
+            foreach (array_slice($rows, 1) as $row) {
+                $entity = $this->Customers->newEntity([
+                    'name' => $row[0] ?? '',
+                    'phone_number' => $row[1] ?? '',
+                    'contact_person' => $row[2] ?? '',
+                ]);
+                $this->Customers->save($entity);
             }
-            $this->Flash->error(__('The customer could not be saved. Please, try again.'));
+            $this->Flash->success('Excelから顧客を一括登録しました。');
+            return $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('customer'));
     }
+
+    // 通常のフォーム登録
+    if ($this->request->is('post') && $this->request->getData('excel_upload') === null) {
+        $customer = $this->Customers->patchEntity($customer, $this->request->getData());
+        if ($this->Customers->save($customer)) {
+            $this->Flash->success(__('The customer has been saved.'));
+ return $this->redirect(['action' => 'index']);
+        }
+        $this->Flash->error(__('The customer could not be saved. Please, try again.'));
+    }
+    $this->set(compact('customer'));
+}
 
     /**
      * Edit method

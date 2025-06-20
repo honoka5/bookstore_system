@@ -55,22 +55,22 @@ class CustomersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 100)
-            ->requirePresence('Name', 'create')
-            ->notEmptyString('Name');
+            ->scalar('name')
+            ->maxLength('name', 100)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name');
 
         $validator
-            ->scalar('Phone_Number')
-            ->maxLength('Phone_Number', 14)
-            ->requirePresence('Phone_Number', 'create')
-            ->notEmptyString('Phone_Number');
+            ->scalar('phone_number')
+            ->maxLength('phone_number', 14)
+            ->requirePresence('phone_number', 'create')
+            ->notEmptyString('phone_number');
 
         $validator
-            ->scalar('Contact_Person')
-            ->maxLength('Contact_Person', 15)
-            ->requirePresence('Contact_Person', 'create')
-            ->notEmptyString('Contact_Person');
+            ->scalar('contact_person')
+            ->maxLength('contact_person', 15)
+            ->requirePresence('contact_person', 'create')
+            ->notEmptyString('contact_person');
 
         $validator
             ->scalar('remark')
