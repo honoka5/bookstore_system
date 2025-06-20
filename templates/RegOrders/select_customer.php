@@ -10,6 +10,7 @@
     <?php else: ?>
         <table>
             <tr>
+                <th>顧客ID</th>
                 <th>顧客名</th>
                 <th>電話番号</th>
                 <th>担当者名</th>
@@ -17,6 +18,7 @@
             </tr>
             <?php foreach ($customers as $customer): ?>
                 <tr>
+                    <td><?= h($customer->customer_id) ?></td>
                     <td><?= h($customer->Name) ?></td>
                     <td><?= h($customer->Phone_Number) ?></td>
                     <td><?= h($customer->Contact_Person) ?></td>
