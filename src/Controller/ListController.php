@@ -29,6 +29,9 @@ class ListController extends AppController
     {
         $this->viewBuilder()->setLayout('default');
 
+        $customersTable = $this->fetchTable('Customers');
+        $customers = $customersTable->find()->all();
+        $this->set(compact('customers'));
      
         $this->render('/CustomerList/index');
     }

@@ -145,14 +145,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($customers as $customer): ?>
-                        <tr>
-                            <td><?= h($customer->customer_id) ?></td>
-                            <td><?= h($customer->name) ?></td>
-                            <td><?= h($customer->phone_number) ?></td>
-                            <td><?= h($customer->contact_person) ?></td>
-                        </tr>
-                        <?php endforeach; ?>
+
+
+
+                    <?php if (!empty($customers)): ?>
+                            <?php foreach ($customers as $customer): ?>
+                                <tr>
+                                    <td><?= h($customer->customer_id) ?></td>
+                                    <td><?= h($customer->name) ?></td>
+                                    <td><?= h($customer->phone_number) ?></td>
+                                    <td><?= h($customer->contact_person) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
