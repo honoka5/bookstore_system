@@ -6,18 +6,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Customer Entity
+ * Statistic Entity
  *
+ * @property int $id
+ * @property \Cake\I18n\Date $calc_date
  * @property string $customer_id
- * @property string $Name
- * @property string $Phone_Number
- * @property string|null $remark
- * @property string $bookstore_name
- * @property string $Contact_Person
+ * @property string $avg_lead_time
+ * @property string $total_purchase_amt
  *
- * @property \App\Model\Entity\Order[] $orders
+ * @property \App\Model\Entity\Customer $customer
  */
-class Customer extends Entity
+class Statistic extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -29,12 +28,10 @@ class Customer extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'calc_date' => true,
         'customer_id' => true,
-        'bookstore_name' => true,
-        'Name' => true,
-        'Phone_Number' => true,
-        'Contact_Person' => true,
-        'remark' => true,
-        'orders' => true,
+        'avg_lead_time' => true,
+        'total_purchase_amt' => true,
+        'customer' => true,
     ];
 }

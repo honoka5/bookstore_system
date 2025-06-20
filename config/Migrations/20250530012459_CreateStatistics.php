@@ -41,7 +41,7 @@ class CreateStatistics extends AbstractMigration
             'null' => false,
             'signed' => false,
         ]);
-        $table->addColumn('calculation_date', 'date', [
+        $table->addColumn('calc_date', 'date', [
             'default' => null,
             'null' => true,
         ]);

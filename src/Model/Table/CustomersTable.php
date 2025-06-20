@@ -55,6 +55,12 @@ class CustomersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('bookstore_name')
+            ->maxLength('bookstore_name', 255)
+            ->requirePresence('bookstore_name', 'create')
+            ->notEmptyString('bookstore_name');
+
+        $validator
             ->scalar('Name')
             ->maxLength('Name', 100)
             ->requirePresence('Name', 'create')
