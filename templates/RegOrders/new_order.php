@@ -9,10 +9,10 @@
     </tr>
     <?php for ($i = 0; $i < 15; $i++): ?>
         <tr>
-            <td><?= $this->Form->control("order_items.$i.book_name", ['label' => false]) ?></td>
-            <td><?= $this->Form->control("order_items.$i.unit_price", ['label' => false]) ?></td>
-            <td><?= $this->Form->control("order_items.$i.book_amount", ['label' => false]) ?></td>
-            <td><?= $this->Form->control("order_items.$i.book_summary", ['label' => false]) ?></td>
+            <td><?= $this->Form->control("order_items.{$i}.book_title", ['label' => false]) ?></td>
+            <td><?= $this->Form->control("order_items.{$i}.unit_price", ['label' => false, 'type' => 'number']) ?></td>
+            <td><?= $this->Form->control("order_items.{$i}.book_amount", ['label' => false, 'type' => 'number']) ?></td>
+            <td><?= $this->Form->control("order_items.{$i}.book_summary", ['label' => false]) ?></td>
         </tr>
     <?php endfor; ?>
     <td colspan=4><?= $this->Form->control("orders.remark", ['label' => '備考']) ?></td>

@@ -12,14 +12,14 @@
             <tr>
                 <th>顧客名</th>
                 <th>電話番号</th>
-                <th>住所</th>
+                <th>担当者名</th>
                 <th>操作</th>
             </tr>
             <?php foreach ($customers as $customer): ?>
                 <tr>
                     <td><?= h($customer->Name) ?></td>
                     <td><?= h($customer->Phone_Number) ?></td>
-                    <td><?= h($customer->Address) ?></td>
+                    <td><?= h($customer->Contact_Person) ?></td>
                     <td><?= $this->Html->link('選択', ['action' => 'newOrder', $customer->customer_id]) ?></td>
                 </tr>
             <?php endforeach; ?>
