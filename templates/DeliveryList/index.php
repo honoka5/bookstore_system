@@ -13,113 +13,170 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-family: "MS UI Gothic", sans-serif;
+            font-size: 11px;
             background-color: #f0f0f0;
-            padding: 20px;
+            padding: 10px;
         }
 
-        .container {
+        .main-container {
             background-color: #f0f0f0;
-            border: 2px solid #000;
+            border: 2px solid #808080;
+            border-top-color: #c0c0c0;
+            border-left-color: #c0c0c0;
             width: 480px;
             margin: 0 auto;
         }
 
+        /* Header Tabs */
         .header-tabs {
             display: flex;
-            border-bottom: 1px solid #000;
+            border-bottom: 1px solid #808080;
         }
 
         .tab {
-            padding: 8px 16px;
-            background-color: #e0e0e0;
-            border-right: 1px solid #000;
+            background-color: #f0f0f0;
+            border-right: 1px solid #808080;
+            padding: 4px 8px;
             font-size: 11px;
-            text-align: center;
-            flex: 1;
+            height: 22px;
+            display: flex;
+            align-items: center;
         }
 
         .tab:first-child {
-            max-width: 80px;
-            flex: none;
+            width: 50px;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .tab:nth-child(2) {
+            width: 80px;
+            justify-content: center;
         }
 
         .tab:last-child {
-            border-right: none;
+            flex: 1;
+            padding-left: 12px;
         }
 
+        /* Content Area */
         .content-area {
-            padding: 15px;
+            padding: 8px;
             background-color: #f0f0f0;
         }
 
+        /* Search Section */
         .search-section {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            gap: 8px;
+            margin-bottom: 8px;
+            gap: 6px;
         }
 
-        .search-input {
-            width: 180px;
-            height: 22px;
+        .search-icon {
+            width: 16px;
+            height: 16px;
+            background-color: #e0e0e0;
             border: 1px solid #808080;
-            background-color: white;
-            padding: 2px 4px;
-            font-size: 11px;
+            border-top-color: #c0c0c0;
+            border-left-color: #c0c0c0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
         }
 
         .search-btn {
             background-color: #e0e0e0;
             border: 1px solid #808080;
-            padding: 3px 12px;
+            border-top-color: #c0c0c0;
+            border-left-color: #c0c0c0;
+            padding: 2px 12px;
             font-size: 11px;
+            height: 20px;
             cursor: pointer;
-            height: 22px;
         }
 
+        .search-btn:active {
+            border-top-color: #808080;
+            border-left-color: #808080;
+            border-bottom-color: #c0c0c0;
+            border-right-color: #c0c0c0;
+        }
+
+        /* Table Container */
         .table-container {
-            border: 1px solid #808080;
+            border: 2px solid #808080;
+            border-top-color: #404040;
+            border-left-color: #404040;
             background-color: white;
-            height: 160px;
+            height: 140px;
             position: relative;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
+        }
+
+        .table-wrapper {
+            height: 100%;
+            overflow: hidden;
+            padding-right: 16px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 11px;
         }
 
         th {
             background-color: #e0e0e0;
             border: 1px solid #808080;
-            padding: 6px 8px;
+            border-top-color: #c0c0c0;
+            border-left-color: #c0c0c0;
+            padding: 2px 4px;
             text-align: left;
             font-weight: normal;
+            height: 18px;
             font-size: 11px;
-            height: 24px;
         }
 
         td {
-            border-right: 1px solid #c0c0c0;
-            border-bottom: 1px solid #c0c0c0;
-            padding: 4px 8px;
+            border-right: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1px 4px;
+            height: 16px;
             font-size: 11px;
-            height: 20px;
+            background-color: white;
+        }
+
+        /* Row Selection */
+        .row-selected {
+            background-color: #0066cc !important;
         }
 
         .row-selected td {
-            background-color: #316AC5;
+            background-color: #0066cc !important;
             color: white;
         }
 
-        .row-normal:hover td {
-            background-color: #f0f0f0;
-            cursor: pointer;
+        .row-normal:hover {
+            background-color: #e6f3ff;
         }
 
+        .row-normal:hover td {
+            background-color: #e6f3ff;
+        }
+
+        /* Column Widths */
+        th:nth-child(1), td:nth-child(1) { width: 60px; }
+        th:nth-child(2), td:nth-child(2) { width: 50px; }
+        th:nth-child(3), td:nth-child(3) { width: 120px; }
+        th:nth-child(4), td:nth-child(4) { width: 60px; }
+        th:nth-child(5), td:nth-child(5) { width: 80px; }
+        th:nth-child(6), td:nth-child(6) { width: 40px; }
+
+        /* Scrollbar */
         .scrollbar-container {
             position: absolute;
             right: 0;
@@ -130,28 +187,48 @@
             border-left: 1px solid #808080;
         }
 
-        .scrollbar-thumb {
-            width: 14px;
-            height: 40px;
-            background-color: #c0c0c0;
-            border: 1px solid #808080;
-            margin: 1px;
-            cursor: pointer;
-        }
-
         .scrollbar-arrow {
-            width: 14px;
+            width: 16px;
             height: 16px;
             background-color: #e0e0e0;
             border: 1px solid #808080;
-            margin: 1px;
+            border-top-color: #c0c0c0;
+            border-left-color: #c0c0c0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 8px;
             cursor: pointer;
+            margin: -1px 0;
         }
 
+        .scrollbar-arrow:active {
+            border-top-color: #808080;
+            border-left-color: #808080;
+            border-bottom-color: #c0c0c0;
+            border-right-color: #c0c0c0;
+        }
+
+        .scrollbar-track {
+            flex: 1;
+            background-color: #e0e0e0;
+            position: relative;
+        }
+
+        .scrollbar-thumb {
+            width: 14px;
+            height: 40px;
+            background-color: #c0c0c0;
+            border: 1px solid #808080;
+            border-top-color: #e0e0e0;
+            border-left-color: #e0e0e0;
+            margin: 1px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+        }
+
+        /* Button Section */
         .button-section {
             display: flex;
             justify-content: space-between;
@@ -160,100 +237,154 @@
         .action-btn {
             background-color: #e0e0e0;
             border: 1px solid #808080;
-            padding: 6px 20px;
+            border-top-color: #c0c0c0;
+            border-left-color: #c0c0c0;
+            padding: 4px 20px;
             font-size: 11px;
             cursor: pointer;
-            min-width: 50px;
+            height: 22px;
         }
 
         .action-btn:active {
-            background-color: #d0d0d0;
+            border-top-color: #808080;
+            border-left-color: #808080;
+            border-bottom-color: #c0c0c0;
+            border-right-color: #c0c0c0;
         }
 
-        /* テーブルの幅調整 */
-        th:nth-child(1),
-        td:nth-child(1) {
-            width: 80px;
+        /* Icons in rightmost column */
+        .icon-cell {
+            text-align: center;
+            font-size: 10px;
+            color: #666;
         }
 
-        th:nth-child(2),
-        td:nth-child(2) {
-            width: 140px;
+        /* Responsive adjustments */
+        @media screen and (max-width: 600px) {
+            .main-container {
+                width: 100%;
+                max-width: 480px;
+                min-width: 320px;
+            }
+            
+            body {
+                padding: 5px;
+            }
         }
 
-        th:nth-child(3),
-        td:nth-child(3) {
-            width: 80px;
-        }
-
-        th:nth-child(4),
-        td:nth-child(4) {
-            width: 100px;
-        }
-
-        th:nth-child(5),
-        td:nth-child(5) {
-            width: 80px;
+        @media screen and (max-width: 400px) {
+            .main-container {
+                width: 100%;
+            }
+            
+            .content-area {
+                padding: 5px;
+            }
+            
+            th, td {
+                font-size: 10px;
+                padding: 1px 2px;
+            }
+            
+            .tab {
+                font-size: 10px;
+                padding: 2px 4px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="main-container">
         <!-- Header Tabs -->
         <div class="header-tabs">
             <div class="tab">MBS</div>
             <div class="tab">納品書一覧</div>
-            <div class="tab">ホーム>一覧確認>納品書一覧</div>
+            <div class="tab">ホーム＞一覧確認＞納品書一覧</div>
         </div>
 
         <div class="content-area">
             <!-- Search Section -->
             <div class="search-section">
-                <input type="text" class="search-input" placeholder="">
+                <div class="search-icon">🔍</div>
+                <input type="text" id="searchInput" placeholder="検索キーワード" style="
+                    border: 1px solid #808080;
+                    border-top-color: #404040;
+                    border-left-color: #404040;
+                    padding: 2px 4px;
+                    font-size: 11px;
+                    height: 18px;
+                    width: 150px;
+                    background-color: white;
+                ">
                 <button class="search-btn" onclick="searchItems()">検索</button>
             </div>
 
             <!-- Data Table -->
             <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>納品書ID</th>
-                            <th>納客名</th>
-                            <th>金額</th>
-                            <th>納品日</th>
-                            <th>備考</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTable">
-                        <tr class="row-normal" onclick="selectRow(this)">
-                            <td>98</td>
-                            <td>大谷建設（株）</td>
-                            <td>20000</td>
-                            <td>2024/11/18</td>
-                            <td></td>
-                        </tr>
-                        <tr class="row-selected" onclick="selectRow(this)">
-                            <td>110</td>
-                            <td>大谷自菓子</td>
-                            <td>13000</td>
-                            <td>2024/11/20</td>
-                            <td></td>
-                        </tr>
-                        <tr class="row-normal" onclick="selectRow(this)">
-                            <td>123</td>
-                            <td>大谷自菓子</td>
-                            <td>2300</td>
-                            <td>2024/11/25</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>納品書ID</th>
+                                <th>得意先ID</th>
+                                <th>得意先名</th>
+                                <th>金額</th>
+                                <th>納品日</th>
+                                <th>備考</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <tr class="row-normal" onclick="selectRow(this)">
+                                <td>98</td>
+                                <td>10001</td>
+                                <td>大谷建設（株）</td>
+                                <td>20000</td>
+                                <td>2024/11/18</td>
+                                <td class="icon-cell">📝</td>
+                            </tr>
+                            <tr class="row-selected" onclick="selectRow(this)">
+                                <td>110</td>
+                                <td>20000</td>
+                                <td>大谷菓子</td>
+                                <td>13000</td>
+                                <td>2024/11/20</td>
+                                <td class="icon-cell">📝</td>
+                            </tr>
+                            <tr class="row-normal" onclick="selectRow(this)">
+                                <td>123</td>
+                                <td>30010</td>
+                                <td>大谷菓子店</td>
+                                <td>2300</td>
+                                <td>2024/11/25</td>
+                                <td class="icon-cell">📝</td>
+                            </tr>
+                            <tr class="row-normal" onclick="selectRow(this)">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="icon-cell"></td>
+                            </tr>
+                            <tr class="row-normal" onclick="selectRow(this)">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="icon-cell"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <!-- Scrollbar -->
                 <div class="scrollbar-container">
                     <div class="scrollbar-arrow" onclick="scrollUp()">▲</div>
-                    <div class="scrollbar-thumb"></div>
+                    <div class="scrollbar-track">
+                        <div class="scrollbar-thumb"></div>
+                    </div>
                     <div class="scrollbar-arrow" onclick="scrollDown()">▼</div>
                 </div>
             </div>
@@ -283,37 +414,73 @@
 
         // Search functionality
         function searchItems() {
-            const searchValue = document.querySelector('.search-input').value;
-            if (searchValue) {
-                alert('検索: ' + searchValue);
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm.trim()) {
+                alert('「' + searchTerm + '」で検索機能が実行されました');
+            } else {
+                alert('検索キーワードを入力してください');
             }
         }
 
         // Scroll functions
         function scrollUp() {
-            const container = document.querySelector('.table-container');
+            const container = document.querySelector('.table-wrapper');
             container.scrollTop -= 20;
         }
 
         function scrollDown() {
-            const container = document.querySelector('.table-container');
+            const container = document.querySelector('.table-wrapper');
             container.scrollTop += 20;
         }
 
         // Button actions
         function goBack() {
-            alert('戻る機能');
+            alert('戻る機能が実行されました');
         }
 
         function showDetails() {
             const selectedRow = document.querySelector('.row-selected');
             if (selectedRow) {
                 const id = selectedRow.cells[0].textContent;
-                alert('納品書ID ' + id + ' の詳細表示');
+                if (id.trim()) {
+                    alert('納品書ID ' + id + ' の詳細を表示します');
+                } else {
+                    alert('項目を選択してください');
+                }
             } else {
                 alert('項目を選択してください');
             }
         }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const selectedRow = document.querySelector('.row-selected');
+            const allRows = document.querySelectorAll('#dataTable tr');
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                let nextRow = selectedRow ? selectedRow.nextElementSibling : allRows[0];
+                if (nextRow) selectRow(nextRow);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                let prevRow = selectedRow ? selectedRow.previousElementSibling : allRows[allRows.length - 1];
+                if (prevRow) selectRow(prevRow);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                showDetails();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                goBack();
+            }
+        });
+
+        // Initialize with second row selected (as shown in image)
+        document.addEventListener('DOMContentLoaded', function() {
+            const secondRow = document.querySelectorAll('#dataTable tr')[1];
+            if (secondRow) {
+                selectRow(secondRow);
+            }
+        });
     </script>
 </body>
 
