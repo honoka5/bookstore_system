@@ -77,12 +77,6 @@ class CustomersTable extends Table
             ->maxLength('Contact_Person', 15)
             ->requirePresence('Contact_Person', 'create')
             ->notEmptyString('Contact_Person');
-
-        $validator
-            ->scalar('remark')
-            ->maxLength('remark', 255)
-            ->allowEmptyString('remark');
-
         return $validator;
     }
 }

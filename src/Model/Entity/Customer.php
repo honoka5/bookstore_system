@@ -34,7 +34,6 @@ class Customer extends Entity
         'Name' => true,
         'Phone_Number' => true,
         'Contact_Person' => true,
-        'remark' => true,
         'orders' => true,
     ];
 }
