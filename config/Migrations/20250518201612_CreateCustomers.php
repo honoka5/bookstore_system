@@ -26,7 +26,7 @@ class CreateCustomers extends AbstractMigration
             'limit' => 5,
             'null' => false,
         ]);
-        $table->addColumn('Name', 'string', [
+        $table->addColumn('name', 'string', [
             'default' => null,
             'limit' => 100,
             'null' => false,
@@ -35,12 +35,12 @@ class CreateCustomers extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('Phone_Number', 'string', [
+        $table->addColumn('phone_number', 'string', [
             'default' => null,
             'limit' => 14,
             'null' => false,
         ]);
-        $table->addColumn('Contact_Person', 'string', [
+        $table->addColumn('contact_person', 'string', [
             'default' => null,
             'limit' => 15,
             'null' => true,
