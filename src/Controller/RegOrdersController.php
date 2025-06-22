@@ -60,12 +60,12 @@ class RegOrdersController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->getData();
 
-            // バリデーション: 数量・単価がマイナスの場合はエラー
+            // バリデーション: 数量・単価がマイナスまたは0の場合はエラー
             $invalid = false;
             foreach ($data['order_items'] as $item) {
                 if (
-                    (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] < 0) ||
-                    (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] < 0)
+                    (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) ||
+                    (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] <= 0)
                 ) {
                     $invalid = true;
                     break;
