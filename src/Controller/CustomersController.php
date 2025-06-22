@@ -69,12 +69,11 @@ class CustomersController extends AppController
                     'name'           => $row[1] ?? '', // 2列目: 顧客名
                     'phone_number'   => $row[2] ?? '', // 3列目: 電話番号
                     'contact_person' => $row[3] ?? '', // 4列目: 担当者名
-                    // 必要に応じて他のカラムも
                 ]);
                 $this->Customers->save($entity);
             }
             $this->Flash->success('Excelから顧客を一括登録しました。');
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['controller' => 'List','action' => 'customer']);// 顧客一覧画面へデータ反映
         }
     }
 
