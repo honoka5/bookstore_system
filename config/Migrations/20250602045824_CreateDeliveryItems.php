@@ -92,6 +92,12 @@ class CreateDeliveryItems extends AbstractMigration
         ['deliveryItem_id' => '000018', 'delivery_id' => '00018', 'orderItem_id' => '000018', 'book_title' => 'ネットワーク構築', 'unit_price' => 3777, 'book_amount' => 10, 'is_delivered_flag' => true, 'leadTime' => 100],
         ['deliveryItem_id' => '000019', 'delivery_id' => '00019', 'orderItem_id' => '000019', 'book_title' => 'Linuxコマンド集', 'unit_price' => 4976, 'book_amount' => 5, 'is_delivered_flag' => true, 'leadTime' => 100],
         ['deliveryItem_id' => '000020', 'delivery_id' => '00020', 'orderItem_id' => '000020', 'book_title' => 'データベース設計', 'unit_price' => 1026, 'book_amount' => 9, 'is_delivered_flag' => true, 'leadTime' => 100],
+        ['deliveryItem_id' => '200001', 'delivery_id' => null, 'orderItem_id' => '200001', 'book_title' => 'Python入門', 'unit_price' => 4444, 'book_amount' => 9, 'is_delivered_flag' => false, 'leadTime' => null],
+        ['deliveryItem_id' => '200002', 'delivery_id' => null, 'orderItem_id' => '200002', 'book_title' => 'AIの未来', 'unit_price' => 4307, 'book_amount' => 8, 'is_delivered_flag' => false, 'leadTime' => null],
+        ['deliveryItem_id' => '200003', 'delivery_id' => null, 'orderItem_id' => '200003', 'book_title' => 'データサイエンス基礎', 'unit_price' => 2666, 'book_amount' => 4, 'is_delivered_flag' => false, 'leadTime' => null],
+        ['deliveryItem_id' => '200004', 'delivery_id' => null, 'orderItem_id' => '200004', 'book_title' => '機械学習実践', 'unit_price' => 3116, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
+        ['deliveryItem_id' => '200005', 'delivery_id' => null, 'orderItem_id' => '200005', 'book_title' => '深層学習と応用', 'unit_price' => 2370, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
+        ['deliveryItem_id' => '200006', 'delivery_id' => null, 'orderItem_id' => '200006', 'book_title' => '統計学入門', 'unit_price' => 1451, 'book_amount' => 10, 'is_delivered_flag' => false, 'leadTime' => null],
         ];
         $this->table('delivery_items')->insert($rows)->saveData();
 
