@@ -4,11 +4,20 @@
     <button type="submit">検索</button>
 </form>
 
-<?php if (!empty($keyword)): ?>
+<?php
+// 検索ボタンを押さなくてもリストが表示されるように修正
+if (empty($keyword)) {
+    // 検索キーワードが空の場合も全件ページング表示
+    $showList = true;
+} else {
+    $showList = true;
+}
+?>
+<?php if ($showList): ?>
     <?php if (empty($customers) || count($customers->toArray()) === 0): ?>
         <p style="color:red;">顧客が見つかりませんでした</p>
     <?php else: ?>
-        <table>
+        <table id="customer-table">
             <tr>
                 <th>顧客ID</th>
                 <th>顧客名</th>
@@ -17,7 +26,7 @@
                 <th>操作</th>
             </tr>
             <?php foreach ($customers as $customer): ?>
-                <tr>
+                <tr class="selectable-row" data-href="<?= $this->Url->build(['action' => 'select_deliveries', $customer->customer_id]) ?>">
                     <td><?= h($customer->customer_id) ?></td>
                     <td><?= h($customer->Name) ?></td>
                     <td><?= h($customer->Phone_Number) ?></td>
@@ -26,6 +35,37 @@
                 </tr>
             <?php endforeach; ?>
         </table>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var rows = document.querySelectorAll('#customer-table .selectable-row');
+            rows.forEach(function(row) {
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', function(e) {
+                    // ボタン押下時は二重遷移防止
+                    if (e.target.tagName.toLowerCase() === 'a') return;
+                    window.location = row.getAttribute('data-href');
+                });
+            });
+        });
+        </script>
+        <?php
+        // ページング矢印
+        $baseUrl = $this->Url->build([
+            'action' => 'select_customer',
+        ]);
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+        $queryStr = http_build_query($queryParams);
+        ?>
+        <div style="margin-top:10px; text-align:center;">
+            <?php if ($totalPages > 1 && $page > 1): ?>
+                <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page - 1) ?>">&lt; 前へ</a>
+            <?php endif; ?>
+            <span> <?= $page ?> / <?= $totalPages ?> </span>
+            <?php if ($totalPages > 1 && $page < $totalPages): ?>
+                <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page + 1) ?>">次へ &gt;</a>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 <?php endif; ?>
 <!-- 戻るボタンを左下に配置 -->
@@ -48,5 +88,9 @@
         left: 20px;
         bottom: 20px;
         z-index: 100;
+    }
+    #customer-table .selectable-row:hover {
+        background-color:hsl(210, 77.00%, 67.60%);
+        transition: background-color 0.2s;
     }
 </style>

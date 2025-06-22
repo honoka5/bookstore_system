@@ -11,6 +11,9 @@
     <?= $this->Form->create(null, ['url' => ['action' => 'registerDeliveries']]) ?>
     <input type="hidden" name="customer_id" value="<?= h($customerId) ?>">
     <div class="table-responsive">
+        <?php if (empty($deliveryItems) || count($deliveryItems) === 0): ?>
+            <p style="color:red;">未納品の商品はありません</p>
+        <?php else: ?>
         <table>
             <thead>
                 <tr>
@@ -46,9 +49,10 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-    </div>
-    <div style="text-align: right; margin-top: 1em;">
-        <button type="submit" class="btn btn-success">登録</button>
+        <div style="text-align: right; margin-top: 1em;">
+            <button type="submit" class="btn btn-success">登録</button>
+        </div>
+        <?php endif; ?>
     </div>
     <?= $this->Form->end() ?>
     <?php $flashMsg = $this->Flash->render(); ?>

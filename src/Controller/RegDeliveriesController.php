@@ -17,14 +17,25 @@ class RegDeliveriesController extends AppController
     public function selectCustomer()
     {
         $keyword = $this->request->getQuery('keyword');
+        $page = (int)$this->request->getQuery('page', 1);
+        $limit = 10;
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
-                'Name LIKE' => '%' . $keyword . '%',
+                'OR' => [
+                    'Name LIKE' => '%' . $keyword . '%',
+                    'customer_id LIKE' => '%' . $keyword . '%',
+                    'Contact_Person LIKE' => '%' . $keyword . '%',
+                ]
             ]);
         }
-        $customers = $query;
-        $this->set(compact('customers', 'keyword'));
+        $total = $query->count();
+        $customers = $query
+            ->order(['customer_id' => 'ASC'])
+            ->limit($limit)
+            ->offset(($page - 1) * $limit);
+        $totalPages = ($limit > 0) ? (int)ceil($total / $limit) : 1;
+        $this->set(compact('customers', 'keyword', 'page', 'limit', 'total', 'totalPages'));
     }
 
     // 納品内容選択画面
