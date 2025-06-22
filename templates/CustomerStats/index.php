@@ -76,14 +76,13 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?php if ($selectedBookstore): ?>
+        <?php // 計算ボタンは全店舗選択時も表示する ?>
         <div style="text-align:right; margin-top:1em;">
             <?= $this->Form->create(null, ['url' => ['action' => 'calculate']]) ?>
             <?= $this->Form->hidden('bookstore_name', ['value' => $selectedBookstore]) ?>
             <button type="submit">計算</button>
             <?= $this->Form->end() ?>
         </div>
-        <?php endif; ?>
         <?php
             // ページングUI
             $totalPages = (int)ceil($total / $limit);
