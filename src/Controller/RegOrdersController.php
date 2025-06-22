@@ -22,7 +22,11 @@ class RegOrdersController extends AppController
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
-                'Name LIKE' => '%' . $keyword . '%',
+                'OR' => [
+                    'Name LIKE' => '%' . $keyword . '%',
+                    'customer_id LIKE' => '%' . $keyword . '%',
+                    'Contact_Person LIKE' => '%' . $keyword . '%',
+                ]
             ]);
         }
         $total = $query->count();
