@@ -66,3 +66,14 @@
     <?php endif; ?>
     </script>
 </div>
+<div class="bottom-left-btn">
+    <?= $this->Html->link('戻る', ['controller' => 'RegDeliveries', 'action' => 'selectCustomer'], ['class' => 'button']) ?>
+</div>
+<style>
+.bottom-left-btn {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 100;
+}
+</style>
