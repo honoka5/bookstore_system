@@ -17,14 +17,20 @@ class RegOrdersController extends AppController
     public function selectCustomer()
     {
         $keyword = $this->request->getQuery('keyword');
+        $page = (int)$this->request->getQuery('page', 1);
+        $limit = 10;
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
                 'Name LIKE' => '%' . $keyword . '%',
             ]);
         }
-        $customers = $query;
-        $this->set(compact('customers', 'keyword'));
+        $total = $query->count();
+        $customers = $query
+            ->order(['customer_id' => 'ASC'])
+            ->limit($limit)
+            ->offset(($page - 1) * $limit);
+        $this->set(compact('customers', 'keyword', 'page', 'limit', 'total'));
     }
 
     /**

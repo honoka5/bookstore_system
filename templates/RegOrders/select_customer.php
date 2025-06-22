@@ -4,7 +4,16 @@
     <button type="submit">検索</button>
 </form>
 
-<?php if (!empty($keyword)): ?>
+<?php
+// 検索ボタンを押さなくてもリストが表示されるように修正
+if (empty($keyword)) {
+    // 検索キーワードが空の場合も全件ページング表示
+    $showList = true;
+} else {
+    $showList = true;
+}
+?>
+<?php if ($showList): ?>
     <?php if (empty($customers) || count($customers->toArray()) === 0): ?>
         <p style="color:red;">顧客が見つかりませんでした</p>
     <?php else: ?>
@@ -26,6 +35,25 @@
                 </tr>
             <?php endforeach; ?>
         </table>
+        <?php
+        // ページング矢印
+        $totalPages = ceil($total / $limit);
+        $baseUrl = $this->Url->build([
+            'action' => 'selectCustomer',
+        ]);
+        $queryParams = $_GET;
+        unset($queryParams['page']);
+        $queryStr = http_build_query($queryParams);
+        ?>
+        <div style="margin-top:10px; text-align:center;">
+            <?php if ($page > 1): ?>
+                <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page - 1) ?>">&lt; 前へ</a>
+            <?php endif; ?>
+            <span> <?= $page ?> / <?= $totalPages ?> </span>
+            <?php if ($page < $totalPages): ?>
+                <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page + 1) ?>">次へ &gt;</a>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 <?php endif; ?>
 <!-- 戻るボタンを左下に配置 -->
