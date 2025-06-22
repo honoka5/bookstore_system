@@ -65,9 +65,11 @@ class CustomersController extends AppController
             // 1行目はヘッダーとしてスキップ
             foreach (array_slice($rows, 1) as $row) {
                 $entity = $this->Customers->newEntity([
-                    'name' => $row[0] ?? '',
-                    'phone_number' => $row[1] ?? '',
-                    'contact_person' => $row[2] ?? '',
+                    'customer_id'    => $row[0] ?? '', // 1列目: 顧客ID
+                    'name'           => $row[1] ?? '', // 2列目: 顧客名
+                    'phone_number'   => $row[2] ?? '', // 3列目: 電話番号
+                    'contact_person' => $row[3] ?? '', // 4列目: 担当者名
+                    // 必要に応じて他のカラムも
                 ]);
                 $this->Customers->save($entity);
             }
