@@ -22,13 +22,36 @@ class CustomerStatsController extends AppController
             ->order(['bookstore_name' => 'ASC'])
             ->all();
         $selectedBookstore = $this->request->getQuery('bookstore_name');
-        $customers = [];
+
+        // ページング用
+        $limit = 10;
+        $page = (int)($this->request->getQuery('page') ?? 1);
+        if ($page < 1) $page = 1;
+        $sort = $this->request->getQuery('sort') ?? 'customer_id';
+        $direction = strtolower($this->request->getQuery('direction') ?? 'asc');
+        if (!in_array($direction, ['asc', 'desc'])) $direction = 'asc';
+        $query = $customersTable->find();
         if ($selectedBookstore) {
-            $customers = $customersTable->find()
-                ->where(['bookstore_name' => $selectedBookstore])
-                ->all();
+            $query = $query->where(['bookstore_name' => $selectedBookstore]);
         }
-        $this->set(compact('bookstoreNames', 'selectedBookstore', 'customers'));
+        $total = $query->count();
+        // ソート条件
+        if ($sort === 'customer_id') {
+            $query = $query->order(['customer_id' => $direction]);
+        } elseif ($sort === 'total_purchase_amt' || $sort === 'avg_lead_time') {
+            // Statisticsテーブルを直接JOIN
+            $query = $query->leftJoin(
+                ['Statistics' => 'statistics'],
+                ['Statistics.customer_id = Customers.customer_id']
+            )->order(["Statistics.$sort" => $direction, 'Customers.customer_id' => 'ASC']);
+        } else {
+            $query = $query->order(['customer_id' => 'ASC']);
+        }
+        $customers = $query
+            ->limit($limit)
+            ->offset(($page - 1) * $limit)
+            ->all();
+        $this->set(compact('bookstoreNames', 'selectedBookstore', 'customers', 'limit', 'page', 'total', 'sort', 'direction'));
     }
 
     /**
@@ -52,7 +75,12 @@ class CustomerStatsController extends AppController
         $orderItemsTable = $this->fetchTable('OrderItems');
         $ordersTable = $this->fetchTable('Orders');
         $now = \Cake\I18n\FrozenDate::now();
-        $customers = $customersTable->find()->where(['bookstore_name' => $selectedBookstore])->all();
+        // 店舗未選択時は全顧客、選択時は該当店舗のみ
+        if ($selectedBookstore) {
+            $customers = $customersTable->find()->where(['bookstore_name' => $selectedBookstore])->all();
+        } else {
+            $customers = $customersTable->find()->all();
+        }
         foreach ($customers as $customer) {
             $customerId = $customer->customer_id;
 
