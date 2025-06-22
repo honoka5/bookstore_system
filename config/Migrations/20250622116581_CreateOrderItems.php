@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Phinx\Migration\AbstractMigration;
 
 class CreateOrderItems extends AbstractMigration
 {
