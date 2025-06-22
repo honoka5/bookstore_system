@@ -17,7 +17,7 @@ if (empty($keyword)) {
     <?php if (empty($customers) || count($customers->toArray()) === 0): ?>
         <p style="color:red;">顧客が見つかりませんでした</p>
     <?php else: ?>
-        <table>
+        <table id="customer-table">
             <tr>
                 <th>顧客ID</th>
                 <th>顧客名</th>
@@ -26,7 +26,7 @@ if (empty($keyword)) {
                 <th>操作</th>
             </tr>
             <?php foreach ($customers as $customer): ?>
-                <tr>
+                <tr class="selectable-row" data-href="<?= $this->Url->build(['action' => 'newOrder', $customer->customer_id]) ?>">
                     <td><?= h($customer->customer_id) ?></td>
                     <td><?= h($customer->Name) ?></td>
                     <td><?= h($customer->Phone_Number) ?></td>
@@ -35,6 +35,19 @@ if (empty($keyword)) {
                 </tr>
             <?php endforeach; ?>
         </table>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var rows = document.querySelectorAll('#customer-table .selectable-row');
+            rows.forEach(function(row) {
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', function(e) {
+                    // ボタン押下時は二重遷移防止
+                    if (e.target.tagName.toLowerCase() === 'a') return;
+                    window.location = row.getAttribute('data-href');
+                });
+            });
+        });
+        </script>
         <?php
         // ページング矢印
         $totalPages = ceil($total / $limit);
@@ -76,5 +89,9 @@ if (empty($keyword)) {
         left: 20px;
         bottom: 20px;
         z-index: 100;
+    }
+    #customer-table .selectable-row:hover {
+        background-color:hsl(210, 77.00%, 67.60%);
+        transition: background-color 0.2s;
     }
 </style>
