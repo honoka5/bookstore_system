@@ -153,7 +153,6 @@
                                 <tr>
                                     <td><?= h($customer->customer_id) ?></td>
                                     <td><?= h($customer->name) ?></td>
-                                    <td><?= h($customer->phone_number) ?></td>
                                     <td><?= h($customer->contact_person) ?></td>
                                 </tr>
                             <?php endforeach; ?>
