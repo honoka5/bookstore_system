@@ -11,12 +11,12 @@
     </thead>
     <tbody>
         <?php foreach ($orders as $order): ?>
-        <tr>
-            <td><?= h($order->id) ?></td>
-            <td><?= h($order->product_name) ?></td>
-            <td><?= h($order->quantity) ?></td>
-            <td><?= h($order->order_date) ?></td>
-        </tr>
+            <tr>
+                <td><?= h($order->id) ?></td>
+                <td><?= h($order->product_name) ?></td>
+                <td><?= h($order->quantity) ?></td>
+                <td><?= h($order->order_date) ?></td>
+            </tr>
         <?php endforeach; ?>
     </tbody>
 </table>

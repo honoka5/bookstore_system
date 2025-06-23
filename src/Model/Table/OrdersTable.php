@@ -10,21 +10,22 @@ use Cake\Validation\Validator;
 /**
  * Orders Model
  *
- * @property \App\Model\Table\CustomersTable&\Cake\ORM\Association\BelongsTo $Customers
+ * @property \App\Model\Table\CustomersTable $Customers
  * @method \App\Model\Entity\Order newEmptyEntity()
- * @method \App\Model\Entity\Order newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\Order> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Order get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Order findOrCreate($search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\Order patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\Order> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Order|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Order saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order>|false saveMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order> saveManyOrFail(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order>|false deleteMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Order newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Order> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Order get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\Order findOrCreate(array<string, mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Order patchEntity(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Order> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Order|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Order saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order>|false saveMany(iterable<\App\Model\Entity\Order> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order> saveManyOrFail(iterable<\App\Model\Entity\Order> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order>|false deleteMany(iterable<\App\Model\Entity\Order> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order> deleteManyOrFail(iterable<\App\Model\Entity\Order> $entities, array<string, mixed> $options = [])
  */
+
 class OrdersTable extends Table
 {
     /**
@@ -57,7 +58,7 @@ class OrdersTable extends Table
     {
         $validator
             ->scalar('customer_id')
-            ->maxLength('customer_id', 4)
+            ->maxLength('customer_id', 5)
             ->notEmptyString('customer_id');
 
         $validator

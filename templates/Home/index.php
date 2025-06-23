@@ -1,21 +1,180 @@
-<h1>ホーム</h1>
-
-<p><?= $this->Html->link('注文管理', ['controller' => 'Orders', 'action' => 'index'], ['class' => 'button']) ?></p>
-<p><?= $this->Html->link('納品書管理', ['controller' => 'Deliveries', 'action' => 'index'], ['class' => 'button']) ?></p>
-<p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'selectCustomer'], ['class' => 'button']) ?></p>
-<p></p>
-
-<style>
-.button {
-    display: inline-block;
-    margin: 8px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 20px;
-    text-decoration: none;
-}
-.button:hover {
-    background-color: #0056b3;
-}
-</style>
+<!DOCTYPE html>
+<html lang="ja">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBS Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            background-color: rgb(251, 250, 250);
+            padding: 0;
+            min-height: 100vh;
+        }
+ 
+        .main-container {
+            background-color: #f0f0f0;
+            border: 2px solid #000;
+            max-width: 1100px;
+            min-width: 320px;
+            margin: 40px auto;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            padding-bottom: 40px;
+        }
+ 
+        .header-tabs {
+            display: flex;
+            border-bottom: 1px solid #000;
+            font-size: 22px;
+            height: 60px;
+        }
+ 
+        .tab {
+            padding: 16px 32px;
+            background-color:rgb(255, 250, 250);
+            border-right: 1px solid #000;
+            font-size: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+ 
+        .tab:first-child {
+            max-width: 120px;
+            flex: 0 0 auto;
+        }
+ 
+        .tab:last-child {
+            border-right: none;
+        }
+ 
+        .content-area {
+            padding: 40px 30px 0 30px;
+            background-color: #f0f0f0;
+        }
+ 
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 40px 60px;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+ 
+        .menu-button {
+            background-color: rgb(250, 248, 248);
+            border: 2px solid #808080;
+            padding: 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            cursor: pointer;
+            min-height: 180px;
+            min-width: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-wrap: break-word;
+            text-decoration: none;
+            border-radius: 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+ 
+        .menu-button:hover {
+            background-color: #87cefa;
+            color:rgb(0, 0, 0);
+            box-shadow: 0 4px 16px rgba(0, 209, 241, 0.15);
+        }
+ 
+        .menu-button:active {
+            background-color: #c0c0c0;
+        }
+ 
+        @media (max-width: 900px) {
+            .main-container {
+                max-width: 98vw;
+                margin: 10px;
+            }
+ 
+            .button-grid {
+                gap: 20px 10px;
+            }
+ 
+            .menu-button {
+                min-width: 140px;
+                font-size: 20px;
+                min-height: 100px;
+            }
+ 
+            .header-tabs {
+                font-size: 16px;
+                height: 40px;
+            }
+ 
+            .tab {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+ 
+        @media (max-width: 600px) {
+            .button-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                gap: 16px;
+            }
+ 
+            .menu-button {
+                min-width: 80px;
+                font-size: 16px;
+                min-height: 60px;
+            }
+ 
+            .content-area {
+                padding: 10px 2px 0 2px;
+            }
+        }
+    </style>
+</head>
+ 
+<body>
+    <div class="main-container">
+        <!-- Header Tabs -->
+        <div class="header-tabs">
+            <div class="tab">MBS</div>
+            <div class="tab">ホーム</div>
+            <div class="tab">ホーム</div>
+        </div>
+ 
+        <div class="content-area">
+            <div class="button-grid">
+                <p><?= $this->Html->link('一覧確認', ['controller' => 'List', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('統計情報', ['controller' => 'CustomerStats', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
+                <p><?= $this->Html->link('納品書作成', ['controller' => 'Deliveries', 'action' => 'add'], ['class' => 'menu-button']) ?></p>
+            </div>
+        </div>
+    </div>
+</body>
+ 
+</html>
+ 

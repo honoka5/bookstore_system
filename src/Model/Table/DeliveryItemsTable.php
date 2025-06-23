@@ -10,22 +10,23 @@ use Cake\Validation\Validator;
 /**
  * DeliveryItems Model
  *
- * @property \App\Model\Table\DeliveriesTable&\Cake\ORM\Association\BelongsTo $Deliveries
- * @property \App\Model\Table\OrderItemsTable&\Cake\ORM\Association\BelongsTo $OrderItems
+ * @property \App\Model\Table\DeliveriesTable $Deliveries
+ * @property \App\Model\Table\OrderItemsTable $OrderItems
  * @method \App\Model\Entity\DeliveryItem newEmptyEntity()
- * @method \App\Model\Entity\DeliveryItem newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\DeliveryItem> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\DeliveryItem get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\DeliveryItem findOrCreate($search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\DeliveryItem patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\DeliveryItem> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\DeliveryItem|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\DeliveryItem saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem>|false saveMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem> saveManyOrFail(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem>|false deleteMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\DeliveryItem newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\DeliveryItem> newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\DeliveryItem get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\DeliveryItem findOrCreate(array<string, mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\DeliveryItem patchEntity(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\DeliveryItem> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\DeliveryItem|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\DeliveryItem saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem>|false saveMany(iterable<\App\Model\Entity\DeliveryItem> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem> saveManyOrFail(iterable<\App\Model\Entity\DeliveryItem> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem>|false deleteMany(iterable<\App\Model\Entity\DeliveryItem> $entities, array<string, mixed> $options = [])
+ * @method iterable<\App\Model\Entity\DeliveryItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\DeliveryItem> deleteManyOrFail(iterable<\App\Model\Entity\DeliveryItem> $entities, array<string, mixed> $options = [])
  */
+
 class DeliveryItemsTable extends Table
 {
     /**
@@ -45,6 +46,7 @@ class DeliveryItemsTable extends Table
         $this->belongsTo('Deliveries', [
             'foreignKey' => 'delivery_id',
             'joinType' => 'INNER',
+            'className' => 'App\Model\Table\DeliveriesTable',
         ]);
         $this->belongsTo('OrderItems', [
             'foreignKey' => 'orderItem_id',
@@ -71,10 +73,10 @@ class DeliveryItemsTable extends Table
             ->notEmptyString('orderItem_id');
 
         $validator
-            ->scalar('book_name')
-            ->maxLength('book_name', 255)
-            ->requirePresence('book_name', 'create')
-            ->notEmptyString('book_name');
+            ->scalar('book_title')
+            ->maxLength('book_title', 255)
+            ->requirePresence('book_title', 'create')
+            ->notEmptyString('book_title');
 
         $validator
             ->decimal('unit_price')
@@ -87,17 +89,13 @@ class DeliveryItemsTable extends Table
             ->notEmptyString('book_amount');
 
         $validator
-            ->boolean('isNotDeliveried')
-            ->requirePresence('isNotDeliveried', 'create')
-            ->notEmptyString('isNotDeliveried');
+            ->boolean('is_delivered_flag')
+            ->requirePresence('is_delivered_flag', 'create')
+            ->notEmptyString('is_delivered_flag');
 
         $validator
             ->decimal('leadTime')
             ->allowEmptyString('leadTime');
-
-        $validator
-            ->date('altDelivery_date')
-            ->allowEmptyDate('altDelivery_date');
 
         return $validator;
     }

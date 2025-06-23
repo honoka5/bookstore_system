@@ -11,9 +11,8 @@ use Cake\ORM\Entity;
  * @property string $delivery_id
  * @property string $customer_id
  * @property \Cake\I18n\Date $delivery_date
- * @property string $total_amount
  *
- * @property \App\Model\Entity\Customer $customer
+ * @property \App\Model\Entity\Order $order
  */
 class Delivery extends Entity
 {
@@ -30,7 +29,6 @@ class Delivery extends Entity
         'delivery_id' => true,
         'customer_id' => true,
         'delivery_date' => true,
-        'total_amount' => true,
         'customer' => true,
     ];
 }

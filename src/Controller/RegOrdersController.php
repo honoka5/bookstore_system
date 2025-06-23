@@ -17,18 +17,24 @@ class RegOrdersController extends AppController
     public function selectCustomer()
     {
         $keyword = $this->request->getQuery('keyword');
-        // 全角スペースもトリム
-        if ($keyword !== null) {
-            $keyword = preg_replace('/^[\s　]+|[\s　]+$/u', '', $keyword);
-        }
+        $page = (int)$this->request->getQuery('page', 1);
+        $limit = 10;
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
-                'customer_name LIKE' => '%' . $keyword . '%',
+                'OR' => [
+                    'Name LIKE' => '%' . $keyword . '%',
+                    'customer_id LIKE' => '%' . $keyword . '%',
+                    'Contact_Person LIKE' => '%' . $keyword . '%',
+                ]
             ]);
         }
-        $customers = $query;
-        $this->set(compact('customers', 'keyword'));
+        $total = $query->count();
+        $customers = $query
+            ->order(['customer_id' => 'ASC'])
+            ->limit($limit)
+            ->offset(($page - 1) * $limit);
+        $this->set(compact('customers', 'keyword', 'page', 'limit', 'total'));
     }
 
     /**
@@ -64,6 +70,24 @@ class RegOrdersController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->getData();
 
+            // バリデーション: 書籍名が空白・null、数量・単価が0以下の場合はエラー
+            $invalid = false;
+            foreach ($data['order_items'] as $item) {
+                $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                if (
+                    $bookTitle === '' ||
+                    (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) ||
+                    (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] <= 0)
+                ) {
+                    $invalid = true;
+                    break;
+                }
+            }
+            if ($invalid) {
+                $this->Flash->error('不正な値です');
+                return $this->redirect($this->request->getRequestTarget());
+            }
+
             $ordersTable = $this->fetchTable('Orders');
             $orderItemsTable = $this->fetchTable('OrderItems');
             $deliveryItemsTable = $this->fetchTable('DeliveryItems');
@@ -84,30 +108,31 @@ class RegOrdersController extends AppController
 
             // 2. 各注文内容＆納品内容の登録
             foreach ($data['order_items'] as $item) {
-                if (empty($item['book_name'])) {
+                if (empty($item['book_title'])) {
                     continue;
                 }
 
+                /** @var \App\Model\Entity\OrderItem $order */
                 $orderItem = $orderItemsTable->newEntity([
                     'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
                     'order_id' => $order->order_id,
-                    'book_name' => $item['book_name'],
+                    'book_title' => $item['book_title'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],
                     'book_summary' => $item['book_summary'] ?? null,
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
 
+                /** @var \App\Model\Entity\DeriveryItem $DeliveryItem */
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
                     'delivery_id' => null,
-                    'book_name' => $item['book_name'],
+                    'book_title' => $item['book_title'],
                     'unit_price' => $item['unit_price'],
                     'book_amount' => $item['book_amount'],
-                    'isNotDeliveried' => true,
-                    'lead_time' => null,
-                    'altDelivery_date' => null,
+                    'is_delivered_flag' => false,
+                    'leadTime' => null,
                 ]);
                 $deliveryItemsTable->saveOrFail($deliveryItem);
             }
@@ -116,7 +141,8 @@ class RegOrdersController extends AppController
 
             return $this->redirect(['action' => 'selectCustomer']);
         }
-
         $this->set(compact('customerId'));
+
+        return $this->render('new_order');
     }
 }
