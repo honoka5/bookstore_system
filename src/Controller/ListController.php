@@ -45,12 +45,12 @@ class ListController extends AppController
     public function order()
     {
         $this->viewBuilder()->setLayout('default');
-
-       
-
-
+        $ordersTable = $this->fetchTable('Orders');
+        $orders = $ordersTable->find('all', [
+            'contain' => ['Customers']
+        ])->all();
+        $this->set(compact('orders'));
         $this->render('/OrderList/index');
-
     }
 
     /**
@@ -68,4 +68,13 @@ class ListController extends AppController
         $this->render('/DeliveryList/index');
 
     }
+    public function orderDetail($orderId)
+{
+    $ordersTable = $this->fetchTable('Orders');
+    $order = $ordersTable->get($orderId, [
+        'contain' => ['Customers', 'OrderItems']
+    ]);
+    $this->set(compact('order'));
+    $this->render('/OrderList/detail');
+}
 }
