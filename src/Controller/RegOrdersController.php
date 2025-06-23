@@ -74,6 +74,10 @@ class RegOrdersController extends AppController
             $invalid = false;
             foreach ($data['order_items'] as $item) {
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                // 入力が全て空欄の行はスキップ
+                if ($bookTitle === '' && (empty($item['book_amount']) || empty($item['unit_price']))) {
+                    continue;
+                }
                 if (
                     $bookTitle === '' ||
                     (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) ||
@@ -85,7 +89,9 @@ class RegOrdersController extends AppController
             }
             if ($invalid) {
                 $this->Flash->error('不正な値です');
-                return $this->redirect($this->request->getRequestTarget());
+                // POSTデータを再表示
+                $this->set(compact('customerId', 'data'));
+                return $this->render('new_order');
             }
 
             $ordersTable = $this->fetchTable('Orders');
@@ -123,7 +129,7 @@ class RegOrdersController extends AppController
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
 
-                /** @var \App\Model\Entity\DeriveryItem $DeliveryItem */
+                /** @var \App\Model\Entity\DeliveryItem $DeliveryItem */
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,

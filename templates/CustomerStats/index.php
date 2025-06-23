@@ -64,7 +64,7 @@
                     ?>
                     <tr>
                         <td><?= h($customer->customer_id) ?></td>
-                        <td><?= h($customer->Name) ?></td>
+                        <td><?= h($customer->name) ?></td>
                         <?php if ($stat): ?>
                             <td><?= h($stat->total_purchase_amt) ?></td>
                             <td><?= h($stat->avg_lead_time) ?></td>
