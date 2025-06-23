@@ -124,10 +124,9 @@ session_start();
         <div class="button-area">
             <div class="row">
                 <?= $this->Html->link('顧客一覧', ['controller' => 'List', 'action' => 'customer'], ['class' => 'menu-button']) ?>
-            </div>
-            <div class="row">
                 <?= $this->Html->link('注文書一覧', ['controller' => 'List', 'action' => 'order'], ['class' => 'menu-button']) ?>
-            <div class="row">
+            </div>
+                <div class="row">
                 <?= $this->Html->link('納品書一覧', ['controller' => 'List', 'action' => 'product'], ['class' => 'menu-button']) ?>
             </div>
         </div>
