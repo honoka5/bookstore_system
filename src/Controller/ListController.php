@@ -28,6 +28,10 @@ class ListController extends AppController
     public function customer()
     {
         $this->viewBuilder()->setLayout('default');
+
+        $customersTable = $this->fetchTable('Customers');
+        $customers = $customersTable->find()->all();
+        $this->set(compact('customers'));
      
         $this->render('/CustomerList/index');
 

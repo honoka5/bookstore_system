@@ -9,11 +9,11 @@ use Cake\ORM\Entity;
  * Customer Entity
  *
  * @property string $customer_id
- * @property string $Name
- * @property string $Phone_Number
+ * @property string $name
+ * @property string $phone_number
  * @property string|null $remark
  * @property string $bookstore_name
- * @property string $Contact_Person
+ * @property string $contact_person
  *
  * @property \App\Model\Entity\Order[] $orders
  */
@@ -31,9 +31,10 @@ class Customer extends Entity
     protected array $_accessible = [
         'customer_id' => true,
         'bookstore_name' => true,
-        'Name' => true,
-        'Phone_Number' => true,
-        'Contact_Person' => true,
+        'name' => true,
+        'phone_number' => true,
+        'contact_person' => true,
+        'remark' => true,  // remarkを追加
         'orders' => true,
     ];
 }

@@ -16,6 +16,7 @@ class DeliveriesController extends AppController
      *
      * @return void
      */
+    protected $Deliveries;
     public function initialize(): void
     {
         parent::initialize();

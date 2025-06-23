@@ -41,12 +41,13 @@ class CustomersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('customer_id');
 
-        $this->hasMany('Orders', [
-            'foreignKey' => 'customer_id',
-        ]);
+        $this->addBehavior('Timestamp');
+        //$this->hasMany('Orders', [
+            //'foreignKey' => 'customer_id',
+        //]);
     }
 
-    /**
+     /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
@@ -54,29 +55,51 @@ class CustomersTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
+        // 顧客IDのバリデーション（主キー）
+        $validator
+            ->scalar('customer_id')
+            ->maxLength('customer_id', 5)
+            ->requirePresence('customer_id', 'create')
+            ->notEmptyString('customer_id')
+            ->add('customer_id', 'unique', [
+                'rule' => 'validateUnique',
+                'provider' => 'table',
+                'message' => 'この顧客IDは既に使用されています。'
+            ]);
+
+        // 顧客名のバリデーション
+        $validator
+            ->scalar('name')
+            ->maxLength('name', 100)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name');
+
+        // 電話番号のバリデーション
+        $validator
+            ->scalar('phone_number')
+            ->maxLength('phone_number', 14)
+            ->requirePresence('phone_number', 'create')
+            ->notEmptyString('phone_number');
+
+        // 担当者名のバリデーション
+        $validator
+            ->scalar('contact_person')
+            ->maxLength('contact_person', 15)
+            ->allowEmptyString('contact_person');
+
+        // 備考のバリデーション
+        $validator
+            ->scalar('remark')
+            ->maxLength('remark', 255)
+            ->allowEmptyString('remark');
+
+        // 店舗名のバリデーション
         $validator
             ->scalar('bookstore_name')
-            ->maxLength('bookstore_name', 255)
+            ->maxLength('bookstore_name', 100)
             ->requirePresence('bookstore_name', 'create')
             ->notEmptyString('bookstore_name');
 
-        $validator
-            ->scalar('Name')
-            ->maxLength('Name', 100)
-            ->requirePresence('Name', 'create')
-            ->notEmptyString('Name');
-
-        $validator
-            ->scalar('Phone_Number')
-            ->maxLength('Phone_Number', 14)
-            ->requirePresence('Phone_Number', 'create')
-            ->notEmptyString('Phone_Number');
-
-        $validator
-            ->scalar('Contact_Person')
-            ->maxLength('Contact_Person', 15)
-            ->requirePresence('Contact_Person', 'create')
-            ->notEmptyString('Contact_Person');
         return $validator;
     }
 }
