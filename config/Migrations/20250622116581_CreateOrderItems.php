@@ -78,6 +78,12 @@ class CreateOrderItems extends AbstractMigration
         ['orderItem_id' => '000018', 'order_id' => '00018', 'book_title' => 'ネットワーク構築', 'unit_price' => 3777, 'book_amount' => 10, 'book_summary' => 'ネットワーク構築に関する概要説明。'],
         ['orderItem_id' => '000019', 'order_id' => '00019', 'book_title' => 'Linuxコマンド集', 'unit_price' => 4976, 'book_amount' => 5, 'book_summary' => 'Linuxコマンド集に関する概要説明。'],
         ['orderItem_id' => '000020', 'order_id' => '00020', 'book_title' => 'データベース設計', 'unit_price' => 1026, 'book_amount' => 9, 'book_summary' => 'データベース設計に関する概要説明。'],
+        ['orderItem_id' => '200001', 'order_id' => '00001', 'book_title' => 'Python入門', 'unit_price' => 4444, 'book_amount' => 9, 'book_summary' => 'Python入門に関する概要説明。'],
+        ['orderItem_id' => '200002', 'order_id' => '00001', 'book_title' => 'AIの未来', 'unit_price' => 4307, 'book_amount' => 8, 'book_summary' => 'AIの未来に関する概要説明。'],
+        ['orderItem_id' => '200003', 'order_id' => '00001', 'book_title' => 'データサイエンス基礎', 'unit_price' => 2666, 'book_amount' => 4, 'book_summary' => 'データサイエンス基礎に関する概要説明。'],
+        ['orderItem_id' => '200004', 'order_id' => '00001', 'book_title' => '機械学習実践', 'unit_price' => 3116, 'book_amount' => 7, 'book_summary' => '機械学習実践に関する概要説明。'],
+        ['orderItem_id' => '200005', 'order_id' => '00001', 'book_title' => '深層学習と応用', 'unit_price' => 2370, 'book_amount' => 7, 'book_summary' => '深層学習と応用に関する概要説明。'],
+        ['orderItem_id' => '200006', 'order_id' => '00001', 'book_title' => '統計学入門', 'unit_price' => 1451, 'book_amount' => 10, 'book_summary' => null],
         ];
         $this->table('order_items')->insert($rows)->saveData();
 

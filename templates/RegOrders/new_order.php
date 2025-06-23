@@ -27,6 +27,15 @@
 </div>
 <?= $this->Form->end() ?>
 
+<?php $flashMsg = $this->Flash->render(); ?>
+<script>
+<?php if (!empty($flashMsg)): ?>
+    window.onload = function() {
+        alert('<?= strip_tags(trim($flashMsg)) ?>');
+    };
+<?php endif; ?>
+</script>
+
 <style>
     .form-buttons {
         display: flex;

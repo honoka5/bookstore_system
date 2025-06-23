@@ -17,14 +17,24 @@ class RegOrdersController extends AppController
     public function selectCustomer()
     {
         $keyword = $this->request->getQuery('keyword');
+        $page = (int)$this->request->getQuery('page', 1);
+        $limit = 10;
         $query = $this->fetchTable('Customers')->find('all');
         if (!empty($keyword)) {
             $query->where([
-                'Name LIKE' => '%' . $keyword . '%',
+                'OR' => [
+                    'Name LIKE' => '%' . $keyword . '%',
+                    'customer_id LIKE' => '%' . $keyword . '%',
+                    'Contact_Person LIKE' => '%' . $keyword . '%',
+                ]
             ]);
         }
-        $customers = $query;
-        $this->set(compact('customers', 'keyword'));
+        $total = $query->count();
+        $customers = $query
+            ->order(['customer_id' => 'ASC'])
+            ->limit($limit)
+            ->offset(($page - 1) * $limit);
+        $this->set(compact('customers', 'keyword', 'page', 'limit', 'total'));
     }
 
     /**
@@ -59,6 +69,24 @@ class RegOrdersController extends AppController
     {
         if ($this->request->is('post')) {
             $data = $this->request->getData();
+
+            // バリデーション: 書籍名が空白・null、数量・単価が0以下の場合はエラー
+            $invalid = false;
+            foreach ($data['order_items'] as $item) {
+                $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                if (
+                    $bookTitle === '' ||
+                    (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) ||
+                    (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] <= 0)
+                ) {
+                    $invalid = true;
+                    break;
+                }
+            }
+            if ($invalid) {
+                $this->Flash->error('不正な値です');
+                return $this->redirect($this->request->getRequestTarget());
+            }
 
             $ordersTable = $this->fetchTable('Orders');
             $orderItemsTable = $this->fetchTable('OrderItems');

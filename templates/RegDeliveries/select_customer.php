@@ -26,12 +26,12 @@ if (empty($keyword)) {
                 <th>操作</th>
             </tr>
             <?php foreach ($customers as $customer): ?>
-                <tr class="selectable-row" data-href="<?= $this->Url->build(['action' => 'newOrder', $customer->customer_id]) ?>">
+                <tr class="selectable-row" data-href="<?= $this->Url->build(['action' => 'select_deliveries', $customer->customer_id]) ?>">
                     <td><?= h($customer->customer_id) ?></td>
                     <td><?= h($customer->Name) ?></td>
                     <td><?= h($customer->Phone_Number) ?></td>
                     <td><?= h($customer->Contact_Person) ?></td>
-                    <td><?= $this->Html->link('選択', ['action' => 'newOrder', $customer->customer_id]) ?></td>
+                    <td><?= $this->Html->link('選択', ['action' => 'select_deliveries', $customer->customer_id]) ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
@@ -50,20 +50,19 @@ if (empty($keyword)) {
         </script>
         <?php
         // ページング矢印
-        $totalPages = ceil($total / $limit);
         $baseUrl = $this->Url->build([
-            'action' => 'selectCustomer',
+            'action' => 'select_customer',
         ]);
         $queryParams = $_GET;
         unset($queryParams['page']);
         $queryStr = http_build_query($queryParams);
         ?>
         <div style="margin-top:10px; text-align:center;">
-            <?php if ($page > 1): ?>
+            <?php if ($totalPages > 1 && $page > 1): ?>
                 <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page - 1) ?>">&lt; 前へ</a>
             <?php endif; ?>
             <span> <?= $page ?> / <?= $totalPages ?> </span>
-            <?php if ($page < $totalPages): ?>
+            <?php if ($totalPages > 1 && $page < $totalPages): ?>
                 <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page + 1) ?>">次へ &gt;</a>
             <?php endif; ?>
         </div>

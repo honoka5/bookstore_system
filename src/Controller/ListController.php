@@ -34,6 +34,7 @@ class ListController extends AppController
         $this->set(compact('customers'));
      
         $this->render('/CustomerList/index');
+
     }
 
     /**
@@ -44,6 +45,12 @@ class ListController extends AppController
     public function order()
     {
         $this->viewBuilder()->setLayout('default');
+
+       
+
+
+        $this->render('/OrderList/index');
+
     }
 
     /**
@@ -54,5 +61,11 @@ class ListController extends AppController
     public function product()
     {
         $this->viewBuilder()->setLayout('default');
+
+        
+
+
+        $this->render('/DeliveryList/index');
+
     }
 }
