@@ -41,9 +41,10 @@ class CustomersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('customer_id');
 
-        $this->hasMany('Orders', [
-            'foreignKey' => 'customer_id',
-        ]);
+        $this->addBehavior('Timestamp');
+        //$this->hasMany('Orders', [
+            //'foreignKey' => 'customer_id',
+        //]);
     }
 
      /**
