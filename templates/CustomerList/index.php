@@ -139,9 +139,11 @@
                     <thead>
                         <tr>
                             <th>顧客ID</th>
+                            <th>店舗名</th>
                             <th>顧客名</th>
-                            <th>電話番号</th>
                             <th>担当者名</th>
+                            <th>電話番号</th>
+                   
                         </tr>
                     </thead>
                     <tbody>
@@ -152,8 +154,10 @@
                             <?php foreach ($customers as $customer): ?>
                                 <tr>
                                     <td><?= h($customer->customer_id) ?></td>
+                                    <td><?= h($customer->bookstore_name) ?></td>
                                     <td><?= h($customer->name) ?></td>
                                     <td><?= h($customer->contact_person) ?></td>
+                                    <td><?= h($customer->phone_number) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
