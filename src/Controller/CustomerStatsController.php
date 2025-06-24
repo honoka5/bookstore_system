@@ -35,11 +35,11 @@ class CustomerStatsController extends AppController
             $query = $query->where(['bookstore_name' => $selectedBookstore]);
         }
         // Ordersテーブルに注文書が存在する顧客のみ抽出
-        $query = $query->matching('Orders');
+        $query = $query->matching('Orders')->distinct(['Customers.customer_id']);
         $total = $query->count();
         // ソート条件
         if ($sort === 'customer_id') {
-            $query = $query->order(['customer_id' => $direction]);
+            $query = $query->order(['Customers.customer_id' => $direction]);
         } elseif ($sort === 'total_purchase_amt' || $sort === 'avg_lead_time') {
             // Statisticsテーブルを直接JOIN
             $query = $query->leftJoin(
@@ -47,7 +47,7 @@ class CustomerStatsController extends AppController
                 ['Statistics.customer_id = Customers.customer_id']
             )->order(["Statistics.$sort" => $direction, 'Customers.customer_id' => 'ASC']);
         } else {
-            $query = $query->order(['customer_id' => 'ASC']);
+            $query = $query->order(['Customers.customer_id' => 'ASC']);
         }
         $customers = $query
             ->limit($limit)
@@ -141,12 +141,5 @@ class CustomerStatsController extends AppController
         $this->Flash->success('統計情報を計算・保存しました');
 
         return $this->redirect(['action' => 'index', '?' => ['bookstore_name' => $selectedBookstore]]);
-    }
-
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->loadModel('Customers');
-        $this->loadModel('Orders');
     }
 }
