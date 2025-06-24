@@ -142,4 +142,11 @@ class CustomerStatsController extends AppController
 
         return $this->redirect(['action' => 'index', '?' => ['bookstore_name' => $selectedBookstore]]);
     }
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadModel('Customers');
+        $this->loadModel('Orders');
+    }
 }
