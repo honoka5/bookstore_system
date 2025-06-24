@@ -61,12 +61,13 @@ class ListController extends AppController
     public function product()
     {
         $this->viewBuilder()->setLayout('default');
-
-        
-
-
+        $deliveriesTable = $this->fetchTable('Deliveries');
+        // Customersテーブルも一緒に取得
+        $deliveries = $deliveriesTable->find('all', [
+        'contain' => ['Customers']
+        ])->all();
+        $this->set(compact('deliveries'));
         $this->render('/DeliveryList/index');
-
     }
     public function orderDetail($orderId)
 {
@@ -76,5 +77,16 @@ class ListController extends AppController
     ]);
     $this->set(compact('order'));
     $this->render('/OrderList/detail');
+}
+
+
+    public function deliveryDetail($deliveryId)
+{
+       $deliveriesTable = $this->fetchTable('Deliveries');
+    $delivery = $deliveriesTable->get($deliveryId, [
+        'contain' => ['Customers', 'DeliveryItems']
+    ]);
+    $this->set(compact('delivery'));
+    $this->render('/DeliveryList/detail');
 }
 }
