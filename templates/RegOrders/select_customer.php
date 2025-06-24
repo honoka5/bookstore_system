@@ -1,5 +1,5 @@
 <h1>顧客選択</h1>
-<form method="get" onsubmit="return checkKeyword();">
+<form method="get">
     <input type="text" name="keyword" id="keyword" value="<?= h($keyword ?? '') ?>" placeholder="顧客名で検索">
     <button type="submit">検索</button>
 </form>
