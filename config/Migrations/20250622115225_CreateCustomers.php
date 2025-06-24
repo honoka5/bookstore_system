@@ -20,33 +20,47 @@ class CreateCustomers extends AbstractMigration
             'primary_key' => 'customer_id',
             'collation' => 'utf8mb4_general_ci',
             'engine' => 'InnoDB',
+            'comment' => '顧客ID',
         ]);
         $table->addColumn('customer_id', 'string', [
             'default' => null,
             'limit' => 5,
             'null' => false,
+            'comment' => '店舗名'
         ]);
-        $table->addColumn('Name', 'string', [
+        $table->addColumn('name', 'string', [
             'default' => null,
             'limit' => 100,
             'null' => false,
+            'comment' => '顧客名'
         ]);
         $table->addColumn('bookstore_name', 'string', [
             'default' => null,
             'null' => false,
+            'comment' => '店舗名'
+
         ]);
-        $table->addColumn('Phone_Number', 'string', [
+        $table->addColumn('phone_number', 'string', [
             'default' => null,
             'limit' => 14,
             'null' => false,
+            'comment'=> '電話番号'
         ]);
-        $table->addColumn('Contact_Person', 'string', [
+        $table->addColumn('contact_person', 'string', [
             'default' => null,
             'limit' => 15,
             'null' => true,
+            'comment'=> '担当者名'
+        ]);
+        $table->addColumn('remark', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => true,
+            'comment' => '備考'
         ]);
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
+        //テストデータの追加
         //テストデータの追加
         $rows = [
             ['customer_id' => '00001', 'Name' => '田中太郎', 'bookstore_name' => 'A店', 'Phone_Number' => '09012345678', 'Contact_Person' => '田中次郎'],

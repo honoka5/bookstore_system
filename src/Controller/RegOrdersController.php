@@ -71,21 +71,31 @@ class RegOrdersController extends AppController
             $data = $this->request->getData();
 
             // バリデーション: 書籍名が空白・null、数量・単価が0以下の場合はエラー
-            $invalid = false;
-            foreach ($data['order_items'] as $item) {
+            $invalidMsg = '';
+            foreach ($data['order_items'] as $idx => $item) {
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
-                if (
-                    $bookTitle === '' ||
-                    (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) ||
-                    (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] <= 0)
-                ) {
-                    $invalid = true;
+                // 入力が全て空欄の行はスキップ
+                if ($bookTitle === '' && (empty($item['book_amount']) || empty($item['unit_price']))) {
+                    continue;
+                }
+                if ($bookTitle === '') {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名が未入力です';
+                    break;
+                }
+                if (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量が0以下です';
+                    break;
+                }
+                if (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] <= 0) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価が0以下です';
                     break;
                 }
             }
-            if ($invalid) {
-                $this->Flash->error('不正な値です');
-                return $this->redirect($this->request->getRequestTarget());
+            if ($invalidMsg !== '') {
+                $this->Flash->error($invalidMsg);
+                // POSTデータを再表示
+                $this->set(compact('customerId', 'data'));
+                return $this->render('new_order');
             }
 
             $ordersTable = $this->fetchTable('Orders');
@@ -123,7 +133,7 @@ class RegOrdersController extends AppController
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
 
-                /** @var \App\Model\Entity\DeriveryItem $DeliveryItem */
+                /** @var \App\Model\Entity\DeliveryItem $DeliveryItem */
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
