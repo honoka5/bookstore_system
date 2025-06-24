@@ -109,14 +109,16 @@ class DeliveriesController extends AppController
      */
     public function delete(?string $id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $delivery = $this->Deliveries->get($id);
-        if ($this->Deliveries->delete($delivery)) {
-            $this->Flash->success(__('The delivery has been deleted.'));
-        } else {
-            $this->Flash->error(__('The delivery could not be deleted. Please, try again.'));
-        }
 
-        return $this->redirect(['action' => 'index']);
+        
+        // $this->request->allowMethod(['post', 'delete']);
+        // $delivery = $this->Deliveries->get($id);
+        // if ($this->Deliveries->delete($delivery)) {
+        //     $this->Flash->success(__('The delivery has been deleted.'));
+        // } else {
+        //     $this->Flash->error(__('The delivery could not be deleted. Please, try again.'));
+        // }
+
+        // return $this->redirect(['action' => 'index']);
     }
 }
