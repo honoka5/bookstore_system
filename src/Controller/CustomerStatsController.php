@@ -34,6 +34,8 @@ class CustomerStatsController extends AppController
         if ($selectedBookstore) {
             $query = $query->where(['bookstore_name' => $selectedBookstore]);
         }
+        // Ordersテーブルに注文書が存在する顧客のみ抽出
+        $query = $query->matching('Orders');
         $total = $query->count();
         // ソート条件
         if ($sort === 'customer_id') {
