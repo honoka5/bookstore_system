@@ -70,24 +70,28 @@ class RegOrdersController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->getData();
 
-            // バリデーション: 書籍名が空白・null、数量・単価が0以下の場合はエラー
+            // バリデーション: いずれか一つでも入力があれば3つすべて必須
             $invalidMsg = '';
             foreach ($data['order_items'] as $idx => $item) {
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
-                // 入力が全て空欄の行はスキップ
-                if ($bookTitle === '' && (empty($item['book_amount']) || empty($item['unit_price']))) {
+                $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
+                $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
+                // すべて空欄の行はスキップ
+                if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
                     continue;
                 }
-                if ($bookTitle === '') {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名が未入力です';
+                // いずれか一つでも入力があれば3つすべて必須
+                if ($bookTitle === '' || $bookAmount === '' || $unitPrice === '') {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名・数量・単価はすべて入力してください。';
                     break;
                 }
-                if (isset($item['book_amount']) && $item['book_amount'] !== '' && (int)$item['book_amount'] <= 0) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量が0以下です';
+                // 数量・単価が0以下の場合はエラー
+                if (!is_numeric($bookAmount) || (int)$bookAmount <= 0) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1以上の数値で入力してください。';
                     break;
                 }
-                if (isset($item['unit_price']) && $item['unit_price'] !== '' && (int)$item['unit_price'] <= 0) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価が0以下です';
+                if (!is_numeric($unitPrice) || (int)$unitPrice <= 0) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1以上の数値で入力してください。';
                     break;
                 }
             }
@@ -118,17 +122,21 @@ class RegOrdersController extends AppController
 
             // 2. 各注文内容＆納品内容の登録
             foreach ($data['order_items'] as $item) {
-                if (empty($item['book_title'])) {
+                $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
+                $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
+                // すべて空欄の行はスキップ
+                if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
                     continue;
                 }
-
+                // 3つすべて入力された行のみ登録
                 /** @var \App\Model\Entity\OrderItem $order */
                 $orderItem = $orderItemsTable->newEntity([
                     'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
                     'order_id' => $order->order_id,
-                    'book_title' => $item['book_title'],
-                    'unit_price' => $item['unit_price'],
-                    'book_amount' => $item['book_amount'],
+                    'book_title' => $bookTitle,
+                    'unit_price' => $unitPrice,
+                    'book_amount' => $bookAmount,
                     'book_summary' => $item['book_summary'] ?? null,
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
@@ -138,9 +146,9 @@ class RegOrdersController extends AppController
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItem->orderItem_id,
                     'delivery_id' => null,
-                    'book_title' => $item['book_title'],
-                    'unit_price' => $item['unit_price'],
-                    'book_amount' => $item['book_amount'],
+                    'book_title' => $bookTitle,
+                    'unit_price' => $unitPrice,
+                    'book_amount' => $bookAmount,
                     'is_delivered_flag' => false,
                     'leadTime' => null,
                 ]);
