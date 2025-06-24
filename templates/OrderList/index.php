@@ -208,7 +208,7 @@
             </div>
             <!-- Action Buttons -->
             <div class="button-section">
-                <?= $this->Html->link('戻る',['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
+                <?= $this->Html->link('戻る',['controller' => 'List', 'action' => 'index'], ['class' => 'button']) ?>
                 <button class="btn" id="detailBtn" type="button">詳細</button>
             </div>
         </div>
