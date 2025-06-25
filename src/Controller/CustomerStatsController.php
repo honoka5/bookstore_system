@@ -100,9 +100,13 @@ class CustomerStatsController extends AppController
                 $deliveredItems = $deliveryItemsTable->find()
                     ->where(['delivery_id IN' => $deliveryIds, 'is_delivered_flag' => true])
                     ->all();
-                $totalAmount = 0;
-                foreach ($deliveredItems as $item) {
-                    $totalAmount += $item->unit_price * $item->book_amount;
+                if (empty($deliveredItems) || count($deliveredItems) === 0) {
+                    $totalAmount = 0;
+                } else {
+                    $totalAmount = 0;
+                    foreach ($deliveredItems as $item) {
+                        $totalAmount += $item->unit_price * $item->book_amount;
+                    }
                 }
             }
 
@@ -112,24 +116,26 @@ class CustomerStatsController extends AppController
             $orderItemIds = $orderItemsTable->find()->select(['orderItem_id'])->where(['order_id IN' => $orderIds])->all()->extract('orderItem_id')->toArray();
             if (!empty($orderItemIds)) {
                 $deliveryItems = $deliveryItemsTable->find()->where(['orderItem_id IN' => $orderItemIds])->all();
-                foreach ($deliveryItems as $item) {
-                    if ($item->is_delivered_flag) {
-                        $leadTime = $item->leadTime ?? 0; // DBにあれば
-                        $totalLeadTime += $leadTime * $item->book_amount;
-                        $totalQuantity += $item->book_amount;
-                    } else {
-                        $calcDate = $now;
-                        // deliveryItem_id -> orderItem_id -> order_id -> order_date の流れでorder_dateを取得
-                        $orderItemId = $item->orderItem_id;
-                        $orderItem = $orderItemsTable->find()->select(['order_id'])->where(['orderItem_id' => $orderItemId])->first();
-                        if ($orderItem) {
-                            $orderId = $orderItem->order_id;
-                            $order = $ordersTable->find()->select(['order_date'])->where(['order_id' => $orderId])->first();
-                            if ($order) {
-                                $orderDate = $order->order_date;
-                                $leadTime = $calcDate->diffInDays($orderDate);
-                                $totalLeadTime += $leadTime * $item->book_amount;
-                                $totalQuantity += $item->book_amount;
+                if (!empty($deliveryItems) && count($deliveryItems) > 0) {
+                    foreach ($deliveryItems as $item) {
+                        if ($item->is_delivered_flag) {
+                            $leadTime = $item->leadTime ?? 0; // DBにあれば
+                            $totalLeadTime += $leadTime * $item->book_amount;
+                            $totalQuantity += $item->book_amount;
+                        } else {
+                            $calcDate = $now;
+                            // deliveryItem_id -> orderItem_id -> order_id -> order_date の流れでorder_dateを取得
+                            $orderItemId = $item->orderItem_id;
+                            $orderItem = $orderItemsTable->find()->select(['order_id'])->where(['orderItem_id' => $orderItemId])->first();
+                            if ($orderItem) {
+                                $orderId = $orderItem->order_id;
+                                $order = $ordersTable->find()->select(['order_date'])->where(['order_id' => $orderId])->first();
+                                if ($order) {
+                                    $orderDate = $order->order_date;
+                                    $leadTime = $calcDate->diffInDays($orderDate);
+                                    $totalLeadTime += $leadTime * $item->book_amount;
+                                    $totalQuantity += $item->book_amount;
+                                }
                             }
                         }
                     }
