@@ -17,18 +17,23 @@
             font-size: 20px;
             background-color: rgb(251, 250, 250);
             padding: 0;
+            margin: 0;
             min-height: 100vh;
+            width: 100vw;
+            box-sizing: border-box;
         }
  
         .main-container {
             background-color: #f0f0f0;
             border: 2px solid #000;
-            max-width: 1100px;
-            min-width: 320px;
-            margin: 40px auto;
+            width: 1524px;
+            min-width: 0;
+            min-height: 100vh;
+            margin: 0 0 0 -220px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            border-radius: 18px;
+            border-radius: 0;
             padding-bottom: 40px;
+            box-sizing: border-box;
         }
  
         .header-tabs {
