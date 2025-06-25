@@ -113,7 +113,7 @@
             </tfoot>
         </table>
         <div style="margin-top:10px;">
-            <span>消費税率: 10%</span>　
+            <span>消費税率: 10%</span>
             <span>合計金額: <?= h($totalAmount) ?> 円</span>
         </div>
         <div class="button-area">
