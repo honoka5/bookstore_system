@@ -92,6 +92,13 @@
             if (!empty($selectedBookstore)) {
                 $queryParams['bookstore_name'] = $selectedBookstore;
             }
+            // ソート状態をページングにも維持
+            if (!empty($sort)) {
+                $queryParams['sort'] = $sort;
+            }
+            if (!empty($direction)) {
+                $queryParams['direction'] = $direction;
+            }
         ?>
         <div class="paging-ui" style="margin-top:20px; text-align:center;">
             <?php if ($page > 1): ?>
