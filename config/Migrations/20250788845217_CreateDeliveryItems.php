@@ -58,7 +58,7 @@ class CreateDeliveryItems extends AbstractMigration
         $table->addColumn('leadTime', 'decimal', [
             'default' => null,
             'null' => true,
-            'precision' => 10, // 全体の桁数（整数部＋小数部）
+            'precision' => 3, // 全体の桁数（整数部＋小数部）
             'scale' => 1,      // 小数点以下の桁数
         ]);
         $table->addIndex(['deliveryItem_id'], ['unique' => true]);
