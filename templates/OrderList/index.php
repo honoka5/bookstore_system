@@ -190,6 +190,7 @@
                                 <th>顧客名</th>
                                 <th>金額</th>
                                 <th>注文日</th>
+                                <th>削除</th>
                             </tr>
                         </thead>
                         <tbody id="orderTable">
@@ -200,6 +201,15 @@
                                 <td><?= h($order->customer->name ?? '') ?></td>
                                 <td><?= h($order->total_amount ?? '') ?></td>
                                 <td><?= h($order->order_date) ?></td>
+                                <td>
+                                    <?= $this->Form->create(null, [
+                                        'url' => ['controller'=>'List','action'=>'deleteOrder', h($order->order_id)],
+                                        'style' => 'display:inline;',
+                                        'type' => 'post',
+                                    ]) ?>
+                                        <button type="submit" class="btn delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
+                                    <?= $this->Form->end() ?>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
