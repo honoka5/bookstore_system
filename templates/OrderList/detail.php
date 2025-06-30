@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -40,8 +39,9 @@
         </tbody>
     </table>
 
-    <div style="margin-top:20px;">
+    <div style="margin-top:20px; text-align:right;">
         <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'order'], ['class' => 'button']) ?>
+        <?= $this->Html->link('編集', ['controller' => 'OrderList', 'action' => 'editOrderDetail', $order->order_id], ['class' => 'button']) ?>
     </div>
 </body>
 </html>
