@@ -165,7 +165,7 @@
                 </table>
             </div>
             <div class="button-section">
-                <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'action-button']) ?>
+                <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'index'], ['class' => 'action-button']) ?>
                 <?= $this->Html->link('顧客登録', ['controller' => 'Customers', 'action' => 'add'], ['class' => 'action-button']) ?>
             </div>
         </div>

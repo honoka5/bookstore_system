@@ -1,5 +1,5 @@
 <h1>顧客選択</h1>
-<form method="get" onsubmit="return checkKeyword();">
+<form method="get">
     <input type="text" name="keyword" id="keyword" value="<?= h($keyword ?? '') ?>" placeholder="顧客名で検索">
     <button type="submit">検索</button>
 </form>
@@ -28,9 +28,9 @@ if (empty($keyword)) {
             <?php foreach ($customers as $customer): ?>
                 <tr class="selectable-row" data-href="<?= $this->Url->build(['action' => 'newOrder', $customer->customer_id]) ?>">
                     <td><?= h($customer->customer_id) ?></td>
-                    <td><?= h($customer->Name) ?></td>
-                    <td><?= h($customer->Phone_Number) ?></td>
-                    <td><?= h($customer->Contact_Person) ?></td>
+                    <td><?= h($customer->name) ?></td>
+                    <td><?= h($customer->phone_number) ?></td>
+                    <td><?= h($customer->contact_person) ?></td>
                     <td><?= $this->Html->link('選択', ['action' => 'newOrder', $customer->customer_id]) ?></td>
                 </tr>
             <?php endforeach; ?>

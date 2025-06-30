@@ -33,7 +33,7 @@ class CreateStatistics extends AbstractMigration
         $table->addColumn('avg_lead_time', 'decimal', [
             'default' => null,
             'null' => true,
-            'precision' => 10, // 全体の桁数（整数部＋小数部）
+            'precision' => 3, // 全体の桁数（整数部＋小数部）
             'scale' => 1,      // 小数点以下の桁数
         ]);
         $table->addColumn('total_purchase_amt', 'integer', [

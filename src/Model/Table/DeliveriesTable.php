@@ -46,8 +46,8 @@ class DeliveriesTable extends Table
             'joinType' => 'INNER',
         ]);
 
-        $this->hasMany('delivery_items', [
-            'foreignKey' => 'deliveryItem_id',
+         $this->hasMany('DeliveryItems', [
+        'foreignKey' => 'delivery_id',
         ]);
         // ここを追加
         $this->belongsTo('Orders', [

@@ -23,9 +23,9 @@ class RegDeliveriesController extends AppController
         if (!empty($keyword)) {
             $query->where([
                 'OR' => [
-                    'Name LIKE' => '%' . $keyword . '%',
+                    'name LIKE' => '%' . $keyword . '%',
                     'customer_id LIKE' => '%' . $keyword . '%',
-                    'Contact_Person LIKE' => '%' . $keyword . '%',
+                    'contact_Person LIKE' => '%' . $keyword . '%',
                 ]
             ]);
         }

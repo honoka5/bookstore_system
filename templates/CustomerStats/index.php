@@ -64,7 +64,7 @@
                     ?>
                     <tr>
                         <td><?= h($customer->customer_id) ?></td>
-                        <td><?= h($customer->Name) ?></td>
+                        <td><?= h($customer->name) ?></td>
                         <?php if ($stat): ?>
                             <td><?= h($stat->total_purchase_amt) ?></td>
                             <td><?= h($stat->avg_lead_time) ?></td>
@@ -91,6 +91,13 @@
             $queryParams = [];
             if (!empty($selectedBookstore)) {
                 $queryParams['bookstore_name'] = $selectedBookstore;
+            }
+            // ソート状態をページングにも維持
+            if (!empty($sort)) {
+                $queryParams['sort'] = $sort;
+            }
+            if (!empty($direction)) {
+                $queryParams['direction'] = $direction;
             }
         ?>
         <div class="paging-ui" style="margin-top:20px; text-align:center;">
