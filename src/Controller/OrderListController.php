@@ -91,16 +91,89 @@ class OrderListController extends AppController
     public function editOrderDetail($orderId)
     {
         $ordersTable = $this->fetchTable('Orders');
+        $orderItemsTable = $this->fetchTable('OrderItems');
+        $deliveryItemsTable = $this->fetchTable('DeliveryItems');
         try {
             $order = $ordersTable->get($orderId, [
                 'contain' => ['Customers', 'OrderItems']
             ]);
         } catch (\Exception $e) {
-            // 注文書が存在しない場合は一覧にリダイレクト
             $this->Flash->error('選択した注文書は既に削除されています。');
             return $this->redirect(['controller' => 'OrderList', 'action' => 'index']);
         }
-        $this->set(compact('order'));
+
+        // 数量のプルダウン範囲計算（減算可能数は0のダミー）
+        $amountRanges = [];
+        foreach ($order->order_items as $item) {
+            $max = $item->book_amount;
+            $min = $max; // 減算可能数は0
+            $options = [];
+            for ($i = $max; $i >= $min; $i--) $options[$i] = $i;
+            $amountRanges[$item->orderItem_id] = $options;
+        }
+
+        if ($this->request->is(['post', 'put'])) {
+            $data = $this->request->getData();
+            $errors = [];
+            $beforeList = [];
+            $afterList = [];
+            foreach ($order->order_items as $item) {
+                $id = $item->orderItem_id;
+                $beforeList[] = [
+                    'orderItem_id' => $id,
+                    'book_amount' => $item->book_amount,
+                    'unit_price' => $item->unit_price,
+                    'book_summary' => $item->book_summary,
+                ];
+                $after = [
+                    'orderItem_id' => $id,
+                    'book_amount' => (int)($data['book_amount'][$id] ?? $item->book_amount),
+                    'unit_price' => $data['unit_price'][$id] ?? $item->unit_price,
+                    'book_summary' => $data['book_summary'][$id] ?? $item->book_summary,
+                ];
+                $afterList[] = $after;
+                // バリデーション
+                $max = $item->book_amount;
+                $min = $max; // 減算可能数は0
+                $newAmount = $after['book_amount'];
+                if ($newAmount < $min || $newAmount > $max || $newAmount === 0) {
+                    $errors[] = "注文内容ID:{$id} の数量が不正です";
+                }
+            }
+            if ($errors) {
+                foreach ($errors as $msg) $this->Flash->error($msg);
+            } else {
+                // 更新処理
+                $conn = $ordersTable->getConnection();
+                $conn->begin();
+                try {
+                    $order->remark = $data['remark'] ?? $order->remark;
+                    $ordersTable->save($order);
+                    foreach ($afterList as $after) {
+                        $item = $orderItemsTable->get($after['orderItem_id']);
+                        $item->book_amount = $after['book_amount'];
+                        $item->unit_price = $after['unit_price'];
+                        $item->book_summary = $after['book_summary'];
+                        $orderItemsTable->save($item);
+                        // 対応する納品内容も更新（ここでは全件）
+                        $deliveryItems = $deliveryItemsTable->find()->where(['orderItem_id' => $item->orderItem_id])->all();
+                        foreach ($deliveryItems as $ditem) {
+                            $ditem->book_title = $item->book_title;
+                            $ditem->book_amount = $item->book_amount;
+                            $ditem->unit_price = $item->unit_price;
+                            $deliveryItemsTable->save($ditem);
+                        }
+                    }
+                    $conn->commit();
+                    $this->Flash->success('注文内容を更新しました');
+                    return $this->redirect(['action' => 'editOrderDetail', $orderId]);
+                } catch (\Exception $e) {
+                    $conn->rollback();
+                    $this->Flash->error('更新に失敗しました: ' . $e->getMessage());
+                }
+            }
+        }
+        $this->set(compact('order', 'amountRanges'));
         $this->render('../OrderList/edit_detail');
     }
 
