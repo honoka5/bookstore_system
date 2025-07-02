@@ -102,11 +102,19 @@ class OrderListController extends AppController
             return $this->redirect(['controller' => 'OrderList', 'action' => 'index']);
         }
 
-        // 数量のプルダウン範囲計算（減算可能数は0のダミー）
+        // 数量のプルダウン範囲計算（納品内容の未納合計数を考慮）
         $amountRanges = [];
         foreach ($order->order_items as $item) {
             $max = $item->book_amount;
-            $min = $max; // 減算可能数は0
+            // 未納納品内容の合計数量を取得
+            $unshippedSum = 0;
+            $unshippedItems = $deliveryItemsTable->find()
+                ->where(['orderItem_id' => $item->orderItem_id, 'is_delivered_flag' => false])
+                ->all();
+            foreach ($unshippedItems as $unshipped) {
+                $unshippedSum += $unshipped->book_amount;
+            }
+            $min = max(0, $max - $unshippedSum);
             $options = [];
             for ($i = $max; $i >= $min; $i--) $options[$i] = $i;
             $amountRanges[$item->orderItem_id] = $options;
@@ -134,11 +142,34 @@ class OrderListController extends AppController
                 $afterList[] = $after;
                 // バリデーション
                 $max = $item->book_amount;
-                $min = $max; // 減算可能数は0
+                $unshippedSum = 0;
+                $unshippedItems = $deliveryItemsTable->find()
+                    ->where(['orderItem_id' => $item->orderItem_id, 'is_delivered_flag' => false])
+                    ->all();
+                foreach ($unshippedItems as $unshipped) {
+                    $unshippedSum += $unshipped->book_amount;
+                }
+                $min = max(1, $max - $unshippedSum);
                 $newAmount = $after['book_amount'];
                 if ($newAmount < $min || $newAmount > $max || $newAmount === 0) {
-                    $errors[] = "注文内容ID:{$id} の数量が不正です";
+                    $errors[] = "注文内容ID:{$id} の数量が不正です（{$min}～{$max}の範囲で入力してください）";
                 }
+
+                // --- 未納納品内容の数量が0になる場合のバリデーション追加 ---
+                // 差分を計算
+                $diff = $newAmount - $item->book_amount;
+                // 未納納品内容（is_delivered_flag=0, ID最大）を取得
+                $unshippedMax = $deliveryItemsTable->find()
+                    ->where(['orderItem_id' => $item->orderItem_id, 'is_delivered_flag' => false])
+                    ->order(['deliveryItem_id' => 'DESC'])
+                    ->first();
+                if ($unshippedMax) {
+                    $afterDeliveryAmount = $unshippedMax->book_amount + $diff;
+                    if ($afterDeliveryAmount === 0) {
+                        $errors[] = "注文内容ID:{$id} の納品内容数量が0になるため、数値が不正です";
+                    }
+                }
+                // --- ここまで追加 ---
             }
             if ($errors) {
                 foreach ($errors as $msg) $this->Flash->error($msg);
@@ -155,14 +186,14 @@ class OrderListController extends AppController
                         $item->unit_price = $after['unit_price'];
                         $item->book_summary = $after['book_summary'];
                         $orderItemsTable->save($item);
-                        // 対応する納品内容も更新（ここでは全件）
-                        $deliveryItems = $deliveryItemsTable->find()->where(['orderItem_id' => $item->orderItem_id])->all();
-                        foreach ($deliveryItems as $ditem) {
-                            $ditem->book_title = $item->book_title;
-                            $ditem->book_amount = $item->book_amount;
-                            $ditem->unit_price = $item->unit_price;
-                            $deliveryItemsTable->save($ditem);
-                        }
+
+                        // 差分を未納納品内容（is_delivered_flag=0, ID最大）に反映
+                        $this->updateUnshippedDeliveryItemAmount(
+                            $deliveryItemsTable,
+                            $item->orderItem_id,
+                            $beforeList,
+                            $item->book_amount
+                        );
                     }
                     $conn->commit();
                     $this->Flash->success('注文内容を更新しました');
@@ -264,5 +295,22 @@ class OrderListController extends AppController
         ]);
         $this->set(compact('order'));
         $this->render('detail');
+    }
+
+    /**
+     * 注文内容の数量変更差分を未納納品内容（is_delivered_flag=0, ID最大）に同期
+     */
+    private function updateUnshippedDeliveryItemAmount($deliveryItemsTable, $orderItemId, $beforeList, $afterAmount)
+    {
+        $deliveryItem = $deliveryItemsTable->find()
+            ->where(['orderItem_id' => $orderItemId, 'is_delivered_flag' => false])
+            ->order(['deliveryItem_id' => 'DESC'])
+            ->first();
+        if ($deliveryItem) {
+            $beforeAmount = $beforeList[array_search($orderItemId, array_column($beforeList, 'orderItem_id'))]['book_amount'];
+            $diff = $afterAmount - $beforeAmount;
+            $deliveryItem->book_amount += $diff;
+            $deliveryItemsTable->save($deliveryItem);
+        }
     }
 }
