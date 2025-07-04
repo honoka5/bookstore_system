@@ -194,6 +194,16 @@ class OrderListController extends AppController
                             $beforeList,
                             $item->book_amount
                         );
+
+                        // --- unit_price同期処理追加 ---
+                        $unshippedDeliveryItems = $deliveryItemsTable->find()
+                            ->where(['orderItem_id' => $item->orderItem_id, 'is_delivered_flag' => false])
+                            ->all();
+                        foreach ($unshippedDeliveryItems as $deliveryItem) {
+                            $deliveryItem->unit_price = $item->unit_price;
+                            $deliveryItemsTable->save($deliveryItem);
+                        }
+                        // --- ここまで追加 ---
                     }
                     $conn->commit();
                     $this->Flash->success('注文内容を更新しました');
