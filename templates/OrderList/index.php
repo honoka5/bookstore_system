@@ -215,7 +215,7 @@
                                 <td><?= h($order->order_date) ?></td>
                                 <td>
                                     <?= $this->Form->create(null, [
-                                        'url' => ['controller'=>'List','action'=>'deleteOrder', h($order->order_id)],
+                                        'url' => ['controller'=>'OrderList','action'=>'deleteOrder', h($order->order_id)],
                                         'style' => 'display:inline;',
                                         'type' => 'post',
                                     ]) ?>
@@ -251,7 +251,7 @@
                 const selectedRow = document.querySelector('#orderTable tr.selected');
                 if (selectedRow && selectedRow.cells[0].textContent.trim()) {
                     const orderId = selectedRow.cells[0].textContent.trim();
-                    window.location.href = '/list/order-detail/' + orderId;
+                    window.location.href = '/order-list/order-detail/' + orderId;
                 } else {
                     alert('項目を選択してください');
                 }
