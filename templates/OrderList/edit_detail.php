@@ -36,7 +36,12 @@
         <tbody>
             <?php foreach ($order->order_items as $item): ?>
             <tr>
-                <td><?= h($item->book_title) ?></td>
+                <td><?= $this->Form->text("book_title[{$item->orderItem_id}]", [
+                    'value' => $item->book_title,
+                    'style' => 'width:140px;',
+                    'required' => true,
+                    'placeholder' => '書籍名',
+                ]) ?></td>
                 <td>
                     <?= $this->Form->select("book_amount[{$item->orderItem_id}]", $amountRanges[$item->orderItem_id], [
                         'value' => $item->book_amount,

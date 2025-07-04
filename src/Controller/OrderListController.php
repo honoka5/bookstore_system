@@ -138,6 +138,7 @@ class OrderListController extends AppController
                     'book_amount' => (int)($data['book_amount'][$id] ?? $item->book_amount),
                     'unit_price' => $data['unit_price'][$id] ?? $item->unit_price,
                     'book_summary' => $data['book_summary'][$id] ?? $item->book_summary,
+                    'book_title' => $data['book_title'][$id] ?? $item->book_title, // 追加
                 ];
                 $afterList[] = $after;
                 // バリデーション
@@ -185,6 +186,7 @@ class OrderListController extends AppController
                         $item->book_amount = $after['book_amount'];
                         $item->unit_price = $after['unit_price'];
                         $item->book_summary = $after['book_summary'];
+                        $item->book_title = $after['book_title']; // 追加
                         $orderItemsTable->save($item);
 
                         // 差分を未納納品内容（is_delivered_flag=0, ID最大）に反映
@@ -195,12 +197,13 @@ class OrderListController extends AppController
                             $item->book_amount
                         );
 
-                        // --- unit_price同期処理追加 ---
+                        // --- unit_price, book_title同期処理追加 ---
                         $unshippedDeliveryItems = $deliveryItemsTable->find()
                             ->where(['orderItem_id' => $item->orderItem_id, 'is_delivered_flag' => false])
                             ->all();
                         foreach ($unshippedDeliveryItems as $deliveryItem) {
                             $deliveryItem->unit_price = $item->unit_price;
+                            $deliveryItem->book_title = $item->book_title;
                             $deliveryItemsTable->save($deliveryItem);
                         }
                         // --- ここまで追加 ---
