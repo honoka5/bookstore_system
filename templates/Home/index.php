@@ -17,14 +17,13 @@
             font-size: 20px;
             background-color: rgb(251, 250, 250);
             padding: 0;
-            margin: 0;
             min-height: 100vh;
             width: 100vw;
             box-sizing: border-box;
         }
  
         .main-container {
-            background-color: #f0f0f0;
+            background-color: rgb(253, 251, 251);
             border: 2px solid #000;
             width: 1524px;
             min-width: 0;
@@ -45,7 +44,7 @@
  
         .tab {
             padding: 16px 32px;
-            background-color:rgb(255, 250, 250);
+            background-color:rgb(42, 205, 110);
             border-right: 1px solid #000;
             font-size: 20px;
             text-align: center;
@@ -70,7 +69,7 @@
  
         .content-area {
             padding: 40px 30px 0 30px;
-            background-color: #f0f0f0;
+            background-color:rgb(255, 255, 255);
         }
  
         .button-grid {
@@ -111,7 +110,7 @@
         }
  
         .menu-button:active {
-            background-color: #c0c0c0;
+            background-color:rgb(255, 254, 254);
         }
  
         @media (max-width: 900px) {
