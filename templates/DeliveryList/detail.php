@@ -119,7 +119,7 @@
         <div class="button-area">
             <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'product'], ['class' => 'button']) ?>
             <button class="action-btn" onclick="window.print()">印刷確認</button>
-            <?= $this->Html->link('返品', ['controller' => 'List', 'action' => 'return', $delivery->delivery_id], ['class' => 'button']) ?>
+            <?= $this->Html->link('編集', ['controller' => 'DeliveryList', 'action' => 'editDetail', $delivery->delivery_id], ['class' => 'button']) ?>
         </div>
     </div>
 </body>
