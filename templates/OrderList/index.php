@@ -223,6 +223,7 @@
                                     <?= $this->Form->end() ?>
                                 </td>
                             </tr>
+                            
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -230,10 +231,11 @@
             </div>
             <!-- Action Buttons -->
             <div class="button-section">
-                <?= $this->Html->link('戻る',['controller' => 'List', 'action' => 'index'], ['class' => 'button']) ?>
-            </div>
+                
+            </div><?= $this->Html->link('戻る',['controller' => 'List', 'action' => 'index'], ['class' => 'button']) ?>
+                <button class="button" id="detailBtn" type="button">詳細</button>
         </div>
-        <button class="button" id="detailBtn" type="button">詳細</button>
+        
     </div>
     <script>
         // 行選択
@@ -246,6 +248,7 @@
                     this.classList.add('selected');
                 });
             });
+            
             // 詳細ボタン
             document.getElementById('detailBtn').addEventListener('click', function() {
                 const selectedRow = document.querySelector('#orderTable tr.selected');

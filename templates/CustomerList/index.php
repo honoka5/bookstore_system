@@ -24,6 +24,7 @@
         .button-section {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 16px;
             margin-top: 24px;
         }

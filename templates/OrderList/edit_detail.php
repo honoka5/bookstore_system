@@ -7,7 +7,15 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #888; padding: 4px 8px; }
         th { background: #eee; }
-        .button-area { margin-top: 20px; text-align: right; }
+        .button-area {
+             margin-top: 20px; 
+             text-align: left; 
+            
+            }
+            .button-area span{
+                display: inline-flex;
+                gap: 8px;
+            }
         .btn, .button { background-color: #1976d2; color: #fff; border: none; border-radius: 4px; padding: 6px 24px; font-size: 13px; cursor: pointer; }
         .btn:active, .button:active { background: #1565c0; }
         .delete-btn { background: #e53935; color: #fff; border-radius: 4px; padding: 2px 10px; font-size: 15px; cursor: pointer; }
@@ -72,8 +80,10 @@
         </tbody>
     </table>
     <div class="button-area">
+        <span>
         <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
         <button type="submit" class="btn">確定</button>
+        </span>
     </div>
     <?= $this->Form->end() ?>
     <script>
