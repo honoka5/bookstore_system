@@ -152,8 +152,8 @@ class OrderListController extends AppController
                 }
                 $min = max(1, $max - $unshippedSum);
                 $newAmount = $after['book_amount'];
-                if ($newAmount < $min || $newAmount > $max || $newAmount === 0) {
-                    $errors[] = "注文内容ID:{$id} の数量が不正です（{$min}～{$max}の範囲で入力してください）";
+                if ($newAmount < 1 || $newAmount > $max) {
+                    $errors[] = "注文内容ID:{$id} の数量が不正です（1～{$max}の範囲で入力してください）";
                 }
 
                 // --- 未納納品内容の数量が0になる場合のバリデーション追加 ---

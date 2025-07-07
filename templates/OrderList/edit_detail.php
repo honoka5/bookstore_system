@@ -60,7 +60,7 @@
                 <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", ['value'=>$item->book_summary, 'style'=>'width:120px;']) ?></td>
                 <td>
                     <?= $this->Form->create(null, [
-                        'url' => ['controller'=>'OrderList','action'=>'deleteOrderItem', h($item->orderItem_id)],
+                        'url' => ['controller'=>'OrderList','action'=>'deleteOrderItem', $item->orderItem_id],
                         'style' => 'display:inline;',
                         'type' => 'post',
                     ]) ?>
