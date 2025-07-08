@@ -22,6 +22,12 @@
     <p>顧客名: <?= h($order->customer->name ?? '') ?></p>
     <p>注文日: <?= h($order->order_date) ?></p>
     <p>備考: <?= $this->Form->control('remark', ['type'=>'text', 'value'=>$order->remark, 'label'=>false, 'style'=>'width:300px;']) ?></p>
+    <div class="button-area">
+        <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
+        <button type="submit" class="btn">確定</button>
+    </div>
+    <?= $this->Form->end() ?>
+
     <table>
         <thead>
             <tr>
@@ -40,26 +46,29 @@
                     'style' => 'width:140px;',
                     'required' => true,
                     'placeholder' => '書籍名',
+                    'form' => null // 編集用form外
                 ]) ?></td>
                 <td>
                     <?= $this->Form->select("book_amount[{$item->orderItem_id}]", $amountRanges[$item->orderItem_id], [
                         'value' => $item->book_amount,
                         'empty' => false,
-                        'style' => 'width:60px;'
+                        'style' => 'width:60px;',
+                        'form' => null
                     ]) ?>
                     <?= $this->Form->text("book_amount[{$item->orderItem_id}]", [
                         'value' => $item->book_amount,
                         'style' => 'width:50px;',
                         'pattern' => '[0-9]*',
                         'inputmode' => 'numeric',
-                        'title' => '数量を直接入力できます'
+                        'title' => '数量を直接入力できます',
+                        'form' => null
                     ]) ?>
                 </td>
-                <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", ['value'=>$item->unit_price, 'style'=>'width:70px;']) ?></td>
-                <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", ['value'=>$item->book_summary, 'style'=>'width:120px;']) ?></td>
+                <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", ['value'=>$item->unit_price, 'style'=>'width:70px;', 'form' => null]) ?></td>
+                <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", ['value'=>$item->book_summary, 'style'=>'width:120px;', 'form' => null]) ?></td>
                 <td>
                     <form method="post" action="<?= $this->Url->build(['controller'=>'OrderList','action'=>'deleteOrderItem', $item->orderItem_id]) ?>" style="display:inline;">
-                        <?= $this->fetch('csrfToken') ? '<input type="hidden" name="_csrfToken" value="' . h($this->request->getAttribute('csrfToken')) . '">' : '' ?>
+                        <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
                         <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
                     </form>
                 </td>
@@ -67,26 +76,5 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="button-area">
-        <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
-        <button type="submit" class="btn">確定</button>
-    </div>
-    <?= $this->Form->end() ?>
-    <script>
-    // 数量のプルダウンと手入力の同期
-    document.querySelectorAll('select[name^="book_amount"]').forEach(function(sel) {
-        sel.addEventListener('change', function() {
-            var id = this.name.match(/\[(\d+)\]/)[1];
-            document.querySelector('input[name="book_amount['+id+']"]').value = this.value;
-        });
-    });
-    document.querySelectorAll('input[name^="book_amount"]').forEach(function(inp) {
-        inp.addEventListener('input', function() {
-            var id = this.name.match(/\[(\d+)\]/)[1];
-            var sel = document.querySelector('select[name="book_amount['+id+']"]');
-            if (sel) sel.value = this.value;
-        });
-    });
-    </script>
 </body>
 </html>
