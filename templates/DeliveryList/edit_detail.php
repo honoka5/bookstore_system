@@ -41,14 +41,11 @@
             <tbody>
                 <?php foreach ($delivery->delivery_items ?? [] as $item): ?>
                 <tr>
-                    <td><?= $this->Form->text("book_title[{$item->deliveryItem_id}]", ['value' => $item->book_title, 'style' => 'width:120px;', 'form' => 'main-edit-form']) ?></td>
-                    <td><?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", ['value' => $item->book_amount, 'style' => 'width:60px;', 'pattern' => '[0-9]*', 'inputmode' => 'numeric', 'form' => 'main-edit-form']) ?></td>
-                    <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", ['value' => $item->unit_price, 'style' => 'width:70px;', 'form' => 'main-edit-form']) ?></td>
+                    <td><?= $this->Form->text("book_title[{$item->deliveryItem_id}]", ['value' => $item->book_title, 'style' => 'width:120px;']) ?></td>
+                    <td><?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", ['value' => $item->book_amount, 'style' => 'width:60px;', 'pattern' => '[0-9]*', 'inputmode' => 'numeric']) ?></td>
+                    <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", ['value' => $item->unit_price, 'style' => 'width:70px;']) ?></td>
                     <td>
-                        <form method="post" action="<?= $this->Url->build(['controller'=>'DeliveryList','action'=>'deleteDeliveryItem', $item->deliveryItem_id, $delivery->delivery_id]) ?>" style="display:inline;">
-                            <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
-                            <button type="submit" class="delete-btn" style="font-size:18px;" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
-                        </form>
+                        <button type="button" class="delete-btn" onclick="confirmDelete(<?= $item->deliveryItem_id ?>, <?= $delivery->delivery_id ?>)">&#10005;</button>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -64,3 +61,22 @@
     </div>
 </body>
 </html>
+<script>
+function confirmDelete(itemId, deliveryId) {
+    if (!confirm('本当に削除しますか？')) return;
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/delivery-list/deleteDeliveryItem/${itemId}/${deliveryId}`;
+
+    const token = document.createElement('input');
+    token.type = 'hidden';
+    token.name = '_csrfToken';
+    token.value = <?= json_encode($this->request->getAttribute('csrfToken')) ?>;
+
+    form.appendChild(token);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+
