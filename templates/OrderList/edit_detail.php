@@ -22,7 +22,6 @@
     <p>顧客名: <?= h($order->customer->name ?? '') ?></p>
     <p>注文日: <?= h($order->order_date) ?></p>
     <p>備考: <?= $this->Form->control('remark', ['type'=>'text', 'value'=>$order->remark, 'label'=>false, 'style'=>'width:300px;']) ?></p>
-
     <table>
         <thead>
             <tr>
@@ -59,13 +58,10 @@
                 <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", ['value'=>$item->unit_price, 'style'=>'width:70px;']) ?></td>
                 <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", ['value'=>$item->book_summary, 'style'=>'width:120px;']) ?></td>
                 <td>
-                    <?= $this->Form->create(null, [
-                        'url' => ['controller'=>'OrderList','action'=>'deleteOrderItem', $item->orderItem_id],
-                        'style' => 'display:inline;',
-                        'type' => 'post',
-                    ]) ?>
+                    <form method="post" action="<?= $this->Url->build(['controller'=>'OrderList','action'=>'deleteOrderItem', $item->orderItem_id]) ?>" style="display:inline;">
+                        <?= $this->fetch('csrfToken') ? '<input type="hidden" name="_csrfToken" value="' . h($this->request->getAttribute('csrfToken')) . '">' : '' ?>
                         <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
-                    <?= $this->Form->end() ?>
+                    </form>
                 </td>
             </tr>
             <?php endforeach; ?>
