@@ -4,10 +4,32 @@
     <meta charset="UTF-8">
     <title>注文書詳細</title>
     <style>
-        /* 必要に応じてCSSを追加 */
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #888; padding: 4px 8px; }
         th { background: #eee; }
+        .button-section {
+            display: flex;
+            justify-content: space-between; /* 両端に配置 */
+            align-items: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .button {
+            background-color: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 32px;
+            font-size: 20px;
+            cursor: pointer;
+            height: 44px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button:hover {
+            background: #1565c0;
+        }
     </style>
 </head>
 <body>
@@ -38,8 +60,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    
 
-    <div style="margin-top:20px; text-align:right;">
+    <div class="button-section">
         <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'order'], ['class' => 'button']) ?>
         <?= $this->Html->link('編集', ['controller' => 'OrderList', 'action' => 'editOrderDetail', $order->order_id], ['class' => 'button']) ?>
     </div>
