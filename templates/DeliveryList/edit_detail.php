@@ -41,31 +41,26 @@
             <tbody>
                 <?php foreach ($delivery->delivery_items ?? [] as $item): ?>
                 <tr>
-                    <td><?= $this->Form->text("book_title[{$item->deliveryItem_id}]", ['value' => $item->book_title, 'style' => 'width:120px;']) ?></td>
-                    <td><?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", ['value' => $item->book_amount, 'style' => 'width:60px;', 'pattern' => '[0-9]*', 'inputmode' => 'numeric']) ?></td>
-                    <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", ['value' => $item->unit_price, 'style' => 'width:70px;']) ?></td>
+                    <td><?= $this->Form->text("book_title[{$item->deliveryItem_id}]", ['value' => $item->book_title, 'style' => 'width:120px;', 'form' => 'main-edit-form']) ?></td>
+                    <td><?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", ['value' => $item->book_amount, 'style' => 'width:60px;', 'pattern' => '[0-9]*', 'inputmode' => 'numeric', 'form' => 'main-edit-form']) ?></td>
+                    <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", ['value' => $item->unit_price, 'style' => 'width:70px;', 'form' => 'main-edit-form']) ?></td>
                     <td>
-                        <?= $this->Form->create(null, [
-                            'url' => [
-                                'controller' => 'delivery-list',
-                                'action' => 'delete_delivery_item',
-                                $item->deliveryItem_id,
-                                $delivery->delivery_id
-                            ],
-                            'style' => 'display:inline;'
-                        ]) ?>
+                        <form method="post" action="<?= $this->Url->build(['controller'=>'DeliveryList','action'=>'deleteDeliveryItem', $item->deliveryItem_id, $delivery->delivery_id]) ?>" style="display:inline;">
+                            <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
                             <button type="submit" class="delete-btn" style="font-size:18px;" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
-                        <?= $this->Form->end() ?>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <div class="button-area">
-            <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'deliveryDetail', $delivery->delivery_id], ['class' => 'button']) ?>
-            <button type="submit" class="action-btn">保存</button>
-        </div>
-        <?= $this->Form->end() ?>
+        <form id="main-edit-form" method="post" action="<?= $this->Url->build(['controller'=>'delivery-list','action'=>'editDetail', $delivery->delivery_id]) ?>">
+            <div class="button-area">
+                <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'deliveryDetail', $delivery->delivery_id], ['class' => 'button']) ?>
+                <button type="submit" class="action-btn">保存</button>
+            </div>
+            <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
+        </form>
     </div>
 </body>
 </html>
