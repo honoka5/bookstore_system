@@ -7,7 +7,14 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #888; padding: 4px 8px; }
         th { background: #eee; }
-        .button-area { margin-top: 20px; text-align: right; }
+        .button-area {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            margin-top: 0;
+            text-align: right;
+            z-index: 100;
+        }
         .btn, .button { background-color: #1976d2; color: #fff; border: none; border-radius: 4px; padding: 6px 24px; font-size: 13px; cursor: pointer; }
         .btn:active, .button:active { background: #1565c0; }
         .delete-btn { background: #e53935; color: #fff; border-radius: 4px; padding: 2px 10px; font-size: 15px; cursor: pointer; }
@@ -16,16 +23,12 @@
 </head>
 <body>
     <h2>注文書詳細（編集）</h2>
-    <?= $this->Form->create(null, ['type' => 'post']) ?>
+    <?= $this->Form->create(null, ['type' => 'post', 'id' => 'main-edit-form']) ?>
     <p>注文書ID: <?= h($order->order_id) ?></p>
     <p>顧客ID: <?= h($order->customer_id) ?></p>
     <p>顧客名: <?= h($order->customer->name ?? '') ?></p>
     <p>注文日: <?= h($order->order_date) ?></p>
     <p>備考: <?= $this->Form->control('remark', ['type'=>'text', 'value'=>$order->remark, 'label'=>false, 'style'=>'width:300px;']) ?></p>
-    <div class="button-area">
-        <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
-        <button type="submit" class="btn">確定</button>
-    </div>
     <?= $this->Form->end() ?>
 
     <table>
@@ -76,5 +79,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <div class="button-area">
+        <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
+        <button type="submit" form="main-edit-form" class="btn">確定</button>
+    </div>
 </body>
 </html>
