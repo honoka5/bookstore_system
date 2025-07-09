@@ -13,9 +13,55 @@ class DeliveryListController extends AppController
     public function editDetail($deliveryId)
     {
         $deliveriesTable = $this->fetchTable('Deliveries');
+        $deliveryItemsTable = $this->fetchTable('DeliveryItems');
         $delivery = $deliveriesTable->get($deliveryId, [
             'contain' => ['Customers', 'DeliveryItems']
         ]);
+        if ($this->request->is('post')) {
+            $data = $this->request->getData();
+            $error = false;
+            $errorMsg = '';
+            $beforeList = [];
+            $afterList = [];
+            foreach ($delivery->delivery_items as $item) {
+                $id = $item->deliveryItem_id;
+                $beforeQty = (int)$item->book_amount;
+                $beforePrice = (int)$item->unit_price;
+                $beforeTitle = $item->book_title;
+                $afterQty = isset($data['book_amount'][$id]) ? (int)$data['book_amount'][$id] : $beforeQty;
+                $afterPrice = isset($data['unit_price'][$id]) ? (int)$data['unit_price'][$id] : $beforePrice;
+                $afterTitle = isset($data['book_title'][$id]) ? $data['book_title'][$id] : $beforeTitle;
+                $beforeList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$beforeQty, 'unit_price'=>$beforePrice, 'book_title'=>$beforeTitle];
+                $afterList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$afterQty, 'unit_price'=>$afterPrice, 'book_title'=>$afterTitle];
+                // バリデーション
+                if ($afterQty < 1 || $afterQty > $beforeQty) {
+                    $error = true;
+                    $errorMsg = '数量が不正です';
+                }
+                if ($afterPrice <= 0) {
+                    $error = true;
+                    $errorMsg = '単価の値が不正です';
+                }
+            }
+            if ($error) {
+                $this->Flash->error($errorMsg);
+            } else {
+                // 更新処理
+                foreach ($afterList as $row) {
+                    $entity = $deliveryItemsTable->get($row['deliveryItem_id']);
+                    $entity->book_amount = $row['book_amount'];
+                    $entity->unit_price = $row['unit_price'];
+                    $entity->book_title = $row['book_title'];
+                    $deliveryItemsTable->save($entity);
+                }
+                $this->Flash->success('納品内容を更新しました');
+                return $this->redirect(['action'=>'editDetail', $deliveryId]);
+            }
+            // 画面再描画用
+            $delivery = $deliveriesTable->get($deliveryId, [
+                'contain' => ['Customers', 'DeliveryItems']
+            ]);
+        }
         $this->set(compact('delivery'));
         $this->render('/DeliveryList/edit_detail');
     }

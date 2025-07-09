@@ -41,20 +41,54 @@
             <tbody>
                 <?php foreach ($delivery->delivery_items ?? [] as $item): ?>
                 <tr>
-                    <td><?= $this->Form->text("book_title[{$item->deliveryItem_id}]", ['value' => $item->book_title, 'style' => 'width:120px;']) ?></td>
-                    <td><?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", ['value' => $item->book_amount, 'style' => 'width:60px;', 'pattern' => '[0-9]*', 'inputmode' => 'numeric']) ?></td>
-                    <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", ['value' => $item->unit_price, 'style' => 'width:70px;']) ?></td>
+                    <td><?= $this->Form->text("book_title[{$item->deliveryItem_id}]", [
+                        'value' => $item->book_title,
+                        'style' => 'width:120px;',
+                        'form' => 'main-edit-form',
+                        'id' => 'book_title_' . $item->deliveryItem_id
+                    ]) ?></td>
                     <td>
-                        <button type="button" class="delete-btn" onclick="confirmDelete(<?= $item->deliveryItem_id ?>, <?= $delivery->delivery_id ?>)">&#10005;</button>
+                        <?php
+                        $max = (int)$item->book_amount;
+                        $amountOptions = array_combine(range(1, $max), range(1, $max));
+                        ?>
+                        <?= $this->Form->select("book_amount[{$item->deliveryItem_id}]", $amountOptions, [
+                            'value' => $item->book_amount,
+                            'empty' => false,
+                            'style' => 'width:60px;',
+                            'form' => 'main-edit-form',
+                            'id' => 'amount_select_' . $item->deliveryItem_id
+                        ]) ?>
+                        <?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", [
+                            'value' => $item->book_amount,
+                            'style' => 'width:50px;',
+                            'pattern' => '[0-9]*',
+                            'inputmode' => 'numeric',
+                            'title' => '数量を直接入力できます',
+                            'form' => 'main-edit-form',
+                            'id' => 'amount_input_' . $item->deliveryItem_id
+                        ]) ?>
+                    </td>
+                    <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", [
+                        'value' => $item->unit_price,
+                        'style' => 'width:70px;',
+                        'form' => 'main-edit-form',
+                        'id' => 'unit_price_' . $item->deliveryItem_id
+                    ]) ?></td>
+                    <td>
+                        <form method="post" action="<?= $this->Url->build(['controller'=>'DeliveryList','action'=>'deleteDeliveryItem', $item->deliveryItem_id, $delivery->delivery_id]) ?>" style="display:inline;">
+                            <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
+                            <button type="submit" class="delete-btn" style="font-size:18px;" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
         <form id="main-edit-form" method="post" action="<?= $this->Url->build(['controller'=>'delivery-list','action'=>'editDetail', $delivery->delivery_id]) ?>">
-            <div class="button-area">
+            <div class="button-area" style="position:fixed;right:30px;bottom:30px;z-index:100;">
                 <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'deliveryDetail', $delivery->delivery_id], ['class' => 'button']) ?>
-                <button type="submit" class="action-btn">保存</button>
+                <button type="submit" class="action-btn">確定</button>
             </div>
             <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
         </form>
@@ -78,5 +112,22 @@ function confirmDelete(itemId, deliveryId) {
     document.body.appendChild(form);
     form.submit();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    <?php foreach ($delivery->delivery_items ?? [] as $item): ?>
+    (function() {
+        var select = document.getElementById('amount_select_<?= $item->deliveryItem_id ?>');
+        var input = document.getElementById('amount_input_<?= $item->deliveryItem_id ?>');
+        if (select && input) {
+            select.addEventListener('change', function() {
+                input.value = select.value;
+            });
+            input.addEventListener('input', function() {
+                select.value = input.value;
+            });
+        }
+    })();
+    <?php endforeach; ?>
+});
 </script>
 
