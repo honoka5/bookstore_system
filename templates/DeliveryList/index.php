@@ -13,78 +13,73 @@
             background-color: #f0f0f0;
         }
         .main-container {
-            width: 1000px;
+            max-width: 1200px;
             min-height: 100vh;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            background-color: #f0f0f0;
+            background-color: #fff;
         }
-        .header-tabs {
-            display: flex;
-            border-bottom: 1px solid #808080;
+        .header-bar {
+            width: 100%;
             background: #1976d2;
             color: #fff;
-            border-radius: 0;
-            padding: 8px 16px;
-        }
-        .tab {
-            padding: 6px 12px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-        }
-        .tab:first-child {
+            padding: 36px 0 24px 0;
+            text-align: center;
+            font-size: 48px;
             font-weight: bold;
-        }
-        .tab:last-child {
-            flex: 1;
-            font-size: 11px;
-            opacity: 0.8;
+            letter-spacing: 8px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            margin-bottom: 32px;
         }
         .content-area {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 16px;
-            background-color: #f0f0f0;
+            padding: 32px 32px 16px 32px;
+            background-color: #fff;
         }
         .search-section {
             display: flex;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 10px;
-            gap: 8px;
+            margin-bottom: 24px;
+            gap: 12px;
         }
         .search-input {
-            border: 1px solid #808080;
-            padding: 2px 6px;
-            font-size: 13px;
-            height: 22px;
-            width: 160px;
+            border: 2px solid #b39ddb;
+            padding: 0 12px;
+            font-size: 20px;
+            height: 40px;
+            width: 600px;
+            border-radius: 6px;
             background-color: white;
-            border-radius: 4px;
         }
         .search-btn {
-            background-color: #1976d2;
+            background-color: #e53935;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 2px 14px;
-            font-size: 13px;
-            height: 26px;
+            border-radius: 8px;
+            padding: 0 32px;
+            font-size: 20px;
+            height: 40px;
             cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
         }
-        .search-btn:active {
-            background: #1565c0;
+        .search-btn:active,
+        .search-btn:hover {
+            background: #b71c1c;
         }
         .table-container {
             flex: 1;
             background-color: white;
-            border: 1px solid #808080;
-            border-radius: 6px;
-            margin-bottom: 12px;
+            border-radius: 8px;
+            margin-bottom: 24px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            border: 1px solid #e0e0e0;
         }
         .scroll-table {
             flex: 1;
@@ -95,17 +90,18 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
-            min-width: 600px;
+            font-size: 20px;
+            min-width: 900px;
+            background: #fff;
         }
         .data-table th, .data-table td {
             border: 1px solid #e0e0e0;
-            padding: 6px 10px;
+            padding: 14px 8px;
             text-align: left;
             white-space: nowrap;
         }
         .data-table th {
-            background: #e3f2fd;
+            background: #f5f5f5;
             font-weight: bold;
             position: sticky;
             top: 0;
@@ -122,32 +118,56 @@
         .data-table tr:not(.selected):hover td {
             background: #e6f3ff;
         }
+        .delete-btn {
+            background: #e53935;
+            font-size: 20px;
+            padding: 0 18px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: #b71c1c;
+        }
         .button-section {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 8px;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 24px;
         }
-        .btn, .button {
+        .button, .btn {
             background-color: #1976d2;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 6px 24px;
-            font-size: 13px;
+            border-radius: 8px;
+            padding: 0 40px;
+            font-size: 22px;
             cursor: pointer;
-            height: 32px;
+            height: 48px;
+            font-weight: bold;
+            transition: background 0.2s;
         }
-        .btn:active, .button:active {
+        .button:active, .btn:active,
+        .button:hover, .btn:hover {
             background: #1565c0;
         }
         @media screen and (max-width: 900px) {
             .data-table {
-                font-size: 11px;
+                font-size: 14px;
                 min-width: 400px;
             }
             .content-area {
-                padding: 4px;
+                padding: 8px;
+            }
+            .main-container {
+                max-width: 100vw;
+            }
+            .header-bar {
+                font-size: 28px;
+                padding: 18px 0 12px 0;
             }
         }
         @media screen and (max-width: 600px) {
@@ -155,23 +175,21 @@
                 width: 100vw;
             }
             .data-table {
-                font-size: 10px;
+                font-size: 12px;
                 min-width: 320px;
             }
-            .header-tabs {
-                font-size: 11px;
-                padding: 6px 4px;
+            .header-bar {
+                font-size: 16px;
+                padding: 8px 0 6px 0;
             }
         }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <!-- Header Tabs -->
-        <div class="header-tabs">
-            <div class="tab">MBS</div>
-            <div class="tab">納品書一覧</div>
-            <div class="tab">ホーム＞一覧確認＞納品書一覧</div>
+        <!-- Header Bar -->
+        <div class="header-bar">
+            納品書一覧
         </div>
         <div class="content-area">
             <!-- Search Section -->
@@ -191,10 +209,12 @@
                                 <th>金額</th>
                                 <th>納品日</th>
                                 <th>備考</th>
+                                <th>削除</th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($deliveries ?? [] as $delivery): ?>
+                        <?php if (!is_object($delivery)) continue; ?>
                         <tr>
                             <td><?= h($delivery->delivery_id) ?></td>
                             <td><?= h($delivery->customer_id) ?></td>
@@ -202,6 +222,15 @@
                             <td><?= h($delivery->total_amount ?? '') ?></td>
                             <td><?= h($delivery->delivery_date) ?></td>
                             <td><?= h($delivery->remark ?? '') ?></td>
+                            <td>
+                                <?= $this->Form->create(null, [
+                                    'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
+                                    'style' => 'display:inline;',
+                                    'type' => 'post',
+                                ]) ?>
+                                    <button type="submit" class="btn delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
+                                <?= $this->Form->end() ?>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                         </tbody>
@@ -211,9 +240,10 @@
             <!-- Action Buttons -->
             <div class="button-section">
                 <?= $this->Html->link('戻る',['controller' => 'List', 'action' => 'index'], ['class' => 'button']) ?>
-                <button class="btn" id="detailBtn" type="button">詳細</button>
+                <button class="button" id="detailBtn" type="button">詳細</button>
             </div>
         </div>
+        
     </div>
     <script>
         // 行選択

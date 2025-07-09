@@ -13,15 +13,20 @@ session_start();
         body {
             font-family: 'MS Gothic', monospace;
             margin: 0;
-            padding: 24px;
+            padding: 0;
             background-color: #fff;
+            min-height: 100vh;
+
         }
 
         .navbar {
             display: flex;
-            border: 1.5px solid #222;
-            border-bottom: none;
-            margin-bottom: 0;
+    width: 100vw;                   /* 横幅いっぱいに */
+    border-bottom: 1.5px solid #222;/* 下線を明示的に指定 */
+    margin-bottom: 0;
+    box-sizing: border-box;
+    border-left: 2px solid #222;    /* 左の枠線も必要なら追加 */
+    border-right: 2px solid #222; /* 右の枠線も必要なら追加 */
         }
 
         .navbar-item {
@@ -42,11 +47,11 @@ session_start();
         }
 
         .main-box {
-            border: 1.5px solid #222;
-            margin: 0 auto;
-            max-width: 100vw;
-            min-width: 320px;
-            min-height: 600px;
+            border: 2px solid #222;
+            margin: 0 0 0 -220px ;
+            width: 1519px;
+            min-width: 0;
+            min-height: 100vh;
             background: #fff;
             box-sizing: border-box;
             padding-bottom: 40px;

@@ -93,6 +93,7 @@
         </tbody>
     </table>
     <div class="button-area">
+        <span>
         <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
         <button type="submit" form="main-edit-form" class="btn">確定</button>
     </div>
