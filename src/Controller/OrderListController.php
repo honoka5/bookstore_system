@@ -132,13 +132,14 @@ class OrderListController extends AppController
                     'book_amount' => $item->book_amount,
                     'unit_price' => $item->unit_price,
                     'book_summary' => $item->book_summary,
+                    'book_title' => $item->book_title,
                 ];
                 $after = [
                     'orderItem_id' => $id,
                     'book_amount' => (int)($data['book_amount'][$id] ?? $item->book_amount),
                     'unit_price' => $data['unit_price'][$id] ?? $item->unit_price,
                     'book_summary' => $data['book_summary'][$id] ?? $item->book_summary,
-                    'book_title' => $data['book_title'][$id] ?? $item->book_title, // 追加
+                    'book_title' => $data['book_title'][$id] ?? $item->book_title,
                 ];
                 $afterList[] = $after;
                 // バリデーション
@@ -171,6 +172,9 @@ class OrderListController extends AppController
                     }
                 }
                 // --- ここまで追加 ---
+                if ($after['unit_price'] <= 0) {
+                    $errors[] = "注文内容ID:{$id} の単価の値が不正です（1以上で入力してください）";
+                }
             }
             if ($errors) {
                 foreach ($errors as $msg) $this->Flash->error($msg);
@@ -186,7 +190,7 @@ class OrderListController extends AppController
                         $item->book_amount = $after['book_amount'];
                         $item->unit_price = $after['unit_price'];
                         $item->book_summary = $after['book_summary'];
-                        $item->book_title = $after['book_title']; // 追加
+                        $item->book_title = $after['book_title'];
                         $orderItemsTable->save($item);
 
                         // 差分を未納納品内容（is_delivered_flag=0, ID最大）に反映

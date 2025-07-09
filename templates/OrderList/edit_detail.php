@@ -49,14 +49,16 @@
                     'style' => 'width:140px;',
                     'required' => true,
                     'placeholder' => '書籍名',
-                    'form' => null // 編集用form外
+                    'form' => 'main-edit-form',
+                    'id' => 'book_title_' . $item->orderItem_id
                 ]) ?></td>
                 <td>
                     <?= $this->Form->select("book_amount[{$item->orderItem_id}]", $amountRanges[$item->orderItem_id], [
                         'value' => $item->book_amount,
                         'empty' => false,
                         'style' => 'width:60px;',
-                        'form' => null
+                        'form' => 'main-edit-form',
+                        'id' => 'amount_select_' . $item->orderItem_id
                     ]) ?>
                     <?= $this->Form->text("book_amount[{$item->orderItem_id}]", [
                         'value' => $item->book_amount,
@@ -64,11 +66,22 @@
                         'pattern' => '[0-9]*',
                         'inputmode' => 'numeric',
                         'title' => '数量を直接入力できます',
-                        'form' => null
+                        'form' => 'main-edit-form',
+                        'id' => 'amount_input_' . $item->orderItem_id
                     ]) ?>
                 </td>
-                <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", ['value'=>$item->unit_price, 'style'=>'width:70px;', 'form' => null]) ?></td>
-                <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", ['value'=>$item->book_summary, 'style'=>'width:120px;', 'form' => null]) ?></td>
+                <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", [
+                    'value' => $item->unit_price,
+                    'style' => 'width:70px;',
+                    'form' => 'main-edit-form',
+                    'id' => 'unit_price_' . $item->orderItem_id
+                ]) ?></td>
+                <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", [
+                    'value' => $item->book_summary,
+                    'style' => 'width:120px;',
+                    'form' => 'main-edit-form',
+                    'id' => 'book_summary_' . $item->orderItem_id
+                ]) ?></td>
                 <td>
                     <form method="post" action="<?= $this->Url->build(['controller'=>'OrderList','action'=>'deleteOrderItem', $item->orderItem_id]) ?>" style="display:inline;">
                         <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
@@ -84,5 +97,23 @@
         <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
         <button type="submit" form="main-edit-form" class="btn">確定</button>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php foreach ($order->order_items as $item): ?>
+    (function() {
+        var select = document.getElementById('amount_select_<?= $item->orderItem_id ?>');
+        var input = document.getElementById('amount_input_<?= $item->orderItem_id ?>');
+        if (select && input) {
+            select.addEventListener('change', function() {
+                input.value = select.value;
+            });
+            input.addEventListener('input', function() {
+                select.value = input.value;
+            });
+        }
+    })();
+    <?php endforeach; ?>
+});
+</script>
 </body>
 </html>
