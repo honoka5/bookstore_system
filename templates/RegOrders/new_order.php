@@ -10,8 +10,20 @@
     <?php for ($i = 0; $i < 15; $i++): ?>
         <tr>
             <td><?= $this->Form->control("order_items.{$i}.book_title", ['label' => false]) ?></td>
-            <td><?= $this->Form->control("order_items.{$i}.unit_price", ['label' => false, 'type' => 'number']) ?></td>
-            <td><?= $this->Form->control("order_items.{$i}.book_amount", ['label' => false, 'type' => 'number']) ?></td>
+            <td><?= $this->Form->control("order_items.{$i}.unit_price", [
+                'label' => false,
+                'type' => 'number',
+                'min' => 1,
+                'max' => 9999999,
+                'inputmode' => 'numeric',
+            ]) ?></td>
+            <td><?= $this->Form->control("order_items.{$i}.book_amount", [
+                'label' => false,
+                'type' => 'number',
+                'min' => 1,
+                'max' => 999,
+                'inputmode' => 'numeric',
+            ]) ?></td>
             <td><?= $this->Form->control("order_items.{$i}.book_summary", ['label' => false]) ?></td>
         </tr>
     <?php endfor; ?>

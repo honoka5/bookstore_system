@@ -86,12 +86,12 @@ class RegOrdersController extends AppController
                     break;
                 }
                 // 数量・単価が0以下の場合はエラー
-                if (!is_numeric($bookAmount) || (int)$bookAmount <= 0) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1以上の数値で入力してください。';
+                if (!is_numeric($bookAmount) || (int)$bookAmount <= 0 || !preg_match('/^[1-9][0-9]{0,2}$/', $bookAmount)) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1～999の整数で入力してください。';
                     break;
                 }
-                if (!is_numeric($unitPrice) || (int)$unitPrice <= 0) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1以上の数値で入力してください。';
+                if (!is_numeric($unitPrice) || (int)$unitPrice <= 0 || !preg_match('/^[1-9][0-9]{0,6}$/', $unitPrice)) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1～9999999の整数で入力してください。';
                     break;
                 }
             }
