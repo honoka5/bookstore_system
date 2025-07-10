@@ -30,14 +30,26 @@ class ListController extends AppController
         $this->viewBuilder()->setLayout('default');
 
         $customersTable = $this->fetchTable('Customers');
-        $customers = $customersTable->find()->all();
-        $this->set(compact('customers'));
-
-
-        
-     
-        $this->render('/CustomerList/index');
-
+        // 書店名での絞り込み処理
+    $query = $customersTable->find();
+    $selectedBookstore = $this->request->getQuery('bookstore');
+    
+    if (!empty($selectedBookstore)) {
+        $query->where(['bookstore_name' => $selectedBookstore]);
+    }
+    
+    $customers = $query->all();
+    
+    // 書店名の一覧を取得（絞り込みボタン用）
+    $bookstores = $customersTable->find()
+        ->select(['bookstore_name'])
+        ->distinct(['bookstore_name'])
+        ->where(['bookstore_name IS NOT' => null])
+        ->orderAsc('bookstore_name')
+        ->toArray();
+    
+    $this->set(compact('customers', 'bookstores', 'selectedBookstore'));
+    $this->render('/CustomerList/index');
     }
 
     /**
