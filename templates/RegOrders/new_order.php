@@ -1,5 +1,18 @@
 <h1>注文入力</h1>
 <?= $this->Form->create(null) ?>
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <div></div>
+    <div style="text-align:right;">
+        <label for="order_date">注文日:</label>
+        <?= $this->Form->control('order_date', [
+            'type' => 'date',
+            'label' => false,
+            'id' => 'order_date',
+            'value' => h(date('Y-m-d')),
+            'style' => 'margin-left:5px; display:inline-block; width:auto;'
+        ]) ?>
+    </div>
+</div>
 <table>
     <tr>
         <th>書籍名</th>
@@ -63,5 +76,14 @@
     .right-btn {
         flex: 1;
         text-align: right;
+    }
+    /* 単価のスピンボタン非表示 */
+    input[type=number][name*='unit_price']::-webkit-outer-spin-button,
+    input[type=number][name*='unit_price']::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number][name*='unit_price'] {
+        -moz-appearance: textfield;
     }
 </style>

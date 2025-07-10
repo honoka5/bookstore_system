@@ -112,10 +112,11 @@ class RegOrdersController extends AppController
             $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
 
             // 1. 注文書作成
+            $orderDate = $data['order_date'] ?? date('Y-m-d');
             $order = $ordersTable->newEntity([
                 'order_id' => $nextOrderId,
                 'customer_id' => $customerId,
-                'order_date' => date('Y-m-d'),
+                'order_date' => $orderDate,
                 'remark' => $data['orders']['remark'] ?? null, // 修正: フォームのname属性に合わせる
             ]);
             $ordersTable->saveOrFail($order);
