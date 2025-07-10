@@ -9,7 +9,14 @@
 <div class="deliveries index content">
     <h3>納品内容選択</h3>
     <?= $this->Form->create(null, ['url' => ['action' => 'registerDeliveries']]) ?>
-    <input type="hidden" name="customer_id" value="<?= h($customerId) ?>">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <input type="hidden" name="customer_id" value="<?= h($customerId) ?>">
+        <div></div>
+        <div style="text-align:right;">
+            <label for="delivery_date">納品日:</label>
+            <input type="date" name="delivery_date" id="delivery_date" value="<?= h(date('Y-m-d')) ?>" style="margin-left:5px;">
+        </div>
+    </div>
     <div class="table-responsive">
         <?php if (empty($deliveryItems) || count($deliveryItems) === 0): ?>
             <p style="color:red;">未納品の商品はありません</p>

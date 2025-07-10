@@ -136,10 +136,11 @@ class RegDeliveriesController extends AppController
         try {
             // 新しい納品書IDを採番
             $nextDeliveryId = $this->generateNextId($deliveriesTable, 'delivery_id', 5);
+            $deliveryDate = $data['delivery_date'] ?? date('Y-m-d');
             $delivery = $deliveriesTable->newEntity([
                 'delivery_id' => $nextDeliveryId,
                 'customer_id' => $data['customer_id'],
-                'delivery_date' => date('Y-m-d'),
+                'delivery_date' => $deliveryDate,
             ]);
             $deliveriesTable->save($delivery);
 
