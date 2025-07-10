@@ -44,11 +44,21 @@ class CreateOrderItems extends AbstractMigration
             'signed' => false,
             'limit' => 7,
         ]);
+        $table->addConstraint('chk_order_items_unit_price', [
+            'type'       => 'check',
+            'columns'    => ['unit_price'],
+            'expression' => 'unit_price BETWEEN 0 AND 9999999'
+        ]);
         $table->addColumn('book_amount', 'integer', [
             'default' => null,
             'null' => false,
             'signed' => false,
             'limit' => 3,
+        ]);
+        $table->addConstraint('chk_order_items_book_amount', [
+            'type'       => 'check',
+            'columns'    => ['book_amount'],
+            'expression' => 'book_amount BETWEEN 0 AND 999'
         ]);
         $table->addColumn('book_summary', 'string', [
             'default' => null,

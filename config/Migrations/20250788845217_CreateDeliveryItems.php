@@ -45,11 +45,23 @@ class CreateDeliveryItems extends AbstractMigration
             'default' => null,
             'null' => false,
             'signed' => false, // 符号なし整数として定義
+            'limit' => 7, // 単価は0〜9999999の範囲
+        ]);
+        $table->addConstraint('chk_delivery_items_unit_price', [
+            'type'       => 'check',
+            'columns'    => ['unit_price'],
+            'expression' => 'unit_price BETWEEN 0 AND 9999999'
         ]);
         $table->addColumn('book_amount', 'integer', [
             'default' => null,
             'null' => false,
             'signed' => false, // 符号なし整数として定義
+            'limit' => 3, // 数量は1〜999の範囲
+        ]);
+        $table->addConstraint('chk_delivery_items_book_amount', [
+            'type'       => 'check',
+            'columns'    => ['book_amount'],
+            'expression' => 'book_amount BETWEEN 0 AND 999'
         ]);
         $table->addColumn('is_delivered_flag', 'boolean', [
             'default' => null,
