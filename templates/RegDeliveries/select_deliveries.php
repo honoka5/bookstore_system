@@ -27,18 +27,20 @@
                     <th>納品内容ID</th>
                     <th>商品名</th>
                     <th>注文数量</th>
+                    <th>納品可能数量</th>
                     <th>納品数量</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                // 事前に各orderItem_idごとの納品済み数量合計をコントローラから渡す
                 $deliveredSums = $deliveredSums ?? [];
+                $undeliveredSums = $undeliveredSums ?? [];
                 foreach ($deliveryItems as $item): ?>
                 <tr>
                     <td><?= h($item->deliveryItem_id) ?></td>
                     <td><?= h($item->order_item->book_title ?? '') ?></td>
                     <td><?= h($item->order_item->book_amount ?? '') ?></td>
+                    <td><?= h($undeliveredSums[$item->orderItem_id] ?? 0) ?></td>
                     <td>
                         <?php
                         $orderItemId = $item->orderItem_id;
