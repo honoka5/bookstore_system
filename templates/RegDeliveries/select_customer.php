@@ -14,8 +14,53 @@ if (empty($keyword)) {
 }
 ?>
 <?php if ($showList): ?>
-    <?php if (empty($customers) || count($customers->toArray()) === 0): ?>
-        <p style="color:red;">顧客が見つかりませんでした</p>
+    <?php
+    // 納品内容のis_delivered_flag=0が1件でもある顧客のみ表示
+    $filteredCustomers = [];
+    if (!empty($customers)) {
+        // customersはResultSetまたは配列
+        foreach ($customers as $customer) {
+            // DeliveryItemsテーブルを直接参照
+            $deliveryItemsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('DeliveryItems');
+            // 顧客の注文書ID一覧を取得
+            $orderTable = \Cake\ORM\TableRegistry::getTableLocator()->get('Orders');
+            $orderIds = $orderTable->find()
+                ->select(['order_id'])
+                ->where(['customer_id' => $customer->customer_id])
+                ->enableHydration(false)
+                ->all()
+                ->map(function($row){ return $row['order_id']; })
+                ->toList();
+            if (empty($orderIds)) continue;
+            // その注文書IDに紐づく未納品納品内容が1件でもあれば表示
+            $hasUndelivered = false;
+            if (!empty($orderIds)) {
+                // order_itemsからorder_id IN $orderIdsのorderItem_id一覧を取得
+                $orderItemsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('OrderItems');
+                $orderItemIds = $orderItemsTable->find()
+                    ->select(['orderItem_id'])
+                    ->where(['order_id IN' => $orderIds])
+                    ->enableHydration(false)
+                    ->all()
+                    ->map(function($row){ return $row['orderItem_id']; })
+                    ->toList();
+                if (!empty($orderItemIds)) {
+                    $hasUndelivered = $deliveryItemsTable->find()
+                        ->where([
+                            'DeliveryItems.is_delivered_flag' => 0,
+                            'DeliveryItems.orderItem_id IN' => $orderItemIds
+                        ])
+                        ->count() > 0;
+                }
+            }
+            if ($hasUndelivered) {
+                $filteredCustomers[] = $customer;
+            }
+        }
+    }
+    ?>
+    <?php if (empty($filteredCustomers)): ?>
+        <p style="color:red;">未納品のある顧客が見つかりませんでした</p>
     <?php else: ?>
         <table id="customer-table">
             <tr>
@@ -25,7 +70,7 @@ if (empty($keyword)) {
                 <th>担当者名</th>
                 <th>操作</th>
             </tr>
-            <?php foreach ($customers as $customer): ?>
+            <?php foreach ($filteredCustomers as $customer): ?>
                 <tr class="selectable-row" data-href="<?= $this->Url->build(['action' => 'select_deliveries', $customer->customer_id]) ?>">
                     <td><?= h($customer->customer_id) ?></td>
                     <td><?= h($customer->name) ?></td>
@@ -35,19 +80,6 @@ if (empty($keyword)) {
                 </tr>
             <?php endforeach; ?>
         </table>
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var rows = document.querySelectorAll('#customer-table .selectable-row');
-            rows.forEach(function(row) {
-                row.style.cursor = 'pointer';
-                row.addEventListener('click', function(e) {
-                    // ボタン押下時は二重遷移防止
-                    if (e.target.tagName.toLowerCase() === 'a') return;
-                    window.location = row.getAttribute('data-href');
-                });
-            });
-        });
-        </script>
         <?php
         // ページング矢印
         $baseUrl = $this->Url->build([
@@ -56,13 +88,20 @@ if (empty($keyword)) {
         $queryParams = $_GET;
         unset($queryParams['page']);
         $queryStr = http_build_query($queryParams);
+        // ページング用にfilteredCustomersを分割
+        $filteredTotal = count($filteredCustomers);
+        $limit = $limit ?? 10;
+        $page = $page ?? 1;
+        $filteredTotalPages = ($limit > 0) ? (int)ceil($filteredTotal / $limit) : 1;
+        $start = ($page - 1) * $limit;
+        $pagedCustomers = array_slice($filteredCustomers, $start, $limit);
         ?>
         <div style="margin-top:10px; text-align:center;">
-            <?php if ($totalPages > 1 && $page > 1): ?>
+            <?php if ($filteredTotalPages > 1 && $page > 1): ?>
                 <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page - 1) ?>">&lt; 前へ</a>
             <?php endif; ?>
-            <span> <?= $page ?> / <?= $totalPages ?> </span>
-            <?php if ($totalPages > 1 && $page < $totalPages): ?>
+            <span> <?= $page ?> / <?= $filteredTotalPages ?> </span>
+            <?php if ($filteredTotalPages > 1 && $page < $filteredTotalPages): ?>
                 <a href="<?= $baseUrl . ($queryStr ? ('?' . $queryStr . '&') : '?') . 'page=' . ($page + 1) ?>">次へ &gt;</a>
             <?php endif; ?>
         </div>
