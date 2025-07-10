@@ -47,12 +47,35 @@
                         $orderAmount = (int)($item->order_item->book_amount ?? 0);
                         $deliveredSum = isset($deliveredSums[$orderItemId]) ? (int)$deliveredSums[$orderItemId] : 0;
                         $max = max(0, $orderAmount - $deliveredSum);
+                        $inputId = 'quantity_' . h($item->deliveryItem_id);
+                        $selectId = 'select_' . h($item->deliveryItem_id);
                         ?>
-                        <select name="quantities[<?= h($item->deliveryItem_id) ?>]">
-                            <?php for ($i = 0; $i <= $max; $i++): ?>
-                                <option value="<?= $i ?>"><?= $i ?></option>
-                            <?php endfor; ?>
-                        </select>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <select name="quantities[<?= h($item->deliveryItem_id) ?>]" id="<?= $selectId ?>" style="width: 70px;">
+                                <?php for ($i = 0; $i <= $max; $i++): ?>
+                                    <option value="<?= $i ?>"><?= $i ?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <input type="number" min="0" max="<?= $max ?>" step="1" id="<?= $inputId ?>" style="width: 70px;" value="0">
+                        </div>
+                        <script>
+                        (function() {
+                            var select = document.getElementById('<?= $selectId ?>');
+                            var input = document.getElementById('<?= $inputId ?>');
+                            // select → input
+                            select.addEventListener('change', function() {
+                                input.value = select.value;
+                            });
+                            // input → select
+                            input.addEventListener('input', function() {
+                                var val = parseInt(input.value, 10);
+                                if (isNaN(val) || val < 0) val = 0;
+                                if (val > <?= $max ?>) val = <?= $max ?>;
+                                input.value = val;
+                                select.value = val;
+                            });
+                        })();
+                        </script>
                     </td>
                 </tr>
                 <?php endforeach; ?>
