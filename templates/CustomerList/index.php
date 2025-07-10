@@ -1,41 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>MBS - 顧客一覧</title>
+    <title>顧客一覧</title>
     <style>
         body {
-            font-family: 'MS UI Gothic', Arial, sans-serif;
-            font-size: 13px;
-            background-color: #f0f0f0;
+            background: #f8f9fa;
             margin: 0;
-            padding: 0;
+            padding: 0;;
+            font-family: 'MS UI Gothic', Arial, sans-serif;
+            overflow-x: hidden;
         }
         .container {
-            background-color: #e8e8e8;
-            border: 2px inset #c0c0c0;
-            width: 90vw;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0;
-            min-height: 80vh;
+            width: 100vw;
+            margin: 0;
+            padding: 40px 0 32px 0;
+            background: #fff;
+            border-radius: 0;
+            box-shadow: none;
             box-sizing: border-box;
         }
-        .header {
-            background: linear-gradient(to bottom, #d4d4d4, #b8b8b8);
-            border-bottom: 1px solid #999;
+        .button-section {
             display: flex;
-            height: 32px;
-            line-height: 32px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
         }
-        .header-cell {
-            border-right: 1px solid #999;
-            padding: 0 16px;
+        .action-button {
+            background-color: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0 40px;
+            font-size: 20px;
+            height: 44px;
+            display: inline-block;
+            text-align: center;
+            line-height: 44px;
+            text-decoration: none;
             font-weight: bold;
-            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
         }
-        .header-cell:last-child {
-            border-right: none;
+        .action-button:hover {
+            background: #1565c0;
         }
         .content {
             padding: 24px;
@@ -114,39 +124,38 @@
             overflow-y: auto;
             margin-bottom: 24px;
         }
-        table.customer-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            margin-bottom: 32px;
+            background: #fff;
         }
-        table.customer-table th, table.customer-table td {
+        th, td {
             border: 1px solid #e0e0e0;
-            padding: 8px 6px;
+            padding: 12px 8px;
             text-align: left;
+            font-size: 18px;
         }
-        table.customer-table th {
-            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+        th {
+            background: #f5f5f5;
             font-weight: bold;
         }
-        table.customer-table tr.selected {
-            background-color: #316ac5;
-            color: white;
+        tr:hover {
+            background: #f1f8ff;
         }
-        table.customer-table tr:hover {
-            background-color: #e6f3ff;
-        }
-        .button-section {
-            margin-top: 18px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .action-button {
-            width: 110px;
-            height: 36px;
-            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
-            border: 1px solid #c0c0c0;
-            font-size: 14px;
+        .select-link {
+            color: #1976d2;
+            text-decoration: underline;
             cursor: pointer;
+        }
+        .back-button {
+            display: block;
+            width: 120px;
+            height: 44px;
+            margin: 0 auto;
+            background: #e53935;
+            color: #fff;
+            border: none;
             border-radius: 4px;
             text-decoration: none;
             color: #333;

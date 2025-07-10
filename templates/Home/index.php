@@ -18,95 +18,75 @@
             background-color: rgb(251, 250, 250);
             padding: 0;
             min-height: 100vh;
+            width: 100vw;
+            box-sizing: border-box;
         }
  
         .main-container {
-            background-color: #f0f0f0;
-            border: 2px solid #000;
-            max-width: 1100px;
+            background: #fff;
+            border-radius: 8px 8px 0 0;
+            margin: 0 auto;
+            max-width: 98vw;
             min-width: 320px;
-            margin: 40px auto;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            border-radius: 18px;
+            min-height: 100vh;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             padding-bottom: 40px;
+            box-sizing: border-box;
         }
  
-        .header-tabs {
-            display: flex;
-            border-bottom: 1px solid #000;
-            font-size: 22px;
-            height: 60px;
-        }
- 
-        .tab {
-            padding: 16px 32px;
-            background-color:rgb(255, 250, 250);
-            border-right: 1px solid #000;
-            font-size: 20px;
-            text-align: center;
-            flex: 1;
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
- 
-        .tab:first-child {
-            max-width: 120px;
-            flex: 0 0 auto;
-        }
- 
-        .tab:last-child {
-            border-right: none;
-        }
- 
-        .content-area {
-            padding: 40px 30px 0 30px;
-            background-color: #f0f0f0;
-        }
- 
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 40px 60px;
-            max-width: 900px;
+        .header-bar {
             width: 100%;
+            background: #219653;
+            color: #fff;
+            padding: 18px 0 18px 24px;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border-radius: 8px 8px 0 0;
+            box-sizing: border-box;
+        }
+ 
+        .main-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 48px 0 32px 0;
+            text-align: left;
+            letter-spacing: 2px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 32px 32px;
+            max-width: 1400px;
             margin: 0 auto;
         }
- 
-        .menu-button {
-            background-color: rgb(250, 248, 248);
-            border: 2px solid #808080;
-            padding: 0;
-            font-size: 32px;
+        .menu-card {
+            background: #fff;
+            border: 1.5px solid #ccc;
+            border-radius: 8px;
+            padding: 32px 32px 24px 32px;
+            font-size: 28px;
             font-weight: bold;
-            color: #000;
-            text-align: center;
-            cursor: pointer;
-            min-height: 180px;
+            color: #222;
+            box-shadow: none;
             min-width: 320px;
+            min-height: 80px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             justify-content: center;
-            word-wrap: break-word;
-            text-decoration: none;
-            border-radius: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            transition: box-shadow 0.2s, border 0.2s;
         }
- 
-        .menu-button:hover {
-            background-color: #87cefa;
-            color:rgb(0, 0, 0);
-            box-shadow: 0 4px 16px rgba(0, 209, 241, 0.15);
+        .menu-card:hover {
+            border: 1.5px solid #219653;
+            box-shadow: 0 4px 16px rgba(33, 150, 83, 0.08);
         }
- 
-        .menu-button:active {
-            background-color: #c0c0c0;
+        .menu-desc {
+            font-size: 18px;
+            font-weight: normal;
+            color: #333;
+            margin-top: 12px;
         }
  
         @media (max-width: 900px) {
@@ -158,19 +138,26 @@
  
 <body>
     <div class="main-container">
-        <!-- Header Tabs -->
-        <div class="header-tabs">
-            <div class="tab">MBS</div>
-            <div class="tab">ホーム</div>
-            <div class="tab">ホーム</div>
-        </div>
- 
-        <div class="content-area">
-            <div class="button-grid">
-                <p><?= $this->Html->link('一覧確認', ['controller' => 'List', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
-                <p><?= $this->Html->link('注文書作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'menu-button']) ?></p>
-                <p><?= $this->Html->link('統計情報', ['controller' => 'CustomerStats', 'action' => 'index'], ['class' => 'menu-button']) ?></p>
-                <p><?= $this->Html->link('納品書作成', ['controller' => 'RegDeliveries', 'action' => 'select_customer'], ['class' => 'menu-button']) ?></p>
+        <div class="header-bar">MBS 受注・納品管理</div>
+        <div class="content-area" style="padding: 0 0 0 0; background: #fff;">
+            <div class="main-title">メインメニュー</div>
+            <div class="menu-grid">
+                <a href="<?= $this->Url->build(['controller' => 'RegOrders', 'action' => 'select_customer']) ?>" class="menu-card">
+                    顧客管理
+                    <span class="menu-desc">顧客情報の登録、検索、編集を行います。</span>
+                </a>
+                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card">
+                    注文書管理
+                    <span class="menu-desc">注文書の作成、検索、詳細確認を行います。</span>
+                </a>
+                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card">
+                    納品書管理
+                    <span class="menu-desc">納品書の登録、確認、返品処理を行います。</span>
+                </a>
+                <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card">
+                    統計情報
+                    <span class="menu-desc">売上やリードタイムなどの統計情報を確認します。</span>
+                </a>
             </div>
         </div>
     </div>
