@@ -1,12 +1,18 @@
 <h1>注文入力</h1>
+<?= $this->Form->create(null) ?>
 <div style="display:flex; justify-content:space-between; align-items:center;">
     <div></div>
     <div style="text-align:right;">
         <label for="order_date">注文日:</label>
-        <input type="date" name="order_date" id="order_date" value="<?= h(date('Y-m-d')) ?>" style="margin-left:5px;">
+        <?= $this->Form->control('order_date', [
+            'type' => 'date',
+            'label' => false,
+            'id' => 'order_date',
+            'value' => h(date('Y-m-d')),
+            'style' => 'margin-left:5px; display:inline-block; width:auto;'
+        ]) ?>
     </div>
 </div>
-<?= $this->Form->create(null) ?>
 <table>
     <tr>
         <th>書籍名</th>
