@@ -46,7 +46,7 @@ class CreateStatistics extends AbstractMigration
             'null' => true,
         ]);
         $table->addIndex(['customer_id'], ['unique' => true]);
-        $table->addForeignKey('customer_id', 'customers', 'customer_id',);
+        $table->addForeignKey('customer_id', 'customers', 'customer_id');
         $table->create();
     }
 
