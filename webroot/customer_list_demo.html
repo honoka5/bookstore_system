@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -205,21 +204,18 @@
                 <span class="filter-label">店舗名で絞り込み：</span>
                 <div class="dropdown-container">
                     <div class="dropdown-display" id="dropdownDisplay">
-                        <?= !empty($selectedBookstore) ? h($selectedBookstore) : '全ての店舗' ?>
+                        全ての店舗
                     </div>
                     <div class="dropdown-menu" id="dropdownMenu">
-                        <div class="dropdown-item <?= empty($selectedBookstore) ? 'selected' : '' ?>" 
-                             onclick="selectBookstore('', '全ての店舗')">
+                        <div class="dropdown-item selected">
                             全ての店舗
                         </div>
-                        <?php if (!empty($bookstores)): ?>
-                            <?php foreach ($bookstores as $bookstore): ?>
-                                <div class="dropdown-item <?= ($selectedBookstore === $bookstore->bookstore_name) ? 'selected' : '' ?>" 
-                                     onclick="selectBookstore('<?= h($bookstore->bookstore_name) ?>', '<?= h($bookstore->bookstore_name) ?>')">
-                                    <?= h($bookstore->bookstore_name) ?>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                        <div class="dropdown-item">
+                            サンプル書店A
+                        </div>
+                        <div class="dropdown-item">
+                            サンプル書店B
+                        </div>
                     </div>
                 </div>
             </div>
@@ -236,29 +232,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($customers)): ?>
-                            <?php foreach ($customers as $customer): ?>
-                                <tr>
-                                    <td><?= h($customer->customer_id) ?></td>
-                                    <td><?= h($customer->bookstore_name) ?></td>
-                                    <td><?= h($customer->name) ?></td>
-                                    <td><?= h($customer->contact_person) ?></td>
-                                    <td><?= h($customer->phone_number) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="5" class="no-data-message">
-                                    <?= empty($selectedBookstore) ? '顧客データがありません' : '選択した書店の顧客データがありません' ?>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
+                        <tr>
+                            <td>00001</td>
+                            <td>サンプル書店A</td>
+                            <td>山田太郎</td>
+                            <td>田中</td>
+                            <td>03-1234-5678</td>
+                        </tr>
+                        <tr>
+                            <td>00002</td>
+                            <td>サンプル書店B</td>
+                            <td>佐藤花子</td>
+                            <td>鈴木</td>
+                            <td>03-9876-5432</td>
+                        </tr>
+                        <tr>
+                            <td>00003</td>
+                            <td>サンプル書店A</td>
+                            <td>高橋次郎</td>
+                            <td>佐々木</td>
+                            <td>03-5555-1111</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="button-section">
-                <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'index'], ['class' => 'action-button']) ?>
-                <?= $this->Html->link('顧客登録', ['controller' => 'Customers', 'action' => 'add'], ['class' => 'action-button']) ?>
+                <a href="#" class="action-button">戻る</a>
+                <a href="#" class="action-button">顧客登録</a>
             </div>
         </div>
     </div>
@@ -280,19 +280,9 @@
 
         // 書店選択時の処理
         function selectBookstore(bookstoreValue, displayText) {
-            // 表示を更新
             document.getElementById('dropdownDisplay').textContent = displayText;
-            
-            // ドロップダウンを閉じる
             document.getElementById('dropdownMenu').classList.remove('show');
             document.getElementById('dropdownDisplay').classList.remove('active');
-            
-            // ページ遷移
-            if (bookstoreValue === '') {
-                window.location.href = '<?= $this->Url->build(['controller' => 'List', 'action' => 'customer']) ?>';
-            } else {
-                window.location.href = '<?= $this->Url->build(['controller' => 'List', 'action' => 'customer']) ?>?bookstore=' + encodeURIComponent(bookstoreValue);
-            }
         }
 
         // 外部クリックでドロップダウンを閉じる
