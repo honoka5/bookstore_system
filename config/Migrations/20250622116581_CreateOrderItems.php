@@ -42,11 +42,13 @@ class CreateOrderItems extends AbstractMigration
             'default' => null,
             'null' => false,
             'signed' => false,
+            'limit' => 7,
         ]);
         $table->addColumn('book_amount', 'integer', [
             'default' => null,
             'null' => false,
             'signed' => false,
+            'limit' => 3,
         ]);
         $table->addColumn('book_summary', 'string', [
             'default' => null,
