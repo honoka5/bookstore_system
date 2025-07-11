@@ -78,16 +78,12 @@
             </tbody>
         </table>
         <?php // 計算ボタンは全店舗選択時も表示する ?>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px;">
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 32px;">
             <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], [
                 'style' => 'background-color: #1976d2; color: #fff; border: none; border-radius: 8px; padding: 0 40px; font-size: 20px; height: 44px; display: inline-block; text-align: center; line-height: 44px; text-decoration: none; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-left: 16px;',
                 'onmouseover' => "this.style.background='#1565c0'",
                 'onmouseout' => "this.style.background='#1976d2'"
             ]) ?>
-            <?= $this->Form->create(null, ['url' => ['action' => 'calculate'], 'style' => 'display:inline; margin:0;' ]) ?>
-                <?= $this->Form->hidden('bookstore_name', ['value' => $selectedBookstore]) ?>
-                <button type="submit" style="background-color: #1976d2; color: #fff; border: none; border-radius: 8px; padding: 0 40px; font-size: 20px; height: 44px; display: inline-block; text-align: center; line-height: 44px; text-decoration: none; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-right: 16px;" onmouseover="this.style.background='#1565c0'" onmouseout="this.style.background='#1976d2'">計算</button>
-            <?= $this->Form->end() ?>
         </div>
         <?php
             // ページングUI
