@@ -8,14 +8,13 @@
         th, td { border: 1px solid #888; padding: 4px 8px; }
         th { background: #eee; }
         .button-area {
-             margin-top: 20px; 
-             text-align: left; 
-            
-            }
-            .button-area span{
-                display: inline-flex;
-                gap: 8px;
-            }
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            margin-top: 0;
+            text-align: right;
+            z-index: 100;
+        }
         .btn, .button { background-color: #1976d2; color: #fff; border: none; border-radius: 4px; padding: 6px 24px; font-size: 13px; cursor: pointer; }
         .btn:active, .button:active { background: #1565c0; }
         .delete-btn { background: #e53935; color: #fff; border-radius: 4px; padding: 2px 10px; font-size: 15px; cursor: pointer; }
@@ -24,12 +23,13 @@
 </head>
 <body>
     <h2>注文書詳細（編集）</h2>
-    <?= $this->Form->create(null, ['type' => 'post']) ?>
+    <?= $this->Form->create(null, ['type' => 'post', 'id' => 'main-edit-form']) ?>
     <p>注文書ID: <?= h($order->order_id) ?></p>
     <p>顧客ID: <?= h($order->customer_id) ?></p>
     <p>顧客名: <?= h($order->customer->name ?? '') ?></p>
     <p>注文日: <?= h($order->order_date) ?></p>
     <p>備考: <?= $this->Form->control('remark', ['type'=>'text', 'value'=>$order->remark, 'label'=>false, 'style'=>'width:300px;']) ?></p>
+    <?= $this->Form->end() ?>
 
     <table>
         <thead>
@@ -49,31 +49,44 @@
                     'style' => 'width:140px;',
                     'required' => true,
                     'placeholder' => '書籍名',
+                    'form' => 'main-edit-form',
+                    'id' => 'book_title_' . $item->orderItem_id
                 ]) ?></td>
                 <td>
                     <?= $this->Form->select("book_amount[{$item->orderItem_id}]", $amountRanges[$item->orderItem_id], [
                         'value' => $item->book_amount,
                         'empty' => false,
-                        'style' => 'width:60px;'
+                        'style' => 'width:60px;',
+                        'form' => 'main-edit-form',
+                        'id' => 'amount_select_' . $item->orderItem_id
                     ]) ?>
                     <?= $this->Form->text("book_amount[{$item->orderItem_id}]", [
                         'value' => $item->book_amount,
                         'style' => 'width:50px;',
                         'pattern' => '[0-9]*',
                         'inputmode' => 'numeric',
-                        'title' => '数量を直接入力できます'
+                        'title' => '数量を直接入力できます',
+                        'form' => 'main-edit-form',
+                        'id' => 'amount_input_' . $item->orderItem_id
                     ]) ?>
                 </td>
-                <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", ['value'=>$item->unit_price, 'style'=>'width:70px;']) ?></td>
-                <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", ['value'=>$item->book_summary, 'style'=>'width:120px;']) ?></td>
+                <td><?= $this->Form->text("unit_price[{$item->orderItem_id}]", [
+                    'value' => $item->unit_price,
+                    'style' => 'width:70px;',
+                    'form' => 'main-edit-form',
+                    'id' => 'unit_price_' . $item->orderItem_id
+                ]) ?></td>
+                <td><?= $this->Form->text("book_summary[{$item->orderItem_id}]", [
+                    'value' => $item->book_summary,
+                    'style' => 'width:120px;',
+                    'form' => 'main-edit-form',
+                    'id' => 'book_summary_' . $item->orderItem_id
+                ]) ?></td>
                 <td>
-                    <?= $this->Form->create(null, [
-                        'url' => ['controller'=>'OrderList','action'=>'deleteOrderItem', h($item->orderItem_id)],
-                        'style' => 'display:inline;',
-                        'type' => 'post',
-                    ]) ?>
+                    <form method="post" action="<?= $this->Url->build(['controller'=>'OrderList','action'=>'deleteOrderItem', $item->orderItem_id]) ?>" style="display:inline;">
+                        <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
                         <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
-                    <?= $this->Form->end() ?>
+                    </form>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -82,25 +95,25 @@
     <div class="button-area">
         <span>
         <?= $this->Html->link('戻る', ['controller' => 'OrderList', 'action' => 'orderDetail', $order->order_id], ['class' => 'button']) ?>
-        <button type="submit" class="btn">確定</button>
-        </span>
+        <button type="submit" form="main-edit-form" class="btn">確定</button>
     </div>
-    <?= $this->Form->end() ?>
     <script>
-    // 数量のプルダウンと手入力の同期
-    document.querySelectorAll('select[name^="book_amount"]').forEach(function(sel) {
-        sel.addEventListener('change', function() {
-            var id = this.name.match(/\[(\d+)\]/)[1];
-            document.querySelector('input[name="book_amount['+id+']"]').value = this.value;
-        });
-    });
-    document.querySelectorAll('input[name^="book_amount"]').forEach(function(inp) {
-        inp.addEventListener('input', function() {
-            var id = this.name.match(/\[(\d+)\]/)[1];
-            var sel = document.querySelector('select[name="book_amount['+id+']"]');
-            if (sel) sel.value = this.value;
-        });
-    });
-    </script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php foreach ($order->order_items as $item): ?>
+    (function() {
+        var select = document.getElementById('amount_select_<?= $item->orderItem_id ?>');
+        var input = document.getElementById('amount_input_<?= $item->orderItem_id ?>');
+        if (select && input) {
+            select.addEventListener('change', function() {
+                input.value = select.value;
+            });
+            input.addEventListener('input', function() {
+                select.value = input.value;
+            });
+        }
+    })();
+    <?php endforeach; ?>
+});
+</script>
 </body>
 </html>

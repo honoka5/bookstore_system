@@ -71,36 +71,6 @@ class CreateDeliveryItems extends AbstractMigration
         $table->addForeignKey('orderItem_id', 'order_items', 'orderItem_id');
         $table->create();
         
-        $rows = [
-        ['deliveryItem_id' => '000001', 'delivery_id' => null, 'orderItem_id' => '000001', 'book_title' => 'Python入門', 'unit_price' => 4444, 'book_amount' => 9, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000002', 'delivery_id' => null, 'orderItem_id' => '000002', 'book_title' => 'AIの未来', 'unit_price' => 4307, 'book_amount' => 8, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000003', 'delivery_id' => null, 'orderItem_id' => '000003', 'book_title' => 'データサイエンス基礎', 'unit_price' => 2666, 'book_amount' => 4, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000004', 'delivery_id' => null, 'orderItem_id' => '000004', 'book_title' => '機械学習実践', 'unit_price' => 3116, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000005', 'delivery_id' => null, 'orderItem_id' => '000005', 'book_title' => '深層学習と応用', 'unit_price' => 2370, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000006', 'delivery_id' => null, 'orderItem_id' => '000006', 'book_title' => '統計学入門', 'unit_price' => 1451, 'book_amount' => 10, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000007', 'delivery_id' => null, 'orderItem_id' => '000007', 'book_title' => '自然言語処理', 'unit_price' => 4531, 'book_amount' => 10, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000008', 'delivery_id' => null, 'orderItem_id' => '000008', 'book_title' => '画像認識技術', 'unit_price' => 4726, 'book_amount' => 8, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000009', 'delivery_id' => null, 'orderItem_id' => '000009', 'book_title' => '強化学習', 'unit_price' => 1621, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000010', 'delivery_id' => null, 'orderItem_id' => '000010', 'book_title' => 'クラウドコンピューティング', 'unit_price' => 2578, 'book_amount' => 9, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000011', 'delivery_id' => null, 'orderItem_id' => '000011', 'book_title' => 'IoTとセンサー技術', 'unit_price' => 1785, 'book_amount' => 1, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000012', 'delivery_id' => null, 'orderItem_id' => '000012', 'book_title' => 'ブロックチェーン技術', 'unit_price' => 4538, 'book_amount' => 8, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000013', 'delivery_id' => null, 'orderItem_id' => '000013', 'book_title' => '量子コンピュータ', 'unit_price' => 1237, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000014', 'delivery_id' => null, 'orderItem_id' => '000014', 'book_title' => 'Web開発入門', 'unit_price' => 829, 'book_amount' => 4, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000015', 'delivery_id' => null, 'orderItem_id' => '000015', 'book_title' => 'ReactとVue', 'unit_price' => 3942, 'book_amount' => 5, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000016', 'delivery_id' => null, 'orderItem_id' => '000016', 'book_title' => 'モバイルアプリ開発', 'unit_price' => 3333, 'book_amount' => 2, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000017', 'delivery_id' => null, 'orderItem_id' => '000017', 'book_title' => 'セキュリティ基礎', 'unit_price' => 2770, 'book_amount' => 6, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000018', 'delivery_id' => null, 'orderItem_id' => '000018', 'book_title' => 'ネットワーク構築', 'unit_price' => 3777, 'book_amount' => 10, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000019', 'delivery_id' => null, 'orderItem_id' => '000019', 'book_title' => 'Linuxコマンド集', 'unit_price' => 4976, 'book_amount' => 5, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '000020', 'delivery_id' => null, 'orderItem_id' => '000020', 'book_title' => 'データベース設計', 'unit_price' => 1026, 'book_amount' => 9, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '200001', 'delivery_id' => null, 'orderItem_id' => '200001', 'book_title' => 'Python入門', 'unit_price' => 4444, 'book_amount' => 9, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '200002', 'delivery_id' => null, 'orderItem_id' => '200002', 'book_title' => 'AIの未来', 'unit_price' => 4307, 'book_amount' => 8, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '200003', 'delivery_id' => null, 'orderItem_id' => '200003', 'book_title' => 'データサイエンス基礎', 'unit_price' => 2666, 'book_amount' => 4, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '200004', 'delivery_id' => null, 'orderItem_id' => '200004', 'book_title' => '機械学習実践', 'unit_price' => 3116, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '200005', 'delivery_id' => null, 'orderItem_id' => '200005', 'book_title' => '深層学習と応用', 'unit_price' => 2370, 'book_amount' => 7, 'is_delivered_flag' => false, 'leadTime' => null],
-        ['deliveryItem_id' => '200006', 'delivery_id' => null, 'orderItem_id' => '200006', 'book_title' => '統計学入門', 'unit_price' => 1451, 'book_amount' => 10, 'is_delivered_flag' => false, 'leadTime' => null],
-        ];
-        $this->table('delivery_items')->insert($rows)->saveData();
-
     }
 
     public function down(): void
