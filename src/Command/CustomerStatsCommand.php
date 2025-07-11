@@ -2,14 +2,16 @@
 namespace App\Command;
 
 use Cake\Console\Arguments;
-use Cake\Console\Command;
+use Cake\Console\BaseCommand;
 use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOptionParser;
 use Cake\I18n\FrozenDate;
-use Cake\ORM\Exception\MissingTableException;
+use Cake\Datasource\Exception\MissingTableException;
+use Cake\ORM\TableRegistry;
 
-class CustomerStatsCommand extends Command
+class CustomerStatsCommand extends BaseCommand
 {
-    protected function buildOptionParser($parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('顧客統計情報を日次で自動計算・保存します');
         return $parser;
@@ -18,17 +20,17 @@ class CustomerStatsCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io)
     {
         $io->out('顧客統計情報の自動計算を開始します...');
-        $customersTable = $this->getTableLocator()->get('Customers');
-        $statsTable = $this->getTableLocator()->get('Statistics');
+        $customersTable = TableRegistry::getTableLocator()->get('Customers');
+        $statsTable = TableRegistry::getTableLocator()->get('Statistics');
         try {
-            $deliveriesTable = $this->getTableLocator()->get('Deliveries');
-        } catch (MissingTableException $e) {
-            $io->err('納品書テーブルが存在しません。');
-            return;
+            $deliveriesTable = TableRegistry::getTableLocator()->get('Deliveries');
+        } catch (\Exception $e) {
+            $io->err('テーブル取得エラー: ' . $e->getMessage());
+            return 1;
         }
-        $deliveryItemsTable = $this->getTableLocator()->get('DeliveryItems');
-        $orderItemsTable = $this->getTableLocator()->get('OrderItems');
-        $ordersTable = $this->getTableLocator()->get('Orders');
+        $deliveryItemsTable = TableRegistry::getTableLocator()->get('DeliveryItems');
+        $orderItemsTable = TableRegistry::getTableLocator()->get('OrderItems');
+        $ordersTable = TableRegistry::getTableLocator()->get('Orders');
         $now = FrozenDate::now();
         $today = $now->format('Y-m-d');
         $customers = $customersTable->find()->all();
