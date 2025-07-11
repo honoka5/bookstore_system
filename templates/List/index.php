@@ -120,12 +120,8 @@ session_start();
         }
     </style>
 <body>
-    <div class="main-box">
-        <div class="navbar">
-            <div class="navbar-item">MBS</div>
-            <div class="navbar-item">一覧確認</div>
-            <div class="navbar-item">ホーム＞一覧確認</div>
-        </div>
+    <?= $this->element('header', ['title' => '一覧確認']) ?>
+    <div class="main-box" style="border:2px solid #222;">
         <div class="button-area">
             <div class="row">
                 <?= $this->Html->link('顧客一覧', ['controller' => 'List', 'action' => 'customer'], ['class' => 'menu-button']) ?>

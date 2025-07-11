@@ -126,7 +126,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <?= $this->element('header', ['title' => '顧客一覧']) ?>
+    <div class="container" style="border:2px solid #222;">
         <div class="title">顧客選択</div>
         <form class="search-form" method="get">
             <input type="text" name="keyword" class="search-input" placeholder="顧客名で検索" value="<?= h($this->request->getQuery('keyword') ?? '') ?>">

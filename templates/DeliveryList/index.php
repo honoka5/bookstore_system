@@ -186,11 +186,8 @@
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- Header Bar -->
-        <div class="header-bar">
-            納品書一覧
-        </div>
+    <?= $this->element('header', ['title' => '納品書一覧']) ?>
+    <div class="main-container" style="border:2px solid #222;">
         <div class="content-area">
             <!-- Search Section -->
             <div class="search-section">
@@ -228,7 +225,7 @@
             </div>
             <!-- Action Buttons -->
             <div class="button-section">
-                <?= $this->Html->link('戻る',['controller' => 'List', 'action' => 'index'], ['class' => 'button']) ?>
+                <?= $this->Html->link('戻る',['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
                 <button class="button" id="detailBtn" type="button">詳細</button>
             </div>
         </div>

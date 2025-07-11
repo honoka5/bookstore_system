@@ -7,7 +7,8 @@
  * @var \Cake\Collection\CollectionInterface $customers
  */
 ?>
-<div class="customer-stats index content">
+<?= $this->element('header', ['title' => '統計情報確認']) ?>
+<div class="customer-stats index content" style="border:2px solid #222;">
     <h1>統計情報確認</h1>
     <div class="filter-form">
         <form method="get">
@@ -77,10 +78,15 @@
             </tbody>
         </table>
         <?php // 計算ボタンは全店舗選択時も表示する ?>
-        <div style="text-align:right; margin-top:1em;">
-            <?= $this->Form->create(null, ['url' => ['action' => 'calculate']]) ?>
-            <?= $this->Form->hidden('bookstore_name', ['value' => $selectedBookstore]) ?>
-            <button type="submit">計算</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px;">
+            <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], [
+                'style' => 'background-color: #1976d2; color: #fff; border: none; border-radius: 8px; padding: 0 40px; font-size: 20px; height: 44px; display: inline-block; text-align: center; line-height: 44px; text-decoration: none; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-left: 16px;',
+                'onmouseover' => "this.style.background='#1565c0'",
+                'onmouseout' => "this.style.background='#1976d2'"
+            ]) ?>
+            <?= $this->Form->create(null, ['url' => ['action' => 'calculate'], 'style' => 'display:inline; margin:0;' ]) ?>
+                <?= $this->Form->hidden('bookstore_name', ['value' => $selectedBookstore]) ?>
+                <button type="submit" style="background-color: #1976d2; color: #fff; border: none; border-radius: 8px; padding: 0 40px; font-size: 20px; height: 44px; display: inline-block; text-align: center; line-height: 44px; text-decoration: none; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-right: 16px;" onmouseover="this.style.background='#1565c0'" onmouseout="this.style.background='#1976d2'">計算</button>
             <?= $this->Form->end() ?>
         </div>
         <?php
@@ -116,9 +122,8 @@
     <?php else: ?>
         <p>該当する顧客情報がありません。</p>
     <?php endif; ?>
+    
 
 </div>
 
-<div class="bottom-left-btn">
-    <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
-</div>
+
