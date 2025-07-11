@@ -1,6 +1,7 @@
-<h1>注文一覧</h1>
 
-<table>
+<?= $this->element('header', ['title' => '注文一覧']) ?>
+
+<table style="border:2px solid #222;">
     <thead>
         <tr>
             <th>ID</th>

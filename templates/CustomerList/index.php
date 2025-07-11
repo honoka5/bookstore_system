@@ -174,6 +174,28 @@
     </style>
 </head>
 <body>
+
+    <?= $this->element('header', ['title' => '顧客一覧']) ?>
+    <div class="container" style="border:2px solid #222;">
+        <div class="title">顧客選択</div>
+        <form class="search-form" method="get">
+            <input type="text" name="keyword" class="search-input" placeholder="顧客名で検索" value="<?= h($this->request->getQuery('keyword') ?? '') ?>">
+            <button type="submit" class="search-button">検索</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>顧客ID</th>
+                    <th>顧客名</th>
+                    <th>電話番号</th>
+                    <th>担当者名</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($customers)): ?>
+                    <?php foreach ($customers as $customer): ?>
+
     <div class="container">
         <div class="header">
             <div class="header-cell">MBS</div>
@@ -208,34 +230,7 @@
             <div class="table-container">
                 <table class="customer-table">
                     <thead>
-                        <tr>
-                            <th>顧客ID</th>
-                            <th>店舗名</th>
-                            <th>顧客名</th>
-                            <th>担当者名</th>
-                            <th>電話番号</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($customers)): ?>
-                            <?php foreach ($customers as $customer): ?>
-                                <tr>
-                                    <td><?= h($customer->customer_id) ?></td>
-                                    <td><?= h($customer->bookstore_name) ?></td>
-                                    <td><?= h($customer->name) ?></td>
-                                    <td><?= h($customer->contact_person) ?></td>
-                                    <td><?= h($customer->phone_number) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="5" class="no-data-message">
-                                    <?= empty($selectedBookstore) ? '顧客データがありません' : '選択した書店の顧客データがありません' ?>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+
             </div>
             <div class="button-section">
                 <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'index'], ['class' => 'action-button']) ?>

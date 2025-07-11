@@ -180,14 +180,15 @@
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- Header Tabs -->
-        <div class="header-tabs">
-            注文書一覧
-        </div>
+    <?= $this->element('header', ['title' => '注文書一覧']) ?>
+    <div class="main-container" style="border:2px solid #222;">
         <div class="content-area">
+            <!-- New Create Button -->
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 18px;">
+                <?= $this->Html->link('新規作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'button', 'style' => 'font-size:20px; padding: 0 32px; height: 44px;']) ?>
+            </div>
             <!-- Search Section -->
-            <div class="search-section">
+            <div class="search-section" style="margin-top: 10px;">
                 <input type="text" class="search-input" placeholder="検索キーワード">
                 <button class="search-btn">検索</button>
             </div>
@@ -230,10 +231,10 @@
                 </div>
             </div>
             <!-- Action Buttons -->
-            <div class="button-section">
-                
-            </div><?= $this->Html->link('戻る',['controller' => 'List', 'action' => 'index'], ['class' => 'button']) ?>
+            <div class="button-section" style="justify-content: space-between; margin-top: 32px;">
+                <?= $this->Html->link('戻る',['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
                 <button class="button" id="detailBtn" type="button">詳細</button>
+            </div>
         </div>
         
     </div>
