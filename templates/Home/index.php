@@ -137,27 +137,30 @@
 </head>
  
 <body>
-    <div class="main-container">
-        <div class="header-bar">MBS 受注・納品管理</div>
-        <div class="content-area" style="padding: 0 0 0 0; background: #fff;">
-            <div class="main-title">メインメニュー</div>
-            <div class="menu-grid">
-                <a href="<?= $this->Url->build(['controller' => 'RegOrders', 'action' => 'select_customer']) ?>" class="menu-card">
-                    顧客管理
-                    <span class="menu-desc">顧客情報の登録、検索、編集を行います。</span>
-                </a>
-                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card">
-                    注文書管理
-                    <span class="menu-desc">注文書の作成、検索、詳細確認を行います。</span>
-                </a>
-                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card">
-                    納品書管理
-                    <span class="menu-desc">納品書の登録、確認、返品処理を行います。</span>
-                </a>
-                <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card">
-                    統計情報
-                    <span class="menu-desc">売上やリードタイムなどの統計情報を確認します。</span>
-                </a>
+    <div style="border:2px solid #222; border-radius: 10px; max-width: 1100px; margin: 32px auto 0 auto; background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.06); min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-start;">
+        <?= $this->element('header', ['title' => 'メインメニュー']) ?>
+        <div style="border-bottom:2px solid #222; width:100%;"></div>
+        <div class="main-container" style="border:none; border-radius: 0; box-shadow:none; margin:0; min-height:unset; height:auto; padding-bottom:0; max-width:100%;">
+            <div class="content-area" style="padding: 0 0 0 0; background: #fff;">
+                <div class="main-title" style="font-size:32px; margin:16px 0 24px 0;">メインメニュー</div>
+                <div class="menu-grid" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px 20px; max-width: 700px;">
+                    <a href="<?= $this->Url->build(['controller' => 'Customers', 'action' => 'index']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                        顧客管理
+                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">顧客情報の登録、検索、編集を行います。</span>
+                    </a>
+                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                        注文書管理
+                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">注文書の作成、検索、詳細確認を行います。</span>
+                    </a>
+                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                        納品書管理
+                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">納品書の登録、確認、返品処理を行います。</span>
+                    </a>
+                    <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                        統計情報
+                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">売上やリードタイムなどの統計情報を確認します。</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
