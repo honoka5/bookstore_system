@@ -194,6 +194,13 @@
                 <input type="text" class="search-input" placeholder="検索キーワード">
                 <button class="search-btn">検索</button>
             </div>
+            <!-- Create Button -->
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+                <?= $this->Html->link('新規作成', ['controller' => 'Deliveries', 'action' => 'add'], [
+                    'class' => 'button',
+                    'style' => 'margin-bottom: 0;'
+                ]) ?>
+            </div>
             <!-- Data Table -->
             <div class="table-container">
                 <div class="scroll-table">
