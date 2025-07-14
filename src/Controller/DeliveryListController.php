@@ -23,16 +23,18 @@ class DeliveryListController extends AppController
             $errorMsg = '';
             $beforeList = [];
             $afterList = [];
+            $orderItemsTable = $this->fetchTable('OrderItems');
             foreach ($delivery->delivery_items as $item) {
                 $id = $item->deliveryItem_id;
                 $beforeQty = (int)$item->book_amount;
                 $beforePrice = (int)$item->unit_price;
                 $beforeTitle = $item->book_title;
+                $orderItemId = $item->orderItem_id;
                 $afterQty = isset($data['book_amount'][$id]) ? (int)$data['book_amount'][$id] : $beforeQty;
                 $afterPrice = isset($data['unit_price'][$id]) ? (int)$data['unit_price'][$id] : $beforePrice;
                 $afterTitle = isset($data['book_title'][$id]) ? $data['book_title'][$id] : $beforeTitle;
-                $beforeList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$beforeQty, 'unit_price'=>$beforePrice, 'book_title'=>$beforeTitle];
-                $afterList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$afterQty, 'unit_price'=>$afterPrice, 'book_title'=>$afterTitle];
+                $beforeList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$beforeQty, 'unit_price'=>$beforePrice, 'book_title'=>$beforeTitle, 'orderItem_id'=>$orderItemId];
+                $afterList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$afterQty, 'unit_price'=>$afterPrice, 'book_title'=>$afterTitle, 'orderItem_id'=>$orderItemId];
                 // バリデーション
                 if ($afterQty < 1 || $afterQty > $beforeQty) {
                     $error = true;
@@ -47,9 +49,19 @@ class DeliveryListController extends AppController
                 $this->Flash->error($errorMsg);
             } else {
                 // 更新処理
-                foreach ($afterList as $row) {
+                foreach ($afterList as $i => $row) {
                     $entity = $deliveryItemsTable->get($row['deliveryItem_id']);
-                    $entity->book_amount = $row['book_amount'];
+                    $orderItemId = $row['orderItem_id'];
+                    $beforeQty = $beforeList[$i]['book_amount'];
+                    $afterQty = $row['book_amount'];
+                    $diff = $beforeQty - $afterQty;
+                    if ($diff > 0) {
+                        // 紐づく注文内容の数量を減らす
+                        $orderItem = $orderItemsTable->get($orderItemId);
+                        $orderItem->book_amount = max(0, $orderItem->book_amount - $diff);
+                        $orderItemsTable->save($orderItem);
+                    }
+                    $entity->book_amount = $afterQty;
                     $entity->unit_price = $row['unit_price'];
                     $entity->book_title = $row['book_title'];
                     $deliveryItemsTable->save($entity);
@@ -86,6 +98,10 @@ class DeliveryListController extends AppController
         $bookAmount = $deliveryItem->book_amount;
 
         // 1. 納品内容削除
+        // 紐づく注文内容の数量を減らす
+        $orderItem = $orderItemsTable->get($orderItemId);
+        $orderItem->book_amount = max(0, $orderItem->book_amount - $bookAmount);
+        $orderItemsTable->save($orderItem);
         $deliveryItemsTable->delete($deliveryItem);
 
         // 2. 納品書削除リスト
