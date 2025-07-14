@@ -16,26 +16,32 @@
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
+            height: 100vh;
+            overflow: hidden; /* 外側のスクロールを無効化 */
         }
         
         /* メインコンテンツ */
         .main-content {
-            padding: 20px;
+            padding: 15px;
             background: white;
-            min-height: calc(100vh - 60px);
+            height: calc(100vh - 60px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
             border-bottom: 1px solid #e9ecef;
+            flex-shrink: 0; /* 高さを固定 */
         }
         
         .page-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: #333;
         }
@@ -43,7 +49,7 @@
         .add-button {
             background: #007bff;
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 4px;
             text-decoration: none;
@@ -58,13 +64,14 @@
         
         /* フィルターセクション */
         .filter-section {
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
             background: #f8f9fa;
             border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-shrink: 0; /* 高さを固定 */
         }
         
         .filter-label {
@@ -155,12 +162,13 @@
             border-radius: 4px;
             overflow: hidden;
             background: white;
-            margin-bottom: 20px;
             position: relative;
+            flex: 1; /* 残りの高さを全て使用 */
+            min-height: 0; /* flexの制約を適用 */
         }
         
         .scrollable-table {
-            max-height: 500px;
+            height: 100%; /* 親の高さを100%使用 */
             overflow-y: auto;
             overflow-x: auto;
         }
@@ -174,7 +182,7 @@
         
         .customer-table th {
             background: #f8f9fa;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
             font-weight: 600;
             color: #495057;
@@ -185,7 +193,7 @@
         }
         
         .customer-table td {
-            padding: 12px;
+            padding: 10px;
             border-bottom: 1px solid #f0f0f0;
             vertical-align: middle;
         }
@@ -209,7 +217,7 @@
         .button {
             background: #6c757d;
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 4px;
             text-decoration: none;
@@ -219,23 +227,20 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            margin-top: 20px;
         }
         
-        .back-button:hover {
+        .button:hover {
             background: #5a6268;
         }
         
-        .back-button::before {
-            content: "←";
-            font-size: 16px;
-        }
+       
         
         /* ボタンセクション */
         .button-section {
-            margin-top: 30px;
-            padding-top: 15px;
+            margin-top: 15px;
+            padding-top: 10px;
             border-top: 1px solid #e9ecef;
+            flex-shrink: 0; /* 高さを固定 */
         }
         
         /* テーブルの行の調整 */
