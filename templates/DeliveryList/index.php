@@ -189,6 +189,9 @@
     <?= $this->element('header', ['title' => '納品書一覧']) ?>
     <div class="main-container" style="border:2px solid #222;">
         <div class="content-area">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 18px;">
+                <?= $this->Html->link('新規作成', ['controller' => 'RegDeliveries', 'action' => 'select_customer'], ['class' => 'button', 'style' => 'font-size:20px; padding: 0 32px; height: 44px;']) ?>
+            </div>
             <!-- Search Section -->
             <div class="search-section">
                 <input type="text" class="search-input" placeholder="検索キーワード">

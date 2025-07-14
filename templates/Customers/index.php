@@ -3,7 +3,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>顧客一覧</title>
+    <title>顧客一覧!!</title>
     <style>
         body {
             background: #f8f9fa;
