@@ -213,10 +213,12 @@
                                 <th>金額</th>
                                 <th>納品日</th>
                                 <th>備考</th>
+                                <th>削除</th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($deliveries ?? [] as $delivery): ?>
+                        <?php if (!is_object($delivery)) continue; ?>
                         <tr>
                             <td><?= h($delivery->delivery_id) ?></td>
                             <td><?= h($delivery->customer_id) ?></td>
@@ -224,6 +226,15 @@
                             <td><?= h($delivery->total_amount ?? '') ?></td>
                             <td><?= h($delivery->delivery_date) ?></td>
                             <td><?= h($delivery->remark ?? '') ?></td>
+                            <td>
+                                <?= $this->Form->create(null, [
+                                    'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
+                                    'style' => 'display:inline;',
+                                    'type' => 'post',
+                                ]) ?>
+                                    <button type="submit" class="btn delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
+                                <?= $this->Form->end() ?>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                         </tbody>

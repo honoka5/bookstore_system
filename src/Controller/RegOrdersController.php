@@ -86,12 +86,12 @@ class RegOrdersController extends AppController
                     break;
                 }
                 // 数量・単価が0以下の場合はエラー
-                if (!is_numeric($bookAmount) || (int)$bookAmount <= 0) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1以上の数値で入力してください。';
+                if (!is_numeric($bookAmount) || (int)$bookAmount <= 0 || !preg_match('/^[1-9][0-9]{0,2}$/', $bookAmount)) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1～999の整数で入力してください。';
                     break;
                 }
-                if (!is_numeric($unitPrice) || (int)$unitPrice <= 0) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1以上の数値で入力してください。';
+                if (!is_numeric($unitPrice) || (int)$unitPrice <= 0 || !preg_match('/^[1-9][0-9]{0,6}$/', $unitPrice)) {
+                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1～9999999の整数で入力してください。';
                     break;
                 }
             }
@@ -112,10 +112,11 @@ class RegOrdersController extends AppController
             $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
 
             // 1. 注文書作成
+            $orderDate = $data['order_date'] ?? date('Y-m-d');
             $order = $ordersTable->newEntity([
                 'order_id' => $nextOrderId,
                 'customer_id' => $customerId,
-                'order_date' => date('Y-m-d'),
+                'order_date' => $orderDate,
                 'remark' => $data['orders']['remark'] ?? null, // 修正: フォームのname属性に合わせる
             ]);
             $ordersTable->saveOrFail($order);

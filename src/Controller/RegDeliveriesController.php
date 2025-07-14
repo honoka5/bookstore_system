@@ -72,6 +72,7 @@ class RegDeliveriesController extends AppController
         // 未納納品内容を取得
         $deliveryItems = [];
         $deliveredSums = [];
+        $undeliveredSums = [];
         if (!empty($orderItemIds)) {
             $deliveryItems = $deliveryItemsTable->find()
                 ->where([
@@ -97,9 +98,26 @@ class RegDeliveriesController extends AppController
             foreach ($deliveredRows as $row) {
                 $deliveredSums[$row['orderItem_id']] = (int)$row['total'];
             }
+
+            // 各注文内容IDごとの未納品数量合計を取得
+            $undeliveredRows = $deliveryItemsTable->find()
+                ->select([
+                    'orderItem_id',
+                    'total' => $deliveryItemsTable->find()->func()->sum('book_amount')
+                ])
+                ->where([
+                    'DeliveryItems.is_delivered_flag' => 0,
+                    'DeliveryItems.orderItem_id IN' => $orderItemIds
+                ])
+                ->group('orderItem_id')
+                ->enableHydration(false)
+                ->toArray();
+            foreach ($undeliveredRows as $row) {
+                $undeliveredSums[$row['orderItem_id']] = (int)$row['total'];
+            }
         }
 
-        $this->set(compact('deliveryItems', 'customerId', 'deliveredSums'));
+        $this->set(compact('deliveryItems', 'customerId', 'deliveredSums', 'undeliveredSums'));
     }
 
     /**
@@ -136,10 +154,11 @@ class RegDeliveriesController extends AppController
         try {
             // 新しい納品書IDを採番
             $nextDeliveryId = $this->generateNextId($deliveriesTable, 'delivery_id', 5);
+            $deliveryDate = $data['delivery_date'] ?? date('Y-m-d');
             $delivery = $deliveriesTable->newEntity([
                 'delivery_id' => $nextDeliveryId,
                 'customer_id' => $data['customer_id'],
-                'delivery_date' => date('Y-m-d'),
+                'delivery_date' => $deliveryDate,
             ]);
             $deliveriesTable->save($delivery);
 
