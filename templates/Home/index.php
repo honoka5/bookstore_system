@@ -121,12 +121,14 @@
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, 1fr);
                 gap: 16px;
+                
             }
  
             .menu-button {
                 min-width: 80px;
                 font-size: 16px;
                 min-height: 60px;
+            
             }
  
             .content-area {
@@ -138,27 +140,29 @@
  
 <body>
     <div style="border:2px solid #222; border-radius: 10px; max-width: 1100px; margin: 32px auto 0 auto; background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.06); min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-start;">
+        <div style="background: #e6f9d7; border-radius: 10px 10px 0 0; border-bottom:2px solid #222; width:100%;">
+            
         <?= $this->element('header', ['title' => 'メインメニュー']) ?>
-        <div style="border-bottom:2px solid #222; width:100%;"></div>
+        </div>
         <div class="main-container" style="border:none; border-radius: 0; box-shadow:none; margin:0; min-height:unset; height:auto; padding-bottom:0; max-width:100%;">
             <div class="content-area" style="padding: 0 0 0 0; background: #fff;">
                 <div class="main-title" style="font-size:32px; margin:16px 0 24px 0;">メインメニュー</div>
-                <div class="menu-grid" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px 20px; max-width: 700px;">
-                    <a href="<?= $this->Url->build(['controller' => 'Customers', 'action' => 'index']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                <div class="menu-grid" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 32px 32px; max-width: 900px; margin: 0 auto;">
+                    <a href="<?= $this->Url->build(['controller' => 'Customers', 'action' => 'index']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px; grid-column: 1 / 2; grid-row: 1 / 2;">
                         顧客管理
-                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">顧客情報の登録、検索、編集を行います。</span>
+                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">顧客情報の登録、検索、編集を行います。</span>
                     </a>
-                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px; grid-column: 2 / 3; grid-row: 1 / 2;">
                         注文書管理
-                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">注文書の作成、検索、詳細確認を行います。</span>
+                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">注文書の作成、検索、詳細確認を行います。</span>
                     </a>
-                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px; grid-column: 1 / 2; grid-row: 2 / 3;">
                         納品書管理
-                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">納品書の登録、確認、返品処理を行います。</span>
+                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">納品書の登録、確認、返品処理を行います。</span>
                     </a>
-                    <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card" style="font-size:20px; min-width:0; min-height:60px; padding:20px 20px 14px 20px;">
+                    <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px; grid-column: 2 / 3; grid-row: 2 / 3;">
                         統計情報
-                        <span class="menu-desc" style="font-size:14px; margin-top:8px;">売上やリードタイムなどの統計情報を確認します。</span>
+                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">売上やリードタイムなどの統計情報を確認します。</span>
                     </a>
                 </div>
             </div>
