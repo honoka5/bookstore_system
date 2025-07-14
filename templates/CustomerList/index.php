@@ -3,49 +3,40 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>顧客一覧</title>
+    <title>MBS - 顧客一覧</title>
     <style>
         body {
-            background: #f8f9fa;
-            margin: 0;
-            padding: 0;;
             font-family: 'MS UI Gothic', Arial, sans-serif;
-            overflow-x: hidden;
+            font-size: 13px;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            width: 100vw;
-            margin: 0;
-            padding: 40px 0 32px 0;
-            background: #fff;
-            border-radius: 0;
-            box-shadow: none;
+            background-color: #e8e8e8;
+            border: 2px inset #c0c0c0;
+            width: 90vw;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0;
+            min-height: 80vh;
             box-sizing: border-box;
         }
-        .button-section {
+        .header {
+            background: linear-gradient(to bottom, #d4d4d4, #b8b8b8);
+            border-bottom: 1px solid #999;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            margin-top: 24px;
+            height: 32px;
+            line-height: 32px;
         }
-        .action-button {
-            background-color: #1976d2;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 0 40px;
-            font-size: 20px;
-            height: 44px;
-            display: inline-block;
-            text-align: center;
-            line-height: 44px;
-            text-decoration: none;
+        .header-cell {
+            border-right: 1px solid #999;
+            padding: 0 16px;
             font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+            font-size: 14px;
         }
-        .action-button:hover {
-            background: #1565c0;
+        .header-cell:last-child {
+            border-right: none;
         }
         .content {
             padding: 24px;
@@ -124,38 +115,35 @@
             overflow-y: auto;
             margin-bottom: 24px;
         }
-        table {
+        table.customer-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 32px;
-            background: #fff;
+            font-size: 13px;
         }
-        th, td {
+        table.customer-table th, table.customer-table td {
             border: 1px solid #e0e0e0;
-            padding: 12px 8px;
+            padding: 8px 6px;
             text-align: left;
-            font-size: 18px;
         }
-        th {
-            background: #f5f5f5;
+        table.customer-table th {
+            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
             font-weight: bold;
         }
-        tr:hover {
-            background: #f1f8ff;
+        table.customer-table tr:hover {
+            background-color: #e6f3ff;
         }
-        .select-link {
-            color: #1976d2;
-            text-decoration: underline;
+        .button-section {
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .action-button {
+            width: 110px;
+            height: 36px;
+            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+            border: 1px solid #c0c0c0;
+            font-size: 14px;
             cursor: pointer;
-        }
-        .back-button {
-            display: block;
-            width: 120px;
-            height: 44px;
-            margin: 0 auto;
-            background: #e53935;
-            color: #fff;
-            border: none;
             border-radius: 4px;
             text-decoration: none;
             color: #333;
@@ -174,29 +162,8 @@
     </style>
 </head>
 <body>
-
     <?= $this->element('header', ['title' => '顧客一覧']) ?>
     <div class="container" style="border:2px solid #222;">
-        <div class="title">顧客選択</div>
-        <form class="search-form" method="get">
-            <input type="text" name="keyword" class="search-input" placeholder="顧客名で検索" value="<?= h($this->request->getQuery('keyword') ?? '') ?>">
-            <button type="submit" class="search-button">検索</button>
-        </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>顧客ID</th>
-                    <th>顧客名</th>
-                    <th>電話番号</th>
-                    <th>担当者名</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($customers)): ?>
-                    <?php foreach ($customers as $customer): ?>
-
-    <div class="container">
         <div class="header">
             <div class="header-cell">MBS</div>
             <div class="header-cell">顧客一覧</div>
@@ -230,7 +197,34 @@
             <div class="table-container">
                 <table class="customer-table">
                     <thead>
-
+                        <tr>
+                            <th>顧客ID</th>
+                            <th>店舗名</th>
+                            <th>顧客名</th>
+                            <th>担当者名</th>
+                            <th>電話番号</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($customers)): ?>
+                            <?php foreach ($customers as $customer): ?>
+                                <tr>
+                                    <td><?= h($customer->customer_id) ?></td>
+                                    <td><?= h($customer->bookstore_name) ?></td>
+                                    <td><?= h($customer->name) ?></td>
+                                    <td><?= h($customer->contact_person) ?></td>
+                                    <td><?= h($customer->phone_number) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="no-data-message">
+                                    <?= empty($selectedBookstore) ? '顧客データがありません' : '選択した店舗の顧客データがありません' ?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
             <div class="button-section">
                 <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'index'], ['class' => 'action-button']) ?>
