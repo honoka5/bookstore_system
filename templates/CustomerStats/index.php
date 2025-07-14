@@ -77,14 +77,6 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?php // 計算ボタンは全店舗選択時も表示する ?>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 32px;">
-            <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], [
-                'style' => 'background-color: #1976d2; color: #fff; border: none; border-radius: 8px; padding: 0 40px; font-size: 20px; height: 44px; display: inline-block; text-align: center; line-height: 44px; text-decoration: none; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-left: 16px;',
-                'onmouseover' => "this.style.background='#1565c0'",
-                'onmouseout' => "this.style.background='#1976d2'"
-            ]) ?>
-        </div>
         <?php
             // ページングUI
             $totalPages = (int)ceil($total / $limit);
