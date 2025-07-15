@@ -18,10 +18,23 @@
         }
 
         main {
-            padding: 40px;
             background: white;
             min-height: calc(100vh - 60px);
             width: 100%;
+        }
+
+        .page-header {
+            background: white;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .inner-content {
@@ -30,13 +43,6 @@
             border-radius: 4px;
             max-width: 1000px;
             margin: 0 auto;
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 40px;
-            color: #333;
         }
 
         .menu-grid {
@@ -88,8 +94,8 @@
                 gap: 20px;
             }
             
-            main {
-                padding: 20px;
+            .page-header {
+                padding: 15px 20px;
             }
             
             .inner-content {
@@ -98,7 +104,6 @@
             
             .page-title {
                 font-size: 20px;
-                margin-bottom: 30px;
             }
         }
     </style>
@@ -107,9 +112,8 @@
     <?= $this->element('header') ?>
     
     <main>
+        
         <div class="inner-content">
-            <h1 class="page-title">メインメニュー</h1>
-            
             <div class="menu-grid">
                 <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'customer']) ?>" class="menu-card">
                     <div class="menu-title">顧客管理</div>
