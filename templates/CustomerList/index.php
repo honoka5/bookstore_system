@@ -1,208 +1,359 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>MBS - 顧客一覧</title>
     <style>
-        body {
-            font-family: 'MS UI Gothic', Arial, sans-serif;
-            font-size: 13px;
-            background-color: #f0f0f0;
+        * {
             margin: 0;
             padding: 0;
-        }
-        .container {
-            background-color: #e8e8e8;
-            border: 2px inset #c0c0c0;
-            width: 90vw;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0;
-            min-height: 80vh;
             box-sizing: border-box;
         }
-        .header {
-            background: linear-gradient(to bottom, #d4d4d4, #b8b8b8);
-            border-bottom: 1px solid #999;
-            display: flex;
-            height: 32px;
-            line-height: 32px;
-        }
-        .header-cell {
-            border-right: 1px solid #999;
-            padding: 0 16px;
-            font-weight: bold;
+        
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
             font-size: 14px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden; /* 外側のスクロールを無効化 */
         }
-        .header-cell:last-child {
-            border-right: none;
+        
+        /* メインコンテンツ */
+        .main-content {
+            padding: 15px;
+            background: white;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .content {
-            padding: 24px;
-            background-color: #fffbe6;
-            min-height: 70vh;
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+            flex-shrink: 0; /* 高さを固定 */
         }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-button {
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+        }
+        
+        .add-button:hover {
+            background: #0056b3;
+        }
+        
+        /* フィルターセクション */
         .filter-section {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 4px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+            flex-shrink: 0; /* 高さを固定 */
         }
+        
         .filter-label {
-            font-weight: bold;
-            margin-right: 8px;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
         }
-        .dropdown-container {
+        
+        /* カスタムドロップダウン */
+        .custom-dropdown {
             position: relative;
             display: inline-block;
+            min-width: 250px;
         }
+        
         .dropdown-display {
-            width: 280px;
-            height: 32px;
-            border: 1px solid #999;
+            padding: 8px 40px 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
             background: white;
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
             cursor: pointer;
-            font-size: 13px;
-            position: relative;
+            transition: border-color 0.2s;
         }
-        .dropdown-display::after {
-            content: "▼";
+        
+        .dropdown-display:hover {
+            border-color: #007bff;
+        }
+        
+        .dropdown-display.active {
+            border-color: #007bff;
+        }
+        
+        /* カスタム矢印 */
+        .dropdown-arrow {
             position: absolute;
-            right: 8px;
-            font-size: 10px;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 14px;
             color: #666;
+            transition: transform 0.2s ease;
         }
-        .dropdown-display.active::after {
-            content: "▲";
+        
+        .dropdown-display.active + .dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
         }
+        
+        /* ドロップダウンメニュー */
         .dropdown-menu {
             position: absolute;
             top: 100%;
             left: 0;
             right: 0;
             background: white;
-            border: 1px solid #999;
+            border: 1px solid #ddd;
             border-top: none;
+            border-radius: 0 0 4px 4px;
             max-height: 200px;
             overflow-y: auto;
             z-index: 1000;
             display: none;
         }
+        
         .dropdown-menu.show {
             display: block;
         }
+        
         .dropdown-item {
-            padding: 8px 12px;
+            padding: 10px 12px;
             cursor: pointer;
-            font-size: 13px;
-            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
         }
+        
         .dropdown-item:hover {
-            background-color: #e6f3ff;
+            background-color: #f8f9fa;
         }
-        .dropdown-item.selected {
-            background-color: #316ac5;
+        
+        .dropdown-item.active {
+            background-color: #007bff;
             color: white;
         }
-        .table-container {
-            border: 1px solid #c0c0c0;
-            background-color: white;
-            height: 55vh;
-            overflow-y: auto;
-            margin-bottom: 24px;
+        
+        /* テーブルコンテナ - スクロール対応 */
+        .table-wrapper {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            background: white;
+            position: relative;
+            flex: 1; /* 残りの高さを全て使用 */
+            min-height: 0; /* flexの制約を適用 */
         }
-        table.customer-table {
+        
+        .scrollable-table {
+            height: 100%; /* 親の高さを100%使用 */
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+        
+        .customer-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
-        }
-        table.customer-table th, table.customer-table td {
-            border: 1px solid #e0e0e0;
-            padding: 8px 6px;
-            text-align: left;
-        }
-        table.customer-table th {
-            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
-            font-weight: bold;
-        }
-        table.customer-table tr:hover {
-            background-color: #e6f3ff;
-        }
-        .button-section {
-            margin-top: 18px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .action-button {
-            width: 110px;
-            height: 36px;
-            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
-            border: 1px solid #c0c0c0;
             font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: white;
         }
-        .action-button:active {
-            border: 1px inset #c0c0c0;
+        
+        .customer-table th {
+            background: #f8f9fa;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
+        
+        .customer-table td {
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+        
+        .customer-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .customer-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
         .no-data-message {
             text-align: center;
+            padding: 40px;
+            color: #6c757d;
             font-style: italic;
-            color: #666;
+        }
+        
+        /* 戻るボタン */
+        .button {
+            background: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .button:hover {
+            background: #5a6268;
+        }
+        
+       
+        
+        /* ボタンセクション */
+        .button-section {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+            flex-shrink: 0; /* 高さを固定 */
+        }
+        
+        /* テーブルの行の調整 */
+        .customer-table th:first-child,
+        .customer-table td:first-child {
+            width: 80px;
+        }
+        
+        .customer-table th:nth-child(2),
+        .customer-table td:nth-child(2) {
+            width: 150px;
+        }
+        
+        .customer-table th:nth-child(3),
+        .customer-table td:nth-child(3) {
+            width: 200px;
+        }
+        
+        .customer-table th:nth-child(4),
+        .customer-table td:nth-child(4) {
+            width: 150px;
+        }
+        
+        .customer-table th:nth-child(5),
+        .customer-table td:nth-child(5) {
+            width: 150px;
+        }
+        
+        /* スクロールバーのスタイリング */
+        .scrollable-table::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .scrollable-table::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .scrollable-table::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .scrollable-table::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* 縦横スクロールバーの角 */
+        .scrollable-table::-webkit-scrollbar-corner {
+            background: #f1f1f1;
+        }
+        
+        /* スクロールインジケーター */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: none;
+            z-index: 5;
+        }
+        
+        .table-wrapper:hover .scroll-indicator {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <?= $this->element('header', ['title' => '顧客一覧']) ?>
-    <div class="container" style="border:2px solid #222;">
-        <div class="header">
-            <div class="header-cell">MBS</div>
-            <div class="header-cell">顧客一覧</div>
-            <div class="header-cell">ホーム＞顧客一覧</div>
+    <!-- 共通ヘッダーを読み込み -->
+    <?= $this->element('common_header') ?>
+
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">顧客一覧</h1>
+            <?= $this->Html->link('新規作成', ['controller' => 'Customers', 'action' => 'add'], ['class' => 'add-button']) ?>
         </div>
-        <div class="content">
-            <!-- 書店名選択ドロップダウン -->
-            <div class="filter-section">
-                <span class="filter-label">店舗名で絞り込み：</span>
-                <div class="dropdown-container">
-                    <div class="dropdown-display" id="dropdownDisplay">
-                        <?= !empty($selectedBookstore) ? h($selectedBookstore) : '全ての店舗' ?>
-                    </div>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <div class="dropdown-item <?= empty($selectedBookstore) ? 'selected' : '' ?>" 
-                             onclick="selectBookstore('', '全ての店舗')">
-                            全ての店舗
-                        </div>
-                        <?php if (!empty($bookstores)): ?>
-                            <?php foreach ($bookstores as $bookstore): ?>
-                                <div class="dropdown-item <?= ($selectedBookstore === $bookstore->bookstore_name) ? 'selected' : '' ?>" 
-                                     onclick="selectBookstore('<?= h($bookstore->bookstore_name) ?>', '<?= h($bookstore->bookstore_name) ?>')">
-                                    <?= h($bookstore->bookstore_name) ?>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
+
+        <!-- フィルターセクション -->
+        <div class="filter-section">
+            <label class="filter-label">店舗名で絞り込み</label>
+            <div class="custom-dropdown">
+                <div class="dropdown-display" id="dropdownDisplay">全ての店舗</div>
+                <span class="dropdown-arrow">▼</span>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-item active" data-value="">全ての店舗</div>
+                    <?php if (!empty($bookstores)): ?>
+                        <?php foreach ($bookstores as $bookstore): ?>
+                            <div class="dropdown-item" data-value="<?= h($bookstore->bookstore_name) ?>">
+                                <?= h($bookstore->bookstore_name) ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
-            
-            <div class="table-container">
+        </div>
+
+        <!-- テーブル（スクロール対応） -->
+        <div class="table-wrapper">
+            <div class="scrollable-table">
                 <table class="customer-table">
                     <thead>
                         <tr>
                             <th>顧客ID</th>
                             <th>店舗名</th>
                             <th>顧客名</th>
-                            <th>担当者名</th>
                             <th>電話番号</th>
+                            <th>担当者名</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -212,8 +363,8 @@
                                     <td><?= h($customer->customer_id) ?></td>
                                     <td><?= h($customer->bookstore_name) ?></td>
                                     <td><?= h($customer->name) ?></td>
-                                    <td><?= h($customer->contact_person) ?></td>
                                     <td><?= h($customer->phone_number) ?></td>
+                                    <td><?= h($customer->contact_person ?? '未設定') ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -226,12 +377,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="button-section">
-                <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'index'], ['class' => 'action-button']) ?>
-                <?= $this->Html->link('顧客登録', ['controller' => 'Customers', 'action' => 'add'], ['class' => 'action-button']) ?>
-            </div>
         </div>
-    </div>
+
+        <!-- ボタンセクション -->
+        <div class="button-section">
+            <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
+        </div>
+    </main>
 
     <script>
         // ドロップダウンの表示/非表示切り替え
@@ -265,12 +417,58 @@
             }
         }
 
-        // 外部クリックでドロップダウンを閉じる
-        document.addEventListener('click', function(event) {
-            const container = document.querySelector('.dropdown-container');
-            if (!container.contains(event.target)) {
-                document.getElementById('dropdownMenu').classList.remove('show');
-                document.getElementById('dropdownDisplay').classList.remove('active');
+        // ドロップダウンアイテムクリックイベント
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            
+            dropdownItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent;
+                    
+                    // アクティブ状態を更新
+                    dropdownItems.forEach(function(i) {
+                        i.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    selectBookstore(value, text);
+                });
+            });
+            
+            // 外部クリックでドロップダウンを閉じる
+            document.addEventListener('click', function(event) {
+                const dropdown = document.querySelector('.custom-dropdown');
+                if (!dropdown.contains(event.target)) {
+                    document.getElementById('dropdownMenu').classList.remove('show');
+                    document.getElementById('dropdownDisplay').classList.remove('active');
+                }
+            });
+        });
+
+        // スクロール状態の監視
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollableTable = document.querySelector('.scrollable-table');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+
+            if (scrollableTable && scrollIndicator) {
+                scrollableTable.addEventListener('scroll', function() {
+                    const scrollTop = this.scrollTop;
+                    const scrollHeight = this.scrollHeight;
+                    const clientHeight = this.clientHeight;
+                    
+                    // スクロール可能な場合のみインジケーターを表示
+                    if (scrollHeight > clientHeight) {
+                        scrollIndicator.style.display = 'block';
+                        
+                        // 下端近くになったらインジケーターを隠す
+                        if (scrollTop + clientHeight >= scrollHeight - 10) {
+                            scrollIndicator.style.display = 'none';
+                        }
+                    } else {
+                        scrollIndicator.style.display = 'none';
+                    }
+                });
             }
         });
     </script>

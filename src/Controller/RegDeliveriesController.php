@@ -244,7 +244,10 @@ class RegDeliveriesController extends AppController
                         $deliveryItem->is_delivered_flag = 1;
                         $deliveryItem->delivery_id = $nextDeliveryId;
                         $deliveryItem->book_amount = (int)$quantity;
-                        $deliveryItem->leadTime = date_diff(new \DateTime($order->order_date), new \DateTime())->days; // リードタイム計算
+                        // リードタイム計算: 納品日を指定日で計算
+                        $deliveryDateObj = new \DateTime($deliveryDate);
+                        $orderDateObj = new \DateTime($order->order_date);
+                        $deliveryItem->leadTime = $orderDateObj->diff($deliveryDateObj)->days;
                         $deliveryItemsTable->save($deliveryItem);
                     } else {
                         // 部分納品
@@ -261,7 +264,10 @@ class RegDeliveriesController extends AppController
                         $deliveryItem->book_amount = (int)$quantity;
                         $deliveryItem->is_delivered_flag = 1;
                         $deliveryItem->delivery_id = $nextDeliveryId;
-                        $deliveryItem->leadTime = date_diff(new \DateTime($order->order_date), new \DateTime())->days; // リードタイム計算
+                        // リードタイム計算: 納品日を指定日で計算
+                        $deliveryDateObj = new \DateTime($deliveryDate);
+                        $orderDateObj = new \DateTime($order->order_date);
+                        $deliveryItem->leadTime = $orderDateObj->diff($deliveryDateObj)->days;
                         $deliveryItemsTable->save($deliveryItem);
                     }
                 }
