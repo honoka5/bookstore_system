@@ -14,35 +14,35 @@
         body {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #e5e5e5;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden; /* 外側のスクロールを無効化 */
         }
 
         main {
             background: white;
-            min-height: calc(100vh - 60px);
+            height: calc(100vh - 60px);
             width: 100%;
-        }
-
-        .page-header {
-            background: white;
-            padding: 20px 40px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow: hidden; /* メインコンテンツのスクロールも無効化 */
         }
 
         .inner-content {
             background: #f8f8f8;
             padding: 40px;
             border-radius: 4px;
+            width: 100%;
             max-width: 1000px;
-            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .menu-grid {
@@ -94,8 +94,9 @@
                 gap: 20px;
             }
             
-            .page-header {
-                padding: 15px 20px;
+            main {
+                padding: 20px;
+                align-items: flex-start;
             }
             
             .inner-content {
@@ -104,6 +105,7 @@
             
             .page-title {
                 font-size: 20px;
+                margin-bottom: 30px;
             }
         }
     </style>
@@ -112,7 +114,6 @@
     <?= $this->element('header') ?>
     
     <main>
-        
         <div class="inner-content">
             <div class="menu-grid">
                 <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'customer']) ?>" class="menu-card">
