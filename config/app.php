@@ -171,6 +171,7 @@ return [
      */
     'Error' => [
         'errorLevel' => E_ALL,
+        'exceptionRenderer' => \App\Error\AppExceptionRenderer::class,
         'skipLog' => [],
         'log' => true,
         'trace' => true,

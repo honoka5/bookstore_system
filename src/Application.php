@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Error\Renderer\AppHtmlErrorRenderer;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -64,6 +65,9 @@ class Application extends BaseApplication
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
+        $errorConfig = Configure::read('Error');
+        $handlers = ['text/html' => AppHtmlErrorRenderer::class];
+
         $middlewareQueue
             // Catch any exceptions in the lower layers,
             // and make an error page/response
