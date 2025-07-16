@@ -6,12 +6,7 @@ $currentAction = $this->request->getParam('action');
 // ナビゲーションメニューの定義
 $navItems = [
     [
-        'title' => '受注管理',
-        'controller' => 'List',
-        'action' => 'index'
-    ],
-    [
-        'title' => '注文発注管理',
+        'title' => '注文書管理',
         'controller' => 'List',
         'action' => 'order'
     ],
@@ -26,7 +21,7 @@ $navItems = [
         'action' => 'index'
     ],
     [
-        'title' => '顧客一覧',
+        'title' => '顧客管理',
         'controller' => 'List',
         'action' => 'customer'
     ]
