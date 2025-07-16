@@ -248,6 +248,8 @@
     <script>
         // 行選択
         document.addEventListener('DOMContentLoaded', function() {
+            // 末尾スラッシュを除去し、deliveryIdの前に必ずスラッシュを付与
+            const deliveryDetailBaseUrl = <?= json_encode(rtrim($this->Url->build(["controller" => "List", "action" => "delivery_detail"]), '/')) ?>;
             const rows = document.querySelectorAll('#deliveryTable tbody tr');
             rows.forEach(row => {
                 row.addEventListener('click', function() {
@@ -261,7 +263,7 @@
                 const selectedRow = document.querySelector('#deliveryTable tr.selected');
                 if (selectedRow && selectedRow.cells[0].textContent.trim()) {
                     const deliveryId = selectedRow.cells[0].textContent.trim();
-                     window.location.href = '/list/deliveryDetail/' + deliveryId;
+                    window.location.href = deliveryDetailBaseUrl + '/' + encodeURIComponent(deliveryId);
                 } else {
                     alert('項目を選択してください');
                 }
