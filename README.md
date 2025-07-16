@@ -1,6 +1,6 @@
 #統計情報計算のコマンド
 
-ターミナルでbin/cake customer_stat を実行すると、統計情報の計算処理が実行されます。
+ターミナルでbin/cake customer_stats を実行すると、統計情報の計算処理が実行されます。
 
 # CakePHP Application Skeleton
 
