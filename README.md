@@ -1,3 +1,7 @@
+#統計情報計算のコマンド
+
+ターミナルでbin/cake customer_stat を実行すると、統計情報の計算処理が実行されます。
+
 # CakePHP Application Skeleton
 
 ![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=5.x)
