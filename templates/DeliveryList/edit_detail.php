@@ -28,7 +28,13 @@
             <p>顧客名: <?= h($delivery->customer->name ?? '') ?> 様</p>
             <p>納品日: <?= h($delivery->delivery_date) ?></p>
         </div>
-        <?= $this->Form->create(null, ['type' => 'post', 'url' => ['controller' => 'delivery-list', 'action' => 'editDetail', $delivery->delivery_id]]) ?>
+        <form id="main-edit-form" method="post" action="<?= $this->Url->build(['controller'=>'delivery-list','action'=>'editDetail', $delivery->delivery_id]) ?>">
+            <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
+            <div class="button-area" style="position:fixed;right:30px;bottom:30px;z-index:100;">
+                <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'deliveryDetail', $delivery->delivery_id], ['class' => 'button']) ?>
+                <button type="submit" class="action-btn">確定</button>
+            </div>
+        </form>
         <table>
             <thead>
                 <tr>
@@ -85,13 +91,6 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <form id="main-edit-form" method="post" action="<?= $this->Url->build(['controller'=>'delivery-list','action'=>'editDetail', $delivery->delivery_id]) ?>">
-            <div class="button-area" style="position:fixed;right:30px;bottom:30px;z-index:100;">
-                <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'deliveryDetail', $delivery->delivery_id], ['class' => 'button']) ?>
-                <button type="submit" class="action-btn">確定</button>
-            </div>
-            <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
-        </form>
     </div>
 </body>
 </html>

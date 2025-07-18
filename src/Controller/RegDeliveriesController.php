@@ -19,7 +19,42 @@ class RegDeliveriesController extends AppController
         $keyword = $this->request->getQuery('keyword');
         $page = (int)$this->request->getQuery('page', 1);
         $limit = 10;
-        $query = $this->fetchTable('Customers')->find('all');
+        $customersTable = $this->fetchTable('Customers');
+        $ordersTable = $this->fetchTable('Orders');
+        $orderItemsTable = $this->fetchTable('OrderItems');
+        $deliveryItemsTable = $this->fetchTable('DeliveryItems');
+
+        // 未納品のある顧客ID一覧を取得
+        $undeliveredCustomerIds = [];
+        $orderItemRows = $deliveryItemsTable->find()
+            ->select(['orderItem_id'])
+            ->where(['is_delivered_flag' => 0])
+            ->enableHydration(false)
+            ->toArray();
+        $orderItemIds = array_column($orderItemRows, 'orderItem_id');
+        if (!empty($orderItemIds)) {
+            $orderRows = $orderItemsTable->find()
+                ->select(['order_id'])
+                ->where(['orderItem_id IN' => $orderItemIds])
+                ->enableHydration(false)
+                ->toArray();
+            $orderIds = array_column($orderRows, 'order_id');
+            if (!empty($orderIds)) {
+                $customerRows = $ordersTable->find()
+                    ->select(['customer_id'])
+                    ->where(['order_id IN' => $orderIds])
+                    ->enableHydration(false)
+                    ->toArray();
+                $undeliveredCustomerIds = array_unique(array_column($customerRows, 'customer_id'));
+            }
+        }
+
+        $query = $customersTable->find('all');
+        if (!empty($undeliveredCustomerIds)) {
+            $query->where(['customer_id IN' => $undeliveredCustomerIds]);
+        } else {
+            $query->where(['customer_id IS' => null]); // 空リストの場合は何も出さない
+        }
         if (!empty($keyword)) {
             $query->where([
                 'OR' => [
@@ -209,7 +244,10 @@ class RegDeliveriesController extends AppController
                         $deliveryItem->is_delivered_flag = 1;
                         $deliveryItem->delivery_id = $nextDeliveryId;
                         $deliveryItem->book_amount = (int)$quantity;
-                        $deliveryItem->leadTime = date_diff(new \DateTime($order->order_date), new \DateTime())->days; // リードタイム計算
+                        // リードタイム計算: 納品日を指定日で計算
+                        $deliveryDateObj = new \DateTime($deliveryDate);
+                        $orderDateObj = new \DateTime($order->order_date);
+                        $deliveryItem->leadTime = $orderDateObj->diff($deliveryDateObj)->days;
                         $deliveryItemsTable->save($deliveryItem);
                     } else {
                         // 部分納品
@@ -226,7 +264,10 @@ class RegDeliveriesController extends AppController
                         $deliveryItem->book_amount = (int)$quantity;
                         $deliveryItem->is_delivered_flag = 1;
                         $deliveryItem->delivery_id = $nextDeliveryId;
-                        $deliveryItem->leadTime = date_diff(new \DateTime($order->order_date), new \DateTime())->days; // リードタイム計算
+                        // リードタイム計算: 納品日を指定日で計算
+                        $deliveryDateObj = new \DateTime($deliveryDate);
+                        $orderDateObj = new \DateTime($order->order_date);
+                        $deliveryItem->leadTime = $orderDateObj->diff($deliveryDateObj)->days;
                         $deliveryItemsTable->save($deliveryItem);
                     }
                 }

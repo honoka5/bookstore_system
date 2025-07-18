@@ -1,50 +1,37 @@
-<?php
-// $title: 画面タイトル
-?>
 <style>
-.mbs-header-bar {
-    display: flex;
-    border: 2px solid #222;
-    border-bottom: none;
-    width: 100%;
-    height: 60px;
-    align-items: center;
-    font-size: 26px;
-    font-family: 'MS UI Gothic', Arial, sans-serif;
-    background: #fff;
-    box-sizing: border-box;
+body {
+    margin: 0;
+    padding-top: 60px; /* ヘッダー分のパディング */
 }
-.mbs-header-bar .mbs-logo {
-    flex: 0 0 120px;
-    text-align: center;
+
+.navbar {
+    background: #28a745;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
     font-weight: bold;
-    border-right: 2px solid #222;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-.mbs-header-bar .mbs-title {
-    flex: 0 0 240px;
-    text-align: center;
-    border-right: 2px solid #222;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
+
+.navbar-brand {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
 }
-.mbs-header-bar .mbs-breadcrumb {
-    flex: 1;
-    padding-left: 16px;
-    font-size: 20px;
-    color: #222;
-    display: flex;
-    align-items: center;
+
+.navbar-brand:hover {
+    color: white;
+    text-decoration: none;
 }
 </style>
-<div class="mbs-header-bar">
-    <div class="mbs-logo">MBS</div>
-    <div class="mbs-title"><?= h($title ?? '') ?></div>
-    <div class="mbs-breadcrumb">ホーム &gt; <?= h($title ?? '') ?></div>
-</div>
+
+<nav class="navbar">
+    <?= $this->Html->link('MBS 受注・納品管理', ['controller' => 'Home', 'action' => 'index'], ['class' => 'navbar-brand']) ?>
+</nav>

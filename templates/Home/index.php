@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,355 +10,133 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+ 
         body {
-            font-family: Arial, sans-serif;
-            font-size: 20px;
-            background-color: rgb(251, 250, 250);
-            padding: 0;
-            min-height: 100vh;
-            width: 100vw;
-            box-sizing: border-box;
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background-color: #e5e5e5;
+            height: 100vh;
+            overflow: hidden; /* 外側のスクロールを無効化 */
         }
 
-        .main-container {
-            background: #fff;
-            border-radius: 0;
-            margin: 0;
-            max-width: 100vw;
-            min-width: 0;
-            min-height: 100vh;
-            box-shadow: none;
-            padding-bottom: 0;
-            box-sizing: border-box;
-        }
-
-        .main-title {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 48px 0 32px 0;
-            text-align: left;
-            letter-spacing: 2px;
-        }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px 20px;
-            max-width: 100vw;
-            margin: 0;
-        }
-        .menu-card {
-            background: #fff;
-            border: 1.5px solid #ccc;
-            border-radius: 8px;
-            padding: 32px 32px 24px 32px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #222;
-            box-shadow: none;
-            min-width: 320px;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            transition: box-shadow 0.2s, border 0.2s;
-        }
-        .menu-card:hover {
-            border: 1.5px solid #219653;
-            box-shadow: 0 4px 16px rgba(33, 150, 83, 0.08);
-        }
-        .menu-desc {
-            font-size: 18px;
-            font-weight: normal;
-            color: #333;
-            margin-top: 12px;
-        }
-
-        @media (max-width: 900px) {
-            .main-container {
-                max-width: 98vw;
-                margin: 10px;
-            }
-
-            .button-grid {
-                gap: 20px 10px;
-            }
-
-            .menu-button {
-                min-width: 140px;
-                font-size: 20px;
-                min-height: 100px;
-            }
-
-            .header-tabs {
-                font-size: 16px;
-                height: 40px;
-            }
-
-            .tab {
-                font-size: 14px;
-                padding: 8px 10px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .button-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, 1fr);
-                gap: 16px;
-                
-            }
-
-            .menu-button {
-                min-width: 80px;
-                font-size: 16px;
-                min-height: 60px;
-            
-            }
-
-            .content-area {
-                padding: 10px 2px 0 2px;
-            }
-        }
-
-        .header-bar {
+        main {
+            background: white;
+            height: calc(100vh - 60px);
             width: 100%;
-            background: #219653;
-            color: #fff;
-            padding: 18px 0 18px 24px;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            border-radius: 8px 8px 0 0;
-            box-sizing: border-box;
-        }
-
-        .main-title {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 48px 0 32px 0;
-            text-align: left;
-            letter-spacing: 2px;
-        }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px 20px;
-            max-width: 100vw;
-            margin: 0;
-        }
-        .menu-card {
-            background: #fff;
-            border: 1.5px solid #ccc;
-            border-radius: 8px;
-            padding: 32px 32px 24px 32px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #222;
-            box-shadow: none;
-            min-width: 320px;
-            min-height: 80px;
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-            transition: box-shadow 0.2s, border 0.2s;
-        }
-        .menu-card:hover {
-            border: 1.5px solid #219653;
-            box-shadow: 0 4px 16px rgba(33, 150, 83, 0.08);
-        }
-        .menu-desc {
-            font-size: 18px;
-            font-weight: normal;
-            color: #333;
-            margin-top: 12px;
+            padding: 40px;
+            overflow: hidden; /* メインコンテンツのスクロールも無効化 */
         }
 
-        @media (max-width: 900px) {
-            .main-container {
-                max-width: 98vw;
-                margin: 10px;
-            }
-
-            .button-grid {
-                gap: 20px 10px;
-            }
-
-            .menu-button {
-                min-width: 140px;
-                font-size: 20px;
-                min-height: 100px;
-            }
-
-            .header-tabs {
-                font-size: 16px;
-                height: 40px;
-            }
-
-            .tab {
-                font-size: 14px;
-                padding: 8px 10px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .button-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, 1fr);
-                gap: 16px;
-                
-            }
-
-            .menu-button {
-                min-width: 80px;
-                font-size: 16px;
-                min-height: 60px;
-            
-            }
-
-            .content-area {
-                padding: 10px 2px 0 2px;
-            }
-        }
-
-        .header-bar {
+        .inner-content {
+            background: #f8f8f8;
+            padding: 40px;
+            border-radius: 4px;
             width: 100%;
-            background: #219653;
-            color: #fff;
-            padding: 18px 0 18px 24px;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            border-radius: 8px 8px 0 0;
-            box-sizing: border-box;
+            max-width: 1000px;
         }
 
-        .main-title {
-            font-size: 48px;
+        .page-title {
+            font-size: 24px;
             font-weight: bold;
-            margin: 48px 0 32px 0;
-            text-align: left;
-            letter-spacing: 2px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
         }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            width: 100%;
         }
+
         .menu-card {
-            background: #fff;
-            border: 1.5px solid #ccc;
+            background: white;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 32px 32px 24px 32px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #222;
-            box-shadow: none;
-            min-width: 320px;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            transition: box-shadow 0.2s, border 0.2s;
-        }
-        .menu-card:hover {
-            border: 1.5px solid #219653;
-            box-shadow: 0 4px 16px rgba(33, 150, 83, 0.08);
-        }
-        .menu-desc {
-            font-size: 18px;
-            font-weight: normal;
+            padding: 30px;
+            text-decoration: none;
             color: #333;
-            margin-top: 12px;
+            transition: all 0.2s ease;
+            display: block;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 120px;
+            aspect-ratio: 2.5/1;
         }
 
-        @media (max-width: 900px) {
-            .main-container {
-                max-width: 98vw;
-                margin: 10px;
-            }
-
-            .button-grid {
-                gap: 20px 10px;
-            }
-
-            .menu-button {
-                min-width: 140px;
-                font-size: 20px;
-                min-height: 100px;
-            }
-
-            .header-tabs {
-                font-size: 16px;
-                height: 40px;
-            }
-
-            .tab {
-                font-size: 14px;
-                padding: 8px 10px;
-            }
+        .menu-card:hover {
+            border-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: #333;
         }
 
-        @media (max-width: 600px) {
-            .button-grid {
+        .menu-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .menu-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .menu-grid {
                 grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, 1fr);
-                gap: 16px;
-                
+                gap: 20px;
             }
-
-            .menu-button {
-                min-width: 80px;
-                font-size: 16px;
-                min-height: 60px;
             
+            main {
+                padding: 20px;
+                align-items: flex-start;
             }
-
-            .content-area {
-                padding: 10px 2px 0 2px;
+            
+            .inner-content {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 20px;
+                margin-bottom: 30px;
             }
         }
     </style>
 </head>
- 
 <body>
-    <div style="border:none; border-radius: 0; width: 100vw; margin: 0; background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.06); min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch;">
-        <div style="background: #e6f9d7; border-radius: 10px 10px 0 0; width:100%;">
-        </div>
-        <div class="main-container">
-            <div class="content-area">
-                <div class="main-title">メインメニュー</div>
-                <div class="menu-grid">
-
-                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'customer']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px;">
-                        顧客管理
-                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">顧客情報の登録、検索、編集を行います。</span>
-                    </a>
-                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px; grid-column: 2 / 3; grid-row: 1 / 2;">
-                        注文書管理
-                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">注文書の作成、検索、詳細確認を行います。</span>
-                    </a>
-
-                    <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px;">
-                        納品書管理
-                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">納品書の登録、確認、返品処理を行います。</span>
-                    </a>
-
-                    <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card" style="font-size:26px; min-width:380px; min-height:90px; padding:28px 28px 18px 28px;">
-                        統計情報
-                        <span class="menu-desc" style="font-size:17px; margin-top:10px;">売上やリードタイムなどの統計情報を確認します。</span>
-                    </a>
-                </div>
+    <?= $this->element('header') ?>
+    
+    <main>
+        <div class="inner-content">
+            <div class="menu-grid">
+                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'customer']) ?>" class="menu-card">
+                    <div class="menu-title">顧客管理</div>
+                    <div class="menu-description">顧客情報の登録、検索、編集を行います。</div>
+                </a>
+                
+                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'order']) ?>" class="menu-card">
+                    <div class="menu-title">注文書管理</div>
+                    <div class="menu-description">注文書の作成、検索、詳細確認を行います。</div>
+                </a>
+                
+                <a href="<?= $this->Url->build(['controller' => 'List', 'action' => 'product']) ?>" class="menu-card">
+                    <div class="menu-title">納品管理</div>
+                    <div class="menu-description">納品情報の登録、確認、返品処理を行います。</div>
+                </a>
+                
+                <a href="<?= $this->Url->build(['controller' => 'CustomerStats', 'action' => 'index']) ?>" class="menu-card">
+                    <div class="menu-title">統計情報</div>
+                    <div class="menu-description">売上やリードタイムなどの統計情報を確認します。</div>
+                </a>
             </div>
         </div>
-    </div>
+    </main>
 </body>
- 
 </html>
- 

@@ -241,6 +241,8 @@
     <script>
         // 行選択
         document.addEventListener('DOMContentLoaded', function() {
+            // 末尾スラッシュを除去し、orderIdの前に必ずスラッシュを付与
+            const orderDetailBaseUrl = <?= json_encode(rtrim($this->Url->build(["controller" => "OrderList", "action" => "orderDetail"]), '/')) ?>;
             const rows = document.querySelectorAll('#orderTable tr');
             rows.forEach(row => {
                 row.addEventListener('click', function() {
@@ -249,13 +251,12 @@
                     this.classList.add('selected');
                 });
             });
-            
             // 詳細ボタン
             document.getElementById('detailBtn').addEventListener('click', function() {
                 const selectedRow = document.querySelector('#orderTable tr.selected');
                 if (selectedRow && selectedRow.cells[0].textContent.trim()) {
                     const orderId = selectedRow.cells[0].textContent.trim();
-                    window.location.href = '/order-list/order-detail/' + orderId;
+                    window.location.href = orderDetailBaseUrl + '/' + encodeURIComponent(orderId);
                 } else {
                     alert('項目を選択してください');
                 }
