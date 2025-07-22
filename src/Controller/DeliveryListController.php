@@ -29,12 +29,14 @@ class DeliveryListController extends AppController
                 $beforeQty = (int)$item->book_amount;
                 $beforePrice = (int)$item->unit_price;
                 $beforeTitle = $item->book_title;
+                $beforeSummary = isset($item->book_summary) ? $item->book_summary : '';
                 $orderItemId = $item->orderItem_id;
                 $afterQty = isset($data['book_amount'][$id]) ? (int)$data['book_amount'][$id] : $beforeQty;
                 $afterPrice = isset($data['unit_price'][$id]) ? (int)$data['unit_price'][$id] : $beforePrice;
                 $afterTitle = isset($data['book_title'][$id]) ? $data['book_title'][$id] : $beforeTitle;
-                $beforeList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$beforeQty, 'unit_price'=>$beforePrice, 'book_title'=>$beforeTitle, 'orderItem_id'=>$orderItemId];
-                $afterList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$afterQty, 'unit_price'=>$afterPrice, 'book_title'=>$afterTitle, 'orderItem_id'=>$orderItemId];
+                $afterSummary = isset($data['book_summary'][$id]) ? $data['book_summary'][$id] : $beforeSummary;
+                $beforeList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$beforeQty, 'unit_price'=>$beforePrice, 'book_title'=>$beforeTitle, 'book_summary'=>$beforeSummary, 'orderItem_id'=>$orderItemId];
+                $afterList[] = ['deliveryItem_id'=>$id, 'book_amount'=>$afterQty, 'unit_price'=>$afterPrice, 'book_title'=>$afterTitle, 'book_summary'=>$afterSummary, 'orderItem_id'=>$orderItemId];
                 // バリデーション
                 if ($afterQty < 1 || $afterQty > $beforeQty) {
                     $error = true;
@@ -43,6 +45,14 @@ class DeliveryListController extends AppController
                 if ($afterPrice <= 0) {
                     $error = true;
                     $errorMsg = '単価の値が不正です';
+                }
+                if (mb_strlen($afterTitle) > 255) {
+                    $error = true;
+                    $errorMsg = '書籍名は255文字以内で入力してください';
+                }
+                if (mb_strlen($afterSummary) > 255) {
+                    $error = true;
+                    $errorMsg = '摘要は255文字以内で入力してください';
                 }
             }
             if ($error) {

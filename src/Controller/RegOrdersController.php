@@ -73,29 +73,38 @@ class RegOrdersController extends AppController
             // バリデーション: いずれか一つでも入力があれば3つすべて必須
             $invalidMsg = '';
             foreach ($data['order_items'] as $idx => $item) {
-                $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
-                $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
-                $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
-                // すべて空欄の行はスキップ
-                if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
-                    continue;
-                }
-                // いずれか一つでも入力があれば3つすべて必須
-                if ($bookTitle === '' || $bookAmount === '' || $unitPrice === '') {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名・数量・単価はすべて入力してください。';
-                    break;
-                }
-                // 数量・単価が0以下の場合はエラー
-                if (!is_numeric($bookAmount) || (int)$bookAmount <= 0 || !preg_match('/^[1-9][0-9]{0,2}$/', $bookAmount)) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1～999の整数で入力してください。';
-                    break;
-                }
-                if (!is_numeric($unitPrice) || (int)$unitPrice <= 0 || !preg_match('/^[1-9][0-9]{0,6}$/', $unitPrice)) {
-                    $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1～9999999の整数で入力してください。';
-                    break;
-                }
-            }
-            if ($invalidMsg !== '') {
+                foreach ($data['order_items'] as $idx => $item) {
+                    $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                    $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
+                    $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
+                    $bookSummary = isset($item['book_summary']) ? trim($item['book_summary']) : '';
+                    // すべて空欄の行はスキップ
+                    if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
+                        continue;
+                    }
+                    // いずれか一つでも入力があれば3つすべて必須
+                    if ($bookTitle === '' || $bookAmount === '' || $unitPrice === '') {
+                        $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名・数量・単価はすべて入力してください。';
+                        break;
+                    }
+                    // 文字数制限
+                    if (mb_strlen($bookTitle) > 255) {
+                        $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名は255文字以内で入力してください。';
+                        break;
+                    }
+                    if (mb_strlen($bookSummary) > 255) {
+                        $invalidMsg = 'エラー ' . ($idx+1) . '行目: 摘要は255文字以内で入力してください。';
+                        break;
+                    }
+                    // 数量・単価が0以下の場合はエラー
+                    if (!is_numeric($bookAmount) || (int)$bookAmount <= 0 || !preg_match('/^[1-9][0-9]{0,2}$/', $bookAmount)) {
+                        $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1～999の整数で入力してください。';
+                        break;
+                    }
+                    if (!is_numeric($unitPrice) || (int)$unitPrice <= 0 || !preg_match('/^[1-9][0-9]{0,6}$/', $unitPrice)) {
+                        $invalidMsg = 'エラー ' . ($idx+1) . '行目: 単価は1～9999999の整数で入力してください。';
+                        break;
+                    }
                 $this->Flash->error($invalidMsg);
                 // POSTデータを再表示
                 $this->set(compact('customerId', 'data'));
@@ -115,12 +124,18 @@ class RegOrdersController extends AppController
             $orderDate = $data['order_date'] ?? date('Y-m-d');
             $order = $ordersTable->newEntity([
                 'order_id' => $nextOrderId,
-                'customer_id' => $customerId,
-                'order_date' => $orderDate,
-                'remark' => $data['orders']['remark'] ?? null, // 修正: フォームのname属性に合わせる
-            ]);
-            $ordersTable->saveOrFail($order);
-
+                $remark = $data['orders']['remark'] ?? null;
+                if (mb_strlen($remark) > 255) {
+                    $this->Flash->error('備考は255文字以内で入力してください。');
+                    $this->set(compact('customerId', 'data'));
+                    return $this->render('new_order');
+                }
+                $order = $ordersTable->newEntity([
+                    'order_id' => $nextOrderId,
+                    'customer_id' => $customerId,
+                    'order_date' => $orderDate,
+                    'remark' => $remark,
+                ]);
             // 2. 各注文内容＆納品内容の登録
             foreach ($data['order_items'] as $item) {
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
