@@ -292,7 +292,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($orders as $order): ?>
+                            <?php foreach ($orders ?? [] as $order): ?>
                             <tr>
                                 <td><?= h($order->order_id) ?></td>
                                 <td><?= h($order->customer_id) ?></td>
