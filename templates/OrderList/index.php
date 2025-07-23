@@ -179,7 +179,7 @@
     </style>
 </head>
 <body>
-    <?= $this->element('header', ['title' => '注文書一覧']) ?>
+    <?= $this->element('common_header') ?>
     <div class="main-container" style="border:2px solid #222;">
         <div class="content-area">
             <!-- New Create Button -->
