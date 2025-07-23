@@ -156,7 +156,13 @@ class OrderListController extends AppController
                 if ($newAmount < 1 || $newAmount > $max) {
                     $errors[] = "注文内容ID:{$id} の数量が不正です（1～{$max}の範囲で入力してください）";
                 }
-
+                // 文字数制限
+                if (mb_strlen($after['book_title']) > 255) {
+                    $errors[] = "注文内容ID:{$id} の書籍名は255文字以内で入力してください";
+                }
+                if (mb_strlen($after['book_summary']) > 255) {
+                    $errors[] = "注文内容ID:{$id} の摘要は255文字以内で入力してください";
+                }
                 // --- 未納納品内容の数量が0になる場合のバリデーション追加 ---
                 // 差分を計算
                 $diff = $newAmount - $item->book_amount;
@@ -176,6 +182,11 @@ class OrderListController extends AppController
                     $errors[] = "注文内容ID:{$id} の単価の値が不正です（1以上で入力してください）";
                 }
             }
+            // 備考の文字数制限
+            $remark = $data['remark'] ?? $order->remark;
+            if (mb_strlen($remark) > 255) {
+                $errors[] = '備考は255文字以内で入力してください';
+            }
             if ($errors) {
                 foreach ($errors as $msg) $this->Flash->error($msg);
             } else {
@@ -183,7 +194,7 @@ class OrderListController extends AppController
                 $conn = $ordersTable->getConnection();
                 $conn->begin();
                 try {
-                    $order->remark = $data['remark'] ?? $order->remark;
+                    $order->remark = $remark;
                     $ordersTable->save($order);
                     foreach ($afterList as $after) {
                         $item = $orderItemsTable->get($after['orderItem_id']);
