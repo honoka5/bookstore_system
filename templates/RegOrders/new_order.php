@@ -1,10 +1,14 @@
 <div class="container">
   <div class="order-fullscreen">
-    <form method="post" accept-charset="utf-8" action="<?= $this->Url->build(["controller" => "RegOrders", "action" => "newOrder", $customerId]) ?>">
+    <?= $this->Form->create(null, [
+      'url' => ["controller" => "RegOrders", "action" => "newOrder", $customerId],
+      'type' => 'post',
+      'autocomplete' => 'off',
+      'accept-charset' => 'utf-8',
+    ]) ?>
       <div class="order-box">
         <div class="order-header">
           <span>注文書</span>
-          <span style="margin-left:32px;"> <?= h($customer->name ?? '') ?> 様</span>
           <span class="order-date"> <?= date('Y年n月j日') ?> </span>
         </div>
         <table class="order-table">
@@ -18,10 +22,10 @@
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $itemsPerPage = 5;
 $totalItems = 15;
-$start = ($page - 1) * $itemsPerPage;
-$end = min($start + $itemsPerPage, $totalItems);
-for ($i = $start; $i < $end; $i++): ?>
-<tr>
+for ($i = 0; $i < $totalItems; $i++):
+  $rowPage = floor($i / $itemsPerPage) + 1;
+?>
+<tr class="order-row" data-page="<?= $rowPage ?>" style="display:<?= ($rowPage == $page) ? '' : 'none' ?>;">
   <td><?= $this->Form->control("order_items.{$i}.book_title", ['label' => false, 'style'=>'width:100%;']) ?></td>
   <td><?= $this->Form->control("order_items.{$i}.book_amount", ['label' => false, 'type' => 'number', 'min' => 1, 'max' => 999, 'inputmode' => 'numeric', 'style'=>'width:100%;']) ?></td>
   <td><?= $this->Form->control("order_items.{$i}.unit_price", ['label' => false, 'type' => 'number', 'min' => 1, 'max' => 9999999, 'inputmode' => 'numeric', 'style'=>'width:100%;']) ?></td>
@@ -44,7 +48,7 @@ for ($i = $start; $i < $end; $i++): ?>
                 $totalPages = ceil($totalItems / $itemsPerPage);
                 for ($p = 1; $p <= $totalPages; $p++):
               ?>
-                <a href="?page=<?= $p ?>" class="button" style="width:40px; text-align:center; padding:0;<?= ($page == $p) ? 'background:#1976d2;color:#fff;' : '' ?>">
+                <a href="?page=<?= $p ?>" class="button page-link" data-page="<?= $p ?>" style="width:40px; text-align:center; padding:0;<?= ($page == $p) ? 'background:#1976d2;color:#fff;' : '' ?>">
                   <?= $p ?>
                 </a>
               <?php endfor; ?>
@@ -53,7 +57,7 @@ for ($i = $start; $i < $end; $i++): ?>
           </div>
         </div>
       </div>
-    </form>
+    <?= $this->Form->end() ?>
   </div>
 </div>
 
@@ -71,11 +75,9 @@ for ($i = $start; $i < $end; $i++): ?>
 const formKey = 'newOrderFormData';
 function saveFormToStorage() {
   const data = {};
-  document.querySelectorAll('[name^="order_items"]').forEach(el => {
+  document.querySelectorAll('[name^="order_items"], [name="orders[remark]"]').forEach(el => {
     data[el.name] = el.value;
   });
-  const remark = document.querySelector('[name="orders[remark]"]');
-  if (remark) data['orders[remark]'] = remark.value;
   localStorage.setItem(formKey, JSON.stringify(data));
 }
 function loadFormFromStorage() {
@@ -93,6 +95,31 @@ document.querySelectorAll('[name^="order_items"], [name="orders[remark]"]').forE
   el.addEventListener('input', saveFormToStorage);
 });
 document.querySelector('form').addEventListener('submit', clearFormStorage);
+
+// ページ切り替え時のtr表示制御
+document.querySelectorAll('.page-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const page = this.getAttribute('data-page');
+    document.querySelectorAll('.order-row').forEach(tr => {
+      tr.style.display = (tr.getAttribute('data-page') == page) ? '' : 'none';
+    });
+    // ページリンクの色切り替え
+    document.querySelectorAll('.page-link').forEach(l => {
+      if (l.getAttribute('data-page') == page) {
+        l.style.background = '#1976d2';
+        l.style.color = '#fff';
+      } else {
+        l.style.background = '';
+        l.style.color = '';
+      }
+    });
+    // URLの?page=xxxを書き換え（履歴は残さない）
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', page);
+    window.history.replaceState(null, '', url.toString());
+  });
+});
 </script>
 
 <style>
