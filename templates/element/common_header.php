@@ -34,7 +34,11 @@ function isActive($item, $currentController, $currentAction) {
 ?>
 
 <div class="header-bar">
-    <div class="logo">MBS 受注・納品管理</div>
+    <div class="logo">
+        <a href="<?= $this->Url->build(['controller' => 'Home', 'action' => 'index']) ?>" class="logo-link">
+            MBS 受注・納品管理
+        </a>
+    </div>
     <div class="nav-links">
         <?php foreach ($navItems as $item): ?>
             <a href="<?= $this->Url->build(['controller' => $item['controller'], 'action' => $item['action']]) ?>" 
@@ -49,9 +53,11 @@ function isActive($item, $currentController, $currentAction) {
 body {
     margin: 0;
     padding-top: 60px; /* ヘッダー分のパディング */
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
 }
 
 .header-bar {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
     padding: 10px 20px;
@@ -68,9 +74,24 @@ body {
 }
 
 .header-bar .logo {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
     font-weight: bold;
     font-size: 16px;
     margin-right: 30px;
+}
+
+.header-bar .logo .logo-link {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.header-bar .logo .logo-link:hover {
+    color: #f0f0f0;
+    text-shadow: 0 0 5px rgba(255,255,255,0.3);
 }
 
 .header-bar .nav-links {
@@ -79,10 +100,12 @@ body {
 }
 
 .header-bar .nav-links a {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
     color: white;
     text-decoration: none;
     padding: 12px 20px;
     font-size: 14px;
+    font-weight: normal;
     transition: background-color 0.2s;
     border-right: 1px solid rgba(255,255,255,0.2);
 }
