@@ -195,8 +195,10 @@
             </div>
             <!-- Search Section -->
             <div class="search-section">
-                <input type="text" class="search-input" placeholder="検索キーワード">
-                <button class="search-btn">検索</button>
+            <form method="get" class="search-section">
+                <input type="text" name="keyword" class="search-input" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
+                <button type="submit" class="search-btn">検索</button>
+            </form>
             </div>
             <!-- Data Table -->
             <div class="table-container">
