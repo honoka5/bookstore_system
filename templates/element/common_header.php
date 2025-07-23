@@ -49,9 +49,11 @@ function isActive($item, $currentController, $currentAction) {
 body {
     margin: 0;
     padding-top: 60px; /* ヘッダー分のパディング */
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
 }
 
 .header-bar {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
     padding: 10px 20px;
@@ -68,6 +70,7 @@ body {
 }
 
 .header-bar .logo {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
     font-weight: bold;
     font-size: 16px;
     margin-right: 30px;
@@ -79,10 +82,12 @@ body {
 }
 
 .header-bar .nav-links a {
+    font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
     color: white;
     text-decoration: none;
     padding: 12px 20px;
     font-size: 14px;
+    font-weight: normal;
     transition: background-color 0.2s;
     border-right: 1px solid rgba(255,255,255,0.2);
 }
