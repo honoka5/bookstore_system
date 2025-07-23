@@ -1,15 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>顧客一覧!!</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             background: #f8f9fa;
             margin: 0;
-            padding: 0;;
-            font-family: 'MS UI Gothic', Arial, sans-serif;
+            padding: 0;
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             overflow-x: hidden;
         }
         .container {
@@ -29,6 +33,7 @@
             margin-top: 24px;
         }
         .action-button {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #1976d2;
             color: #fff;
             border: none;
@@ -48,6 +53,7 @@
             background: #1565c0;
         }
         .title {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             font-size: 48px;
             font-weight: bold;
             text-align: center;
@@ -61,6 +67,7 @@
             margin-bottom: 32px;
         }
         .search-input {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             width: 260px;
             height: 40px;
             font-size: 18px;
@@ -69,6 +76,7 @@
             border-radius: 4px;
         }
         .search-button {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             width: 90px;
             height: 40px;
             background: #e53935;
@@ -82,12 +90,14 @@
             background: #b71c1c;
         }
         table {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 32px;
             background: #fff;
         }
         th, td {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 1px solid #e0e0e0;
             padding: 12px 8px;
             text-align: left;
@@ -101,11 +111,13 @@
             background: #f1f8ff;
         }
         .select-link {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             color: #1976d2;
             text-decoration: underline;
             cursor: pointer;
         }
         .back-button {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             display: block;
             width: 120px;
             height: 44px;
