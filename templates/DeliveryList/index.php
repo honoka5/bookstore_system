@@ -5,41 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>納品書一覧</title>
     <style>
-        html, body {
-            height: 100%;
+        * {
             margin: 0;
             padding: 0;
-            font-family: "MS UI Gothic", sans-serif;
-            background-color: #f0f0f0;
+            box-sizing: border-box;
         }
-        .main-container {
-            max-width: 1200px;
+
+        body {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background-color: #f5f5f5;
             min-height: 100vh;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            background-color: #fff;
+            background: white;
+            min-height: calc(100vh - 60px);
         }
-        .header-bar {
-            width: 100%;
-            background: #1976d2;
-            color: #fff;
-            padding: 36px 0 24px 0;
-            text-align: center;
-            font-size: 48px;
+
+        h1 {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            font-size: 24px;
             font-weight: bold;
-            letter-spacing: 8px;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
+            color: #333;
         }
-        .content-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 32px 32px 16px 32px;
-            background-color: #fff;
-        }
+
+        /* 残りのスタイルはそのまま... */
         .search-section {
             display: flex;
             justify-content: center;
@@ -47,7 +41,9 @@
             margin-bottom: 24px;
             gap: 12px;
         }
+        
         .search-input {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 2px solid #b39ddb;
             padding: 0 12px;
             font-size: 20px;
@@ -56,7 +52,9 @@
             border-radius: 6px;
             background-color: white;
         }
+        
         .search-btn {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #e53935;
             color: #fff;
             border: none;
@@ -68,10 +66,12 @@
             font-weight: bold;
             transition: background 0.2s;
         }
+        
         .search-btn:active,
         .search-btn:hover {
             background: #b71c1c;
         }
+        
         .table-container {
             flex: 1;
             background-color: white;
@@ -81,25 +81,31 @@
             box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             border: 1px solid #e0e0e0;
         }
+        
         .scroll-table {
             flex: 1;
             overflow-y: auto;
             overflow-x: auto;
             max-height: 60vh;
         }
+        
         .data-table {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             width: 100%;
             border-collapse: collapse;
             font-size: 20px;
             min-width: 900px;
             background: #fff;
         }
+        
         .data-table th, .data-table td {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 1px solid #e0e0e0;
             padding: 14px 8px;
             text-align: left;
             white-space: nowrap;
         }
+        
         .data-table th {
             background: #f5f5f5;
             font-weight: bold;
@@ -107,18 +113,23 @@
             top: 0;
             z-index: 2;
         }
+        
         .data-table tr.selected {
             background: #1976d2 !important;
             color: #fff;
         }
+        
         .data-table tr.selected td {
             background: #1976d2 !important;
             color: #fff;
         }
+        
         .data-table tr:not(.selected):hover td {
             background: #e6f3ff;
         }
+        
         .delete-btn {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background: #e53935;
             font-size: 20px;
             padding: 0 18px;
@@ -129,16 +140,20 @@
             cursor: pointer;
             transition: background 0.2s;
         }
+        
         .delete-btn:hover {
             background: #b71c1c;
         }
+        
         .button-section {
             display: flex;
             justify-content: space-between;
             gap: 16px;
             margin-top: 24px;
         }
+        
         .button, .btn {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #1976d2;
             color: #fff;
             border: none;
@@ -149,104 +164,85 @@
             height: 48px;
             font-weight: bold;
             transition: background 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
+        
         .button:active, .btn:active,
         .button:hover, .btn:hover {
             background: #1565c0;
         }
-        @media screen and (max-width: 900px) {
-            .data-table {
-                font-size: 14px;
-                min-width: 400px;
-            }
-            .content-area {
-                padding: 8px;
-            }
-            .main-container {
-                max-width: 100vw;
-            }
-            .header-bar {
-                font-size: 28px;
-                padding: 18px 0 12px 0;
-            }
-        }
-        @media screen and (max-width: 600px) {
-            .main-container {
-                width: 100vw;
-            }
-            .data-table {
-                font-size: 12px;
-                min-width: 320px;
-            }
-            .header-bar {
-                font-size: 16px;
-                padding: 8px 0 6px 0;
-            }
-        }
     </style>
 </head>
 <body>
-    <?= $this->element('common_header', ['title' => '納品書一覧']) ?>
-    <div class="main-container" style="border:2px solid #222;">
-        <div class="content-area">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 18px;">
-                <?= $this->Html->link('新規作成', ['controller' => 'RegDeliveries', 'action' => 'select_customer'], ['class' => 'button', 'style' => 'font-size:20px; padding: 0 32px; height: 44px;']) ?>
-            </div>
-            <!-- Search Section -->
-            <div class="search-section">
-            <form method="get" class="search-section">
-                <input type="text" name="keyword" class="search-input" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
-                <button type="submit" class="search-btn">検索</button>
-            </form>
-            </div>
-            <!-- Data Table -->
-            <div class="table-container">
-                <div class="scroll-table">
-                    <table class="data-table" id="deliveryTable">
-                        <thead>
-                            <tr>
-                                <th>納品書ID</th>
-                                <th>顧客ID</th>
-                                <th>顧客名</th>
-                                <th>金額</th>
-                                <th>納品日</th>
-                                <th>備考</th>
-                                <th>削除</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($deliveries ?? [] as $delivery): ?>
-                        <?php if (!is_object($delivery)) continue; ?>
+    <!-- 共通ヘッダーを読み込み -->
+    <?= $this->element('common_header') ?>
+
+    <div class="main-content">
+        <h1>納品書一覧</h1>
+        
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 18px;">
+            <?= $this->Html->link('新規作成', ['controller' => 'RegDeliveries', 'action' => 'select_customer'], ['class' => 'button', 'style' => 'font-size:20px; padding: 0 32px; height: 44px;']) ?>
+        </div>
+        
+        <!-- Search Section -->
+        <div class="search-section">
+        <form method="get" class="search-section">
+            <input type="text" name="keyword" class="search-input" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
+            <button type="submit" class="search-btn">検索</button>
+        </form>
+        </div>
+        
+        <!-- Data Table -->
+        <div class="table-container">
+            <div class="scroll-table">
+                <table class="data-table" id="deliveryTable">
+                    <thead>
                         <tr>
-                            <td><?= h($delivery->delivery_id) ?></td>
-                            <td><?= h($delivery->customer_id) ?></td>
-                            <td><?= h($delivery->customer->name ?? '') ?></td>
-                            <td><?= h($delivery->total_amount ?? '') ?></td>
-                            <td><?= h($delivery->delivery_date) ?></td>
-                            <td><?= h($delivery->remark ?? '') ?></td>
-                            <td>
-                                <?= $this->Form->create(null, [
-                                    'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
-                                    'style' => 'display:inline;',
-                                    'type' => 'post',
-                                ]) ?>
-                                    <button type="submit" class="btn delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
-                                <?= $this->Form->end() ?>
-                            </td>
+                            <th>納品書ID</th>
+                            <th>顧客ID</th>
+                            <th>顧客名</th>
+                            <th>金額</th>
+                            <th>納品日</th>
+                            <th>備考</th>
+                            <th>削除</th>
                         </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Action Buttons -->
-            <div class="button-section">
-                <?= $this->Html->link('戻る',['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
-                <button class="button" id="detailBtn" type="button">詳細</button>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($deliveries ?? [] as $delivery): ?>
+                    <?php if (!is_object($delivery)) continue; ?>
+                    <tr>
+                        <td><?= h($delivery->delivery_id) ?></td>
+                        <td><?= h($delivery->customer_id) ?></td>
+                        <td><?= h($delivery->customer->name ?? '') ?></td>
+                        <td><?= h($delivery->total_amount ?? '') ?></td>
+                        <td><?= h($delivery->delivery_date) ?></td>
+                        <td><?= h($delivery->remark ?? '') ?></td>
+                        <td>
+                            <?= $this->Form->create(null, [
+                                'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
+                                'style' => 'display:inline;',
+                                'type' => 'post',
+                            ]) ?>
+                                <button type="submit" class="btn delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
+                            <?= $this->Form->end() ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
         
+        <!-- Action Buttons -->
+        <div class="button-section">
+            <?= $this->Html->link('戻る',['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
+            <button class="button" id="detailBtn" type="button">詳細</button>
+        </div>
     </div>
+    
     <script>
         // 行選択
         document.addEventListener('DOMContentLoaded', function() {
