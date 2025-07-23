@@ -1,6 +1,6 @@
 <div class="container">
   <div class="order-fullscreen">
-    <?= $this->Form->create(null) ?>
+    <form method="post" accept-charset="utf-8" action="<?= $this->Url->build(["controller" => "RegOrders", "action" => "newOrder", $customerId]) ?>">
       <div class="order-box">
         <div class="order-header">
           <span>注文書</span>
@@ -16,7 +16,7 @@
           </tr>
 <?php
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-$itemsPerPage = 6;
+$itemsPerPage = 5;
 $totalItems = 15;
 $start = ($page - 1) * $itemsPerPage;
 $end = min($start + $itemsPerPage, $totalItems);
@@ -38,29 +38,61 @@ for ($i = $start; $i < $end; $i++): ?>
           <div class="order-btn-left">
             <?= $this->Html->link('戻る', ['controller' => 'RegOrders', 'action' => 'selectCustomer'], ['class' => 'button']) ?>
           </div>
-          <div style="display:flex; align-items:center; gap:16px;">
-            <?php if ($page > 1): ?>
-              <a href="?page=<?= $page - 1 ?>" class="button" style="width:auto;">&lt; 前へ</a>
-            <?php endif; ?>
-            <span style="font-size:18px;"> <?= $page ?> / <?= ceil($totalItems / $itemsPerPage) ?> </span>
-            <?php if ($end < $totalItems): ?>
-              <a href="?page=<?= $page + 1 ?>" class="button" style="width:auto;">次へ &gt;</a>
-            <?php endif; ?>
-            <?= $this->Form->button('作成', ['class' => 'button']) ?>
+          <div style="display:flex; align-items:center; gap:16px; justify-content:center; width:100%;">
+            <div class="pagination" style="display:flex; gap:8px; justify-content:center; width:100%;">
+              <?php
+                $totalPages = ceil($totalItems / $itemsPerPage);
+                for ($p = 1; $p <= $totalPages; $p++):
+              ?>
+                <a href="?page=<?= $p ?>" class="button" style="width:40px; text-align:center; padding:0;<?= ($page == $p) ? 'background:#1976d2;color:#fff;' : '' ?>">
+                  <?= $p ?>
+                </a>
+              <?php endfor; ?>
+            </div>
+            <button type="submit" class="button order-btn-left">作成</button>
           </div>
         </div>
       </div>
-    <?= $this->Form->end() ?>
+    </form>
   </div>
 </div>
 
+
 <?php $flashMsg = $this->Flash->render(); ?>
 <script>
+// Flashメッセージ表示
 <?php if (!empty($flashMsg)): ?>
     window.onload = function() {
         alert('<?= strip_tags(trim($flashMsg)) ?>');
     };
 <?php endif; ?>
+
+// --- 入力値のlocalStorage保存・復元 ---
+const formKey = 'newOrderFormData';
+function saveFormToStorage() {
+  const data = {};
+  document.querySelectorAll('[name^="order_items"]').forEach(el => {
+    data[el.name] = el.value;
+  });
+  const remark = document.querySelector('[name="orders[remark]"]');
+  if (remark) data['orders[remark]'] = remark.value;
+  localStorage.setItem(formKey, JSON.stringify(data));
+}
+function loadFormFromStorage() {
+  const data = JSON.parse(localStorage.getItem(formKey) || '{}');
+  Object.keys(data).forEach(name => {
+    const el = document.querySelector(`[name='${name}']`);
+    if (el) el.value = data[name];
+  });
+}
+function clearFormStorage() {
+  localStorage.removeItem(formKey);
+}
+window.addEventListener('DOMContentLoaded', loadFormFromStorage);
+document.querySelectorAll('[name^="order_items"], [name="orders[remark]"]').forEach(el => {
+  el.addEventListener('input', saveFormToStorage);
+});
+document.querySelector('form').addEventListener('submit', clearFormStorage);
 </script>
 
 <style>
@@ -84,21 +116,19 @@ for ($i = $start; $i < $end; $i++): ?>
   }
   .order-box {
     border: 2px solid #222;
-    padding: 24px 48px 16px 48px;
+    padding: 24px 16px 16px 16px;
     background: #fff;
-    width: 100vw;
+    width: 950px;
+    max-width: 95vw;
     min-height: auto;
     box-sizing: border-box;
-    margin: 0;
+    margin: 32px auto;
     border-radius: 0;
+    overflow-x: auto;
   }
   .order-header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
     font-size: 18px;
     margin-bottom: 12px;
-    font-weight: bold;
   }
   .order-date {
     margin-left: auto;
@@ -110,10 +140,10 @@ for ($i = $start; $i < $end; $i++): ?>
     margin-bottom: 12px;
   }
   .order-table th, .order-table td {
-    border: 1px solid #222;
-    padding: 6px 8px;
-    text-align: left;
     font-size: 16px;
+    padding: 8px 8px;
+    border: 1px solid #222;
+    text-align: left;
     background: #fff;
   }
   .order-table th {
@@ -127,13 +157,14 @@ for ($i = $start; $i < $end; $i++): ?>
     margin-top: 24px;
   }
   .order-btn-left, .order-btn-right {
-    width: 180px;
+    width: 160px;
   }
   .button {
     width: 100%;
-    font-size: 20px;
+    font-size: 18px;
     padding: 8px 0;
     border-radius: 6px;
+    height: 40px;
     border: 1px solid #222;
     background: #fff;
     color: #222;
@@ -143,6 +174,7 @@ for ($i = $start; $i < $end; $i++): ?>
     box-sizing: border-box;
     transition: background 0.2s;
   }
+  /* .create-btn 削除（作成ボタンはbuttonクラスのみで統一） */
   .button:hover {
     background: #e0e0e0;
   }
