@@ -61,10 +61,21 @@ class ListController extends AppController
     {
         $this->viewBuilder()->setLayout('default');
         $ordersTable = $this->fetchTable('Orders');
-        $orders = $ordersTable->find('all', [
+        $query = $ordersTable->find('all', [
             'contain' => ['Customers']
-        ])->all();
-        $this->set(compact('orders'));
+        ]);
+        //顧客名、担当者名で部分一致検索を実装している
+        $keyword = $this->request->getQuery('keyword');
+        if (!empty($keyword)) {
+            $query->where([
+                'OR' => [
+                    'Customers.name LIKE' => '%' . $keyword . '%',
+                    'Customers.contact_person LIKE' => '%' . $keyword . '%',
+                ]
+            ]);
+        }
+        $orders = $query->all();
+        $this->set(compact('orders', 'keyword'));
         $this->render('/OrderList/index');
     }
 
@@ -77,11 +88,20 @@ class ListController extends AppController
     {
         $this->viewBuilder()->setLayout('default');
         $deliveriesTable = $this->fetchTable('Deliveries');
-        // Customersテーブルも一緒に取得
-        $deliveries = $deliveriesTable->find('all', [
-        'contain' => ['Customers']
-        ])->all();
-        $this->set(compact('deliveries'));
+        $query = $deliveriesTable->find('all', [
+            'contain' => ['Customers']
+        ]);
+        $keyword = $this->request->getQuery('keyword');
+        if (!empty($keyword)) {
+            $query->where([
+                'OR' => [
+                    'Customers.name LIKE' => '%' . $keyword . '%',
+                    'Customers.contact_person LIKE' => '%' . $keyword . '%',
+                ]
+            ]);
+        }
+        $deliveries = $query->all();
+        $this->set(compact('deliveries', 'keyword'));
         $this->render('/DeliveryList/index');
     }
     public function orderDetail($orderId)
