@@ -219,14 +219,36 @@
             font-weight: bold;
         }
 
-        .error-message {
+        /* Flash メッセージのスタイル */
+        .flash-message {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
             padding: 12px;
             border-radius: 4px;
             margin: 20px 0;
+        }
+
+        .flash-message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .flash-message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .flash-message.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .flash-message.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
         }
 
         @media screen and (max-width: 900px) {
@@ -257,12 +279,8 @@
     <div class="main-content">
         <h1>注文書一覧</h1>
         
-        <!-- エラーメッセージ表示 -->
-        <?php if ($this->Flash->render()): ?>
-            <div class="error-message">
-                <?= $this->Flash->render() ?>
-            </div>
-        <?php endif; ?>
+        <!-- Flash メッセージ表示 -->
+        <?= $this->Flash->render() ?>
 
         <!-- 新規作成ボタン -->
         <div class="action-section">
