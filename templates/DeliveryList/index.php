@@ -186,7 +186,7 @@
     </style>
 </head>
 <body>
-    <?= $this->element('header', ['title' => '納品書一覧']) ?>
+    <?= $this->element('common_header', ['title' => '納品書一覧']) ?>
     <div class="main-container" style="border:2px solid #222;">
         <div class="content-area">
             <div style="display: flex; justify-content: flex-end; margin-bottom: 18px;">
