@@ -60,13 +60,15 @@ class CustomersController extends AppController
         // ── Excel ファイルが来たときだけ実行 ───────────
         if ($this->request->is('post') && $this->request->getData('excel_upload')) {
             $file = $this->request->getData('excel_file');
+            $deleteOldData = $this->request->getData('delete_old_data', false); // 削除オプション
+
             if ($file->getError() !== UPLOAD_ERR_OK) {
                 $this->Flash->error('ファイルのアップロードに失敗しました。');
                 return $this->redirect(['controller' => 'List', 'action' => 'customer']);
             }
 
             // ■ ここから "1トランザクション" で実行 ■
-            $result = $connection->transactional(function () use ($file, &$messages) {
+            $result = $connection->transactional(function () use ($file, $deleteOldData, &$messages) {
 
                 // Excel → 配列
                 $rows  = IOFactory::load($file->getStream()->getMetadata('uri'))
@@ -74,7 +76,10 @@ class CustomersController extends AppController
                             ->toArray();
 
                 // 集計用
-                $insert = $update = $unchanged = $error = 0;
+                $insert = $update = $unchanged = $deleted = $error = 0;
+
+                // 処理対象の顧客IDを収集
+                $processedCustomerIds = [];
 
                 // 1行目ヘッダを飛ばす
                 foreach (array_slice($rows, 1) as $i => $row) {
@@ -91,6 +96,9 @@ class CustomersController extends AppController
                         continue;
                     }
                     $data = $check['data'];
+
+                    // 処理対象の顧客IDを記録
+                    $processedCustomerIds[] = $data['customer_id'];
 
                     // ② 既存レコードを取得
                     $entity = $this->Customers->find()
@@ -121,11 +129,21 @@ class CustomersController extends AppController
                     }
                 }
 
-                // ③ 一件でもエラーがあれば false を返して rollback
+                // ③ 古いデータ削除処理（オプションが有効な場合）
+                if ($deleteOldData && !$error) {
+                    $deleteResult = $this->deleteOldCustomers($processedCustomerIds, $messages);
+                    if ($deleteResult === false) {
+                        $error++;
+                    } else {
+                        $deleted = $deleteResult;
+                    }
+                }
+
+                // ④ 一件でもエラーがあれば false を返して rollback
                 if ($error) {
                     return false;
                 }
-                return compact('insert', 'update', 'unchanged');   // commit
+                return compact('insert', 'update', 'unchanged', 'deleted');   // commit
             });
 
             // ── トランザクションの結果判定 ────────────
@@ -135,11 +153,12 @@ class CustomersController extends AppController
                     implode("\n", array_slice($messages, 0, 5))
                 );
             } else {                        // commit 済み
-                ['insert' => $i, 'update' => $u, 'unchanged' => $c] = $result;
+                ['insert' => $i, 'update' => $u, 'unchanged' => $c, 'deleted' => $d] = $result;
                 $msg = [];
                 if ($i) $msg[] = "新規登録 {$i} 件";
                 if ($u) $msg[] = "更新 {$u} 件";
                 if ($c) $msg[] = "変更なし {$c} 件";
+                if ($d) $msg[] = "削除 {$d} 件";
                 $this->Flash->success('処理完了 - ' . implode(', ', $msg));
             }
 
@@ -160,6 +179,87 @@ class CustomersController extends AppController
         $this->set(compact('customer'));
     }
 
+/**
+ * 古い顧客データを削除する
+ * 
+ * @param array $processedCustomerIds 処理対象の顧客IDリスト
+ * @param array &$messages エラーメッセージ配列
+ * @return int|false 削除件数 or false（エラー時）
+ */
+private function deleteOldCustomers(array $processedCustomerIds, array &$messages)
+{
+    try {
+        // 削除対象候補：Excelファイルに含まれていない既存顧客
+        $candidateCustomers = $this->Customers->find()
+            ->select(['customer_id'])
+            ->where(['customer_id NOT IN' => $processedCustomerIds])
+            ->toArray();
+
+        $candidateCustomerIds = array_column($candidateCustomers, 'customer_id');
+
+        if (empty($candidateCustomerIds)) {
+            $messages[] = "削除対象の顧客がありません";
+            return 0;
+        }
+
+        // 1. 注文データがある顧客を確認
+        $ordersTable = $this->fetchTable('Orders');
+        $customersWithOrders = $ordersTable->find()
+            ->select(['customer_id'])
+            ->where(['customer_id IN' => $candidateCustomerIds])
+            ->distinct(['customer_id'])
+            ->toArray();
+
+        // 2. 納品データがある顧客を確認
+        $deliveriesTable = $this->fetchTable('Deliveries');
+        $customersWithDeliveries = $deliveriesTable->find()
+            ->select(['customer_id'])
+            ->where(['customer_id IN' => $candidateCustomerIds])
+            ->distinct(['customer_id'])
+            ->toArray();
+
+        // 3. 関連データがある顧客IDを統合
+        $customerIdsWithOrders = array_column($customersWithOrders, 'customer_id');
+        $customerIdsWithDeliveries = array_column($customersWithDeliveries, 'customer_id');
+        $customerIdsWithRelatedData = array_unique(array_merge($customerIdsWithOrders, $customerIdsWithDeliveries));
+
+        // 4. 削除可能な顧客ID（関連データがない顧客）
+        $deletableCustomerIds = array_diff($candidateCustomerIds, $customerIdsWithRelatedData);
+
+        // ログ出力
+        if (!empty($customerIdsWithRelatedData)) {
+            $messages[] = "削除スキップ: 関連データが存在する顧客 " . implode(', ', $customerIdsWithRelatedData);
+        }
+
+        if (empty($deletableCustomerIds)) {
+            $messages[] = "削除可能な顧客がありません（全て関連データが存在）";
+            return 0;
+        }
+
+        // 5. 実際に削除実行
+        $deleteCount = 0;
+        foreach ($deletableCustomerIds as $customerId) {
+            $customer = $this->Customers->find()
+                ->where(['customer_id' => $customerId])
+                ->first();
+
+            if ($customer && $this->Customers->delete($customer)) {
+                $deleteCount++;
+                $messages[] = "削除完了: 顧客ID {$customer->customer_id} ({$customer->name})";
+            } else {
+                $messages[] = "削除失敗: 顧客ID {$customerId}";
+                return false;
+            }
+        }
+
+        return $deleteCount;
+
+    } catch (\Exception $e) {
+        $messages[] = "削除処理でエラーが発生しました: " . $e->getMessage();
+        \Cake\Log\Log::error("Customer deletion error: " . $e->getMessage());
+        return false;
+    }
+}
     /**
      * 行が空かどうかをチェックする
      */

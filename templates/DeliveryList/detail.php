@@ -66,6 +66,56 @@
         .button:hover, .action-btn:hover {
             background-color: #1565c0;
         }
+
+        /* 印刷用スタイル */
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .main-container {
+                max-width: none;
+                margin: 0;
+                background: white;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            h2 {
+                color: black;
+            }
+            
+            th {
+                background: #f0f0f0 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            tfoot td {
+                background: #f5f5f5 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            /* ボタンエリアを印刷時に非表示 */
+            .button-area {
+                display: none !important;
+            }
+            
+            /* ボタン個別でも非表示 */
+            .button, .action-btn {
+                display: none !important;
+            }
+            
+            /* ページ余白の調整 */
+            @page {
+                margin: 1cm;
+                size: A4;
+            }
+        }
     </style>
 </head>
 <body>
