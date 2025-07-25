@@ -5,198 +5,300 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBS注文管理画面</title>
     <style>
-        html, body {
-            height: 100%;
+        * {
             margin: 0;
             padding: 0;
-            font-family: "MS UI Gothic", sans-serif;
-            background-color: #f8f9fa;
+            box-sizing: border-box;
         }
-        .main-container {
-            max-width: 1400px;
-            min-height: 100vh;
+
+        html, body {
+            height: 100%;
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            background: white;
+            min-height: calc(100vh - 60px);
         }
-        .header-tabs {
-            display: flex;
-            border-bottom: 1px solid #808080;
-            background: #1976d2;
-            color: #fff;
-            border-radius: 0;
-            padding: 18px 16px 18px 16px;
-            font-size: 36px;
+
+        h1 {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            font-size: 24px;
             font-weight: bold;
-            justify-content: center;
-            letter-spacing: 6px;
+            margin-bottom: 20px;
+            color: #333;
         }
-        .content-area {
-            flex: 1;
+
+        .action-section {
             display: flex;
-            flex-direction: column;
-            padding: 32px 32px 16px 32px;
-            background-color: #fff;
+            justify-content: flex-end;
+            margin-bottom: 20px;
         }
-        .search-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 24px;
-            gap: 12px;
-        }
-        .search-input {
-            border: 2px solid #b39ddb;
-            padding: 0 12px;
-            font-size: 20px;
-            height: 40px;
-            width: 600px;
-            border-radius: 6px;
-            background-color: white;
-        }
-        .search-btn {
-            background-color: #e53935;
-            color: #fff;
+
+        .new-button {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
             border: none;
-            border-radius: 6px;
-            padding: 0 24px;
-            font-size: 20px;
-            height: 40px;
-            cursor: pointer;
-            font-weight: bold;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
             transition: background 0.2s;
         }
-        .search-btn:active,
-        .search-btn:hover {
-            background: #b71c1c;
+
+        .new-button:hover {
+            background: #0056b3;
         }
-        .table-container {
-            flex: 1;
-            background-color: white;
-            border: 1px solid #808080;
-            border-radius: 6px;
-            margin-bottom: 24px;
-            overflow: hidden;
+
+        .filter-form {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .filter-form form {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
         }
+
+        .filter-form input {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 300px;
+        }
+
+        .filter-form button {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            padding: 8px 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .filter-form button:hover {
+            background: #218838;
+        }
+
+        .table-container {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
         .scroll-table {
-            flex: 1;
-            overflow-y: auto;
             overflow-x: auto;
+            overflow-y: auto;
             max-height: 60vh;
         }
-        .data-table {
-            width: 96%;
-            margin: 0 auto;
+
+        table {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            width: 100%;
             border-collapse: collapse;
-            font-size: 20px;
+            background: white;
             min-width: 900px;
         }
-        .data-table th, .data-table td {
-            border: 1px solid #e0e0e0;
-            padding: 14px 8px;
+
+        table th,
+        table td {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            padding: 12px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
             white-space: nowrap;
         }
-        .data-table th {
-            background: #f5f5f5;
+
+        table th {
+            background: #f8f9fa;
             font-weight: bold;
+            color: #495057;
             position: sticky;
             top: 0;
             z-index: 2;
         }
-        .data-table tr.selected {
-            background: #1976d2 !important;
-            color: #fff;
+
+        table tbody tr:hover {
+            background: #f8f9fa;
         }
-        .data-table tr.selected td {
-            background: #1976d2 !important;
-            color: #fff;
+
+        table tbody tr.selected {
+            background: #007bff !important;
+            color: white;
         }
-        .data-table tr:not(.selected):hover td {
-            background: #e6f3ff;
+
+        table tbody tr.selected td {
+            background: #007bff !important;
+            color: white;
         }
+
+        .delete-btn {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
         .button-section {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             gap: 16px;
-            margin-top: 16px;
+            margin-top: 32px;
         }
-        .btn, .button {
-            background-color: #1976d2;
-            color: #fff;
+
+        .back-button a {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background-color: #6c757d;
+            color: white;
             border: none;
-            border-radius: 6px;
-            padding: 8px 32px;
-            font-size: 20px;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+        }
+
+        .back-button a:hover {
+            background-color: #5a6268;
+        }
+
+        .detail-button {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
             cursor: pointer;
-            height: 44px;
+            transition: background 0.2s;
+        }
+
+        .detail-button:hover {
+            background-color: #0056b3;
+        }
+
+        .no-data {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            text-align: center;
+            color: #6c757d;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .no-data h3 {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             font-weight: bold;
         }
-        .btn:active, .button:active,
-        .btn:hover, .button:hover {
-            background: #1565c0;
+
+        /* Flash メッセージのスタイル */
+        .flash-message {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 20px 0;
         }
-        .delete-btn {
-            background: #e53935;
-            font-size: 18px;
-            padding: 0 14px;
-            height: 36px;
-            border-radius: 6px;
+
+        .flash-message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
         }
-        .delete-btn:hover {
-            background: #b71c1c;
+
+        .flash-message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
         }
+
+        .flash-message.warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .flash-message.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
         @media screen and (max-width: 900px) {
-            .data-table {
+            table {
                 font-size: 14px;
                 min-width: 400px;
             }
-            .content-area {
-                padding: 8px;
-            }
-            .main-container {
-                max-width: 100vw;
+            .main-content {
+                padding: 10px;
             }
         }
+
         @media screen and (max-width: 600px) {
-            .main-container {
-                width: 100vw;
-            }
-            .data-table {
+            table {
                 font-size: 12px;
                 min-width: 320px;
             }
-            .header-tabs {
-                font-size: 18px;
-                padding: 8px 4px;
+            h1 {
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <?= $this->element('header', ['title' => '注文書一覧']) ?>
-    <div class="main-container" style="border:2px solid #222;">
-        <div class="content-area">
-            <!-- New Create Button -->
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 18px;">
-                <?= $this->Html->link('新規作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'button', 'style' => 'font-size:20px; padding: 0 32px; height: 44px;']) ?>
-            </div>
-            <!-- Search Section -->
-            <div class="search-section" style="margin-top: 10px;">
-            <form method="get" class="search-section" style="margin-top: 10px;">
-                <input type="text" name="keyword" class="search-input" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
-                <button type="submit" class="search-btn">検索</button>
+    <!-- 共通ヘッダーを読み込み -->
+    <?= $this->element('common_header') ?>
+
+    <div class="main-content">
+        <h1>注文書一覧</h1>
+        
+        <!-- Flash メッセージ表示 -->
+        <?= $this->Flash->render() ?>
+
+        <!-- 新規作成ボタン -->
+        <div class="action-section">
+            <?= $this->Html->link('新規作成', ['controller' => 'RegOrders', 'action' => 'select_customer'], ['class' => 'new-button']) ?>
+        </div>
+        
+        <!-- 検索フォーム -->
+        <div class="filter-form">
+            <form method="get">
+                <input type="text" name="keyword" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
+                <button type="submit">検索</button>
             </form>
-            </div>
-            <!-- Data Table -->
+        </div>
+
+        <?php if (!empty($orders)): ?>
             <div class="table-container">
                 <div class="scroll-table">
-                    <table class="data-table">
+                    <table id="orderTable">
                         <thead>
                             <tr>
                                 <th>注文書ID</th>
@@ -207,7 +309,7 @@
                                 <th>削除</th>
                             </tr>
                         </thead>
-                        <tbody id="orderTable">
+                        <tbody>
                             <?php foreach ($orders ?? [] as $order): ?>
                             <tr>
                                 <td><?= h($order->order_id) ?></td>
@@ -221,30 +323,36 @@
                                         'style' => 'display:inline;',
                                         'type' => 'post',
                                     ]) ?>
-                                        <button type="submit" class="btn delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">&#10005;</button>
+                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">削除</button>
                                     <?= $this->Form->end() ?>
                                 </td>
                             </tr>
-                            
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <!-- Action Buttons -->
-            <div class="button-section" style="justify-content: space-between; margin-top: 32px;">
-                <?= $this->Html->link('戻る',['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
-                <button class="button" id="detailBtn" type="button">詳細</button>
+        <?php else: ?>
+            <div class="no-data">
+                <h3>データがありません</h3>
+                <p>注文書データが見つかりませんでした。</p>
             </div>
+        <?php endif; ?>
+
+        <div class="button-section">
+            <div class="back-button">
+                <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index']) ?>
+            </div>
+            <button class="detail-button" id="detailBtn" type="button">詳細</button>
         </div>
-        
     </div>
+
     <script>
         // 行選択
         document.addEventListener('DOMContentLoaded', function() {
-            // 末尾スラッシュを除去し、orderIdの前に必ずスラッシュを付与
             const orderDetailBaseUrl = <?= json_encode(rtrim($this->Url->build(["controller" => "OrderList", "action" => "orderDetail"]), '/')) ?>;
-            const rows = document.querySelectorAll('#orderTable tr');
+            const rows = document.querySelectorAll('#orderTable tbody tr');
+            
             rows.forEach(row => {
                 row.addEventListener('click', function() {
                     if (!this.cells[0].textContent.trim()) return;
@@ -252,6 +360,7 @@
                     this.classList.add('selected');
                 });
             });
+            
             // 詳細ボタン
             document.getElementById('detailBtn').addEventListener('click', function() {
                 const selectedRow = document.querySelector('#orderTable tr.selected');
