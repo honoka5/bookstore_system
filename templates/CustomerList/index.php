@@ -321,7 +321,7 @@
     <main class="main-content">
         <div class="page-header">
             <h1 class="page-title">顧客一覧</h1>
-            <?= $this->Html->link('新規作成', ['controller' => 'Customers', 'action' => 'add'], ['class' => 'add-button']) ?>
+            <?= $this->Html->link('顧客登録', ['controller' => 'Customers', 'action' => 'add'], ['class' => 'add-button']) ?>
         </div>
 
         <!-- フィルターセクション -->
