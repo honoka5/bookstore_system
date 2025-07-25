@@ -7,9 +7,19 @@
       'accept-charset' => 'utf-8',
     ]) ?>
       <div class="order-box">
-        <div class="order-header">
+        <div class="order-header" style="display:flex; align-items:center; justify-content:space-between;">
           <span>注文書</span>
-          <span class="order-date"> <?= date('Y年n月j日') ?> </span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label for="order-date" style="font-size:16px;">注文日</label>
+            <?= $this->Form->control('order_date', [
+              'type' => 'date',
+              'label' => false,
+              'id' => 'order-date',
+              'style' => 'width:160px; font-size:16px; margin:0;',
+              'value' => isset($data['order_date']) ? $data['order_date'] : date('Y-m-d'),
+              'required' => true
+            ]) ?>
+          </div>
         </div>
         <table class="order-table">
           <tr>
