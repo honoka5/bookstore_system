@@ -1,3 +1,18 @@
+<script>
+// 顧客テーブルの行クリックで遷移（aタグ以外）
+document.addEventListener('DOMContentLoaded', function() {
+    var rows = document.querySelectorAll('#customer-table .selectable-row');
+    rows.forEach(function(row) {
+        row.style.cursor = 'pointer';
+        row.querySelectorAll('td').forEach(function(td) {
+            td.addEventListener('click', function(e) {
+                if (e.target.tagName.toLowerCase() === 'a') return;
+                window.location = row.getAttribute('data-href');
+            });
+        });
+    });
+});
+</script>
 <h1>顧客選択</h1>
 <form method="get" onsubmit="return checkKeyword();">
     <input type="text" name="keyword" id="keyword" value="<?= h($keyword ?? '') ?>" placeholder="顧客名で検索">
