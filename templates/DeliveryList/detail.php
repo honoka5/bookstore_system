@@ -200,7 +200,18 @@
             <p>納品書ID: <?= h($delivery->delivery_id) ?></p>
             <p>顧客ID: <?= h($delivery->customer_id) ?></p>
             <p>顧客名: <?= h($delivery->customer->name ?? '') ?> 様</p>
-            <p>納品日: <?= h($delivery->delivery_date) ?></p>
+            <p>納品日: <?php
+                // 納品日を「2025年7月12日」形式で表示
+                if (isset($delivery->delivery_date) && $delivery->delivery_date) {
+                    $date = $delivery->delivery_date;
+                    if (is_string($date)) {
+                        $dateObj = new DateTime($date);
+                    } else {
+                        $dateObj = $date;
+                    }
+                    echo h($dateObj->format('Y年n月j日'));
+                }
+            ?></p>
         </div>
         <table>
             <thead>

@@ -91,7 +91,123 @@
         .delete-btn:active { 
             background: #b71c1c; 
         }
+
+        /* 印刷用スタイル */
+        @media print {
+            /* ページ設定：URLやタイトルを非表示 */
+            @page {
+                margin: 1cm;
+                size: A4;
+                /* ヘッダーとフッターを非表示 */
+                @top-left { content: ""; }
+                @top-center { content: ""; }
+                @top-right { content: ""; }
+                @bottom-left { content: ""; }
+                @bottom-center { content: ""; }
+                @bottom-right { content: ""; }
+            }
+            
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+                padding-top: 0 !important;
+            }
+            
+            .main-container {
+                max-width: none;
+                margin: 0;
+                background: white;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            h2 {
+                color: black;
+            }
+            
+            th {
+                background: #f0f0f0 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            tfoot td {
+                background: #f5f5f5 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            /* common_headerを含む全てのヘッダー要素を印刷時に非表示 */
+            .navbar {
+                display: none !important;
+            }
+            
+            nav {
+                display: none !important;
+            }
+            
+            header {
+                display: none !important;
+            }
+            
+            /* common_headerで作成される要素を直接指定 */
+            .navbar-brand {
+                display: none !important;
+            }
+            
+            /* ヘッダー関連のクラスを全て非表示 */
+            [class*="navbar"],
+            [class*="header"],
+            [class*="nav-"] {
+                display: none !important;
+            }
+            
+            /* ボタンエリアを印刷時に非表示 */
+            .button-area-left,
+            .button-area-right {
+                display: none !important;
+            }
+            
+            /* ボタン個別でも非表示 */
+            .button, .action-btn {
+                display: none !important;
+            }
+        }
     </style>
+    <script>
+        // 印刷時にページタイトルを一時的に変更し、印刷設定を調整
+        function printDocument() {
+            const originalTitle = document.title;
+            document.title = '';  // タイトルを空にする
+            
+            // 印刷設定のスタイルを動的に追加
+            const printStyle = document.createElement('style');
+            printStyle.innerHTML = `
+                @media print {
+                    @page {
+                        margin: 1cm;
+                        size: A4;
+                    }
+                    html, body {
+                        -webkit-print-color-adjust: exact;
+                        color-adjust: exact;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            setTimeout(() => {
+                window.print();
+                // 印刷ダイアログが開いた後にタイトルとスタイルを元に戻す
+                setTimeout(() => {
+                    document.title = originalTitle;
+                    document.head.removeChild(printStyle);
+                }, 100);
+            }, 100);
+        }
+    </script>
 </head>
 <body>
     <?= $this->element('common_header') ?>
@@ -102,7 +218,18 @@
             <p>納品書ID: <?= h($delivery->delivery_id) ?></p>
             <p>顧客ID: <?= h($delivery->customer_id) ?></p>
             <p>顧客名: <?= h($delivery->customer->name ?? '') ?> 様</p>
-            <p>納品日: <?= h($delivery->delivery_date) ?></p>
+            <p>納品日: <?php
+                // 納品日を「2025年7月12日」形式で表示
+                if (isset($delivery->delivery_date) && $delivery->delivery_date) {
+                    $date = $delivery->delivery_date;
+                    if (is_string($date)) {
+                        $dateObj = new DateTime($date);
+                    } else {
+                        $dateObj = $date;
+                    }
+                    echo h($dateObj->format('Y年n月j日'));
+                }
+            ?></p>
         </div>
         
         <form id="main-edit-form" method="post" action="<?= $this->Url->build(['controller'=>'delivery-list','action'=>'editDetail', $delivery->delivery_id]) ?>">
@@ -175,6 +302,7 @@
     <!-- 確定ボタン（右下） -->
     <div class="button-area-right">
         <button type="submit" form="main-edit-form" class="action-btn">確定</button>
+        <button class="action-btn" onclick="printDocument()" style="margin-left: 10px;">印刷確認</button>
     </div>
 
     <script>

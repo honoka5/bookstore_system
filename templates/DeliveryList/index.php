@@ -386,7 +386,18 @@
                                 <td><?= h($delivery->customer_id) ?></td>
                                 <td><?= h($delivery->customer->name ?? '') ?></td>
                                 <td><?= h($delivery->total_amount ?? '') ?></td>
-                                <td><?= h($delivery->delivery_date) ?></td>
+                                <td><?php
+                                    // 納品日を「2025年7月12日」形式で表示
+                                    if (isset($delivery->delivery_date) && $delivery->delivery_date) {
+                                        $date = $delivery->delivery_date;
+                                        if (is_string($date)) {
+                                            $dateObj = new DateTime($date);
+                                        } else {
+                                            $dateObj = $date;
+                                        }
+                                        echo h($dateObj->format('Y年n月j日'));
+                                    }
+                                ?></td>
                                 <td><?= h($delivery->remark ?? '') ?></td>
                                 <td>
                                     <?= $this->Form->create(null, [
