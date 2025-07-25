@@ -20,11 +20,12 @@
         }
         h2 { 
             margin-top: 0; 
-            color: #1976d2; 
+            color: #000000; 
         }
         .info-list p { 
             margin: 6px 0; 
             font-size: 15px; 
+            color: #000000; 
         }
         table { 
             border-collapse: collapse; 
@@ -40,6 +41,7 @@
         th { 
             background: #e3f2fd; 
             font-weight: bold; 
+            color: #000000; 
         }
         tfoot td { 
             background: #f9f9f9; 
@@ -58,7 +60,7 @@
             z-index: 100; 
         }
         .button, .action-btn { 
-            background-color: #1976d2; 
+            background-color: #6c757d; 
             color: #fff; 
             border: none; 
             border-radius: 4px; 
@@ -69,7 +71,13 @@
             text-decoration: none; 
             display: inline-block; 
         }
-        .button:hover, .action-btn:hover { 
+        .button:hover { 
+            background-color: #5a6268; 
+        }
+        .action-btn {
+            background-color: #1976d2;
+        }
+        .action-btn:hover { 
             background-color: #1565c0; 
         }
         .delete-btn { 
