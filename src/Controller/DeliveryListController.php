@@ -202,12 +202,24 @@ class DeliveryListController extends AppController
 
         // 納品内容削除リスト
         $deliveryItemRows = $deliveryItemsTable->find()
-            ->select(['deliveryItem_id', 'orderItem_id'])
+            ->select(['deliveryItem_id', 'orderItem_id', 'book_amount'])
             ->where(['delivery_id' => $deliveryId])
             ->enableHydration(false)
             ->toArray();
         $deliveryItemIds = array_column($deliveryItemRows, 'deliveryItem_id');
         $orderItemIds = array_unique(array_column($deliveryItemRows, 'orderItem_id'));
+
+        // 注文内容数量減算処理
+        foreach ($deliveryItemRows as $row) {
+            $orderItemId = $row['orderItem_id'];
+            $bookAmount = (int)$row['book_amount'];
+            if ($orderItemId && $bookAmount > 0) {
+                $orderItem = $orderItemsTable->get($orderItemId);
+                $currentAmount = (int)($orderItem->get('book_amount'));
+                $orderItem->set('book_amount', max(0, $currentAmount - $bookAmount));
+                $orderItemsTable->save($orderItem);
+            }
+        }
 
         // 注文内容削除リスト（新仕様）
         // 1. 納品内容削除リストから対応する注文内容IDと削除リストに含まれる納品内容の件数をリストで取得
@@ -240,7 +252,7 @@ class DeliveryListController extends AppController
         }
 
         $delivery = $deliveriesTable->get($deliveryId);
-        $customerId = $delivery->customer_id;
+        $customerId = $delivery->get('customer_id');
         $orderRows = $ordersTable->find()
             ->select(['order_id'])
             ->where(['customer_id' => $customerId])
