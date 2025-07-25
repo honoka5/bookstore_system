@@ -20,11 +20,12 @@
         }
         h2 {
             margin-top: 0;
-            color: #1976d2;
+            color: #000000;
         }
         .info-list p {
             margin: 6px 0;
             font-size: 15px;
+            color: #000000;
         }
         table {
             border-collapse: collapse;
@@ -40,6 +41,7 @@
         th {
             background: #e3f2fd;
             font-weight: bold;
+            color: #000000;
         }
         tfoot td {
             background: #f9f9f9;
@@ -52,7 +54,7 @@
             justify-content: flex-start;
         }
         .button, .action-btn {
-            background-color: #1976d2;
+            background-color: #6c757d;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -64,6 +66,12 @@
             display: inline-block;
         }
         .button:hover, .action-btn:hover {
+            background-color: #5a6268;
+        }
+        .action-btn {
+            background-color: #1976d2;
+        }
+        .action-btn:hover {
             background-color: #1565c0;
         }
 
@@ -119,6 +127,8 @@
     </style>
 </head>
 <body>
+    <?= $this->element('common_header') ?>
+    
     <div class="main-container">
         <h2>納品書詳細</h2>
         <div class="info-list">
@@ -169,7 +179,7 @@
         <div class="button-area">
             <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'product'], ['class' => 'button']) ?>
             <button class="action-btn" onclick="window.print()">印刷確認</button>
-            <?= $this->Html->link('編集', ['controller' => 'DeliveryList', 'action' => 'editDetail', $delivery->delivery_id], ['class' => 'button']) ?>
+            <?= $this->Html->link('編集', ['controller' => 'DeliveryList', 'action' => 'editDetail', $delivery->delivery_id], ['class' => 'action-btn']) ?>
         </div>
     </div>
 </body>
