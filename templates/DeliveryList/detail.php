@@ -77,6 +77,19 @@
 
         /* 印刷用スタイル */
         @media print {
+            /* ページ設定：URLやタイトルを非表示 */
+            @page {
+                margin: 1cm;
+                size: A4;
+                /* ヘッダーとフッターを非表示 */
+                @top-left { content: ""; }
+                @top-center { content: ""; }
+                @top-right { content: ""; }
+                @bottom-left { content: ""; }
+                @bottom-center { content: ""; }
+                @bottom-right { content: ""; }
+            }
+            
             body {
                 background-color: white;
                 margin: 0;
@@ -143,14 +156,40 @@
             .button, .action-btn {
                 display: none !important;
             }
-            
-            /* ページ余白の調整 */
-            @page {
-                margin: 1cm;
-                size: A4;
-            }
         }
     </style>
+    <script>
+        // 印刷時にページタイトルを一時的に変更し、印刷設定を調整
+        function printDocument() {
+            const originalTitle = document.title;
+            document.title = '';  // タイトルを空にする
+            
+            // 印刷設定のスタイルを動的に追加
+            const printStyle = document.createElement('style');
+            printStyle.innerHTML = `
+                @media print {
+                    @page {
+                        margin: 1cm;
+                        size: A4;
+                    }
+                    html, body {
+                        -webkit-print-color-adjust: exact;
+                        color-adjust: exact;
+                    }
+                }
+            `;
+            document.head.appendChild(printStyle);
+            
+            setTimeout(() => {
+                window.print();
+                // 印刷ダイアログが開いた後にタイトルとスタイルを元に戻す
+                setTimeout(() => {
+                    document.title = originalTitle;
+                    document.head.removeChild(printStyle);
+                }, 100);
+            }, 100);
+        }
+    </script>
 </head>
 <body>
     <?= $this->element('common_header') ?>
@@ -204,7 +243,7 @@
         </div>
         <div class="button-area">
             <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'product'], ['class' => 'button']) ?>
-            <button class="action-btn" onclick="window.print()">印刷確認</button>
+            <button class="action-btn" onclick="printDocument()">印刷確認</button>
             <?= $this->Html->link('編集', ['controller' => 'DeliveryList', 'action' => 'editDetail', $delivery->delivery_id], ['class' => 'action-btn']) ?>
         </div>
     </div>
