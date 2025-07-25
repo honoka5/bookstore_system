@@ -11,10 +11,11 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            height: 100%;
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #f5f5f5;
-            min-height: 100vh;
+            overflow: hidden;
         }
 
         .main-content {
@@ -22,7 +23,10 @@
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            min-height: calc(100vh - 60px);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         h1 {
@@ -31,6 +35,7 @@
             font-weight: bold;
             margin-bottom: 20px;
             color: #333;
+            flex-shrink: 0;
         }
 
         .success-message {
@@ -41,12 +46,14 @@
             border-radius: 6px;
             margin-bottom: 20px;
             font-size: 14px;
+            flex-shrink: 0;
         }
 
         .create-section {
             display: flex;
             justify-content: flex-end;
             margin-bottom: 18px;
+            flex-shrink: 0;
         }
 
         .create-btn {
@@ -77,6 +84,7 @@
             align-items: center;
             margin-bottom: 24px;
             gap: 12px;
+            flex-shrink: 0;
         }
 
         .search-input {
@@ -111,16 +119,20 @@
         .table-container {
             background-color: white;
             border-radius: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             overflow: hidden;
             box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             border: 1px solid #e0e0e0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .scroll-table {
             overflow-y: auto;
             overflow-x: auto;
-            max-height: 60vh;
+            flex: 1;
         }
 
         .data-table {
@@ -194,7 +206,10 @@
             display: flex;
             justify-content: space-between;
             gap: 16px;
-            margin-top: 24px;
+            margin-top: 20px;
+            flex-shrink: 0;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
         }
 
         .button {
@@ -227,6 +242,46 @@
             background: #0056b3;
         }
 
+        .no-data {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            text-align: center;
+            color: #6c757d;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .no-data h3 {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            font-weight: bold;
+        }
+
+        /* Flash メッセージのスタイル */
+        .flash-message {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .flash-message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .flash-message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
         /* レスポンシブ対応 */
         @media screen and (max-width: 768px) {
             .main-content {
@@ -250,6 +305,19 @@
                 padding: 8px 6px;
             }
         }
+
+        @media screen and (max-width: 600px) {
+            .data-table {
+                font-size: 12px;
+                min-width: 320px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .main-content {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -257,6 +325,9 @@
 
     <div class="main-content">
         <h1>納品書一覧</h1>
+
+        <!-- Flash メッセージ表示 -->
+        <?= $this->Flash->render() ?>
 
         <!-- 新規作成ボタン -->
         <div class="create-section">
@@ -272,45 +343,52 @@
         </div>
 
         <!-- データテーブル -->
-        <div class="table-container">
-            <div class="scroll-table">
-                <table class="data-table" id="deliveryTable">
-                    <thead>
-                        <tr>
-                            <th>納品書ID</th>
-                            <th>顧客ID</th>
-                            <th>顧客名</th>
-                            <th>金額</th>
-                            <th>納品日</th>
-                            <th>備考</th>
-                            <th>削除</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($deliveries ?? [] as $delivery): ?>
-                        <?php if (!is_object($delivery)) continue; ?>
-                        <tr>
-                            <td><?= h($delivery->delivery_id) ?></td>
-                            <td><?= h($delivery->customer_id) ?></td>
-                            <td><?= h($delivery->customer->name ?? '') ?></td>
-                            <td><?= h($delivery->total_amount ?? '') ?></td>
-                            <td><?= h($delivery->delivery_date) ?></td>
-                            <td><?= h($delivery->remark ?? '') ?></td>
-                            <td>
-                                <?= $this->Form->create(null, [
-                                    'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
-                                    'style' => 'display:inline;',
-                                    'type' => 'post',
-                                ]) ?>
-                                    <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">削除</button>
-                                <?= $this->Form->end() ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+        <?php if (!empty($deliveries)): ?>
+            <div class="table-container">
+                <div class="scroll-table">
+                    <table class="data-table" id="deliveryTable">
+                        <thead>
+                            <tr>
+                                <th>納品書ID</th>
+                                <th>顧客ID</th>
+                                <th>顧客名</th>
+                                <th>金額</th>
+                                <th>納品日</th>
+                                <th>備考</th>
+                                <th>削除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($deliveries ?? [] as $delivery): ?>
+                            <?php if (!is_object($delivery)) continue; ?>
+                            <tr>
+                                <td><?= h($delivery->delivery_id) ?></td>
+                                <td><?= h($delivery->customer_id) ?></td>
+                                <td><?= h($delivery->customer->name ?? '') ?></td>
+                                <td><?= h($delivery->total_amount ?? '') ?></td>
+                                <td><?= h($delivery->delivery_date) ?></td>
+                                <td><?= h($delivery->remark ?? '') ?></td>
+                                <td>
+                                    <?= $this->Form->create(null, [
+                                        'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
+                                        'style' => 'display:inline;',
+                                        'type' => 'post',
+                                    ]) ?>
+                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">削除</button>
+                                    <?= $this->Form->end() ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="no-data">
+                <h3>データがありません</h3>
+                <p>納品書データが見つかりませんでした。</p>
+            </div>
+        <?php endif; ?>
 
         <!-- ボタンセクション -->
         <div class="button-section">
