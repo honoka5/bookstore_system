@@ -5,22 +5,44 @@
     <title>納品書詳細（編集）</title>
     <style>
         body { font-family: "MS UI Gothic", sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; }
-        .main-container { max-width: 700px; margin: 32px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 32px; }
-        h2 { margin-top: 0; color: #1976d2; }
-        .info-list p { margin: 6px 0; font-size: 15px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 18px; }
-        th, td { border: 1px solid #888; padding: 6px 10px; font-size: 14px; text-align: center; }
-        th { background: #e3f2fd; font-weight: bold; }
-        tfoot td { background: #f9f9f9; font-weight: bold; }
-        .button-area { margin-top: 24px; display: flex; gap: 24px; justify-content: flex-start; }
-        .button, .action-btn { background-color: #1976d2; color: #fff; border: none; border-radius: 4px; padding: 8px 32px; font-size: 15px; cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block; }
+        .main-container { max-width: 1200px; margin: 48px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 16px #0002; padding: 56px; padding-bottom: 96px; }
+        h2 { margin-top: 0; color: #1976d2; font-size: 2.2em; }
+        .info-list p { margin: 10px 0; font-size: 22px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 28px; }
+        th, td { border: 1px solid #888; padding: 14px 18px; font-size: 20px; text-align: center; }
+        th { background: #e3f2fd; font-weight: bold; font-size: 22px; }
+        tfoot td { background: #f9f9f9; font-weight: bold; font-size: 20px; }
+        .button-area {
+            position: absolute;
+            right: 48px;
+            bottom: 24px;
+            display: flex;
+            gap: 32px;
+            justify-content: flex-end;
+            margin-top: 0;
+        }
+        .button, .action-btn {
+            background-color: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 48px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
         .button:hover, .action-btn:hover { background-color: #1565c0; }
-        .delete-btn { background: #e53935; color: #fff; border-radius: 4px; padding: 2px 10px; font-size: 15px; cursor: pointer; }
+        .delete-btn { background: #e53935; color: #fff; border-radius: 6px; padding: 6px 18px; font-size: 20px; cursor: pointer; }
         .delete-btn:active { background: #b71c1c; }
     </style>
 </head>
 <body>
-    <div class="main-container">
+    <div class="main-container" style="position:relative;">
         <h2>納品書詳細（編集）</h2>
         <div class="info-list">
             <p>納品書ID: <?= h($delivery->delivery_id) ?></p>
@@ -30,7 +52,7 @@
         </div>
         <form id="main-edit-form" method="post" action="<?= $this->Url->build(['controller'=>'delivery-list','action'=>'editDetail', $delivery->delivery_id]) ?>">
             <input type="hidden" name="_csrfToken" value="<?= h($this->request->getAttribute('csrfToken')) ?>">
-            <div class="button-area" style="position:fixed;right:30px;bottom:30px;z-index:100;">
+            <div class="button-area">
                 <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'deliveryDetail', $delivery->delivery_id], ['class' => 'button']) ?>
                 <button type="submit" class="action-btn">確定</button>
             </div>
