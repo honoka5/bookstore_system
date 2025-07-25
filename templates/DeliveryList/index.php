@@ -189,8 +189,8 @@
         .delete-btn {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background: #dc3545;
-            font-size: 13px;
-            padding: 3px 6px;
+            font-size: 15px;
+            padding: 5px 10px;
             border-radius: 4px;
             border: none;
             color: #fff;
@@ -394,7 +394,7 @@
                                         'style' => 'display:inline;',
                                         'type' => 'post',
                                     ]) ?>
-                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">削除</button>
+                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">✖</button>
                                     <?= $this->Form->end() ?>
                                 </td>
                             </tr>
