@@ -136,8 +136,11 @@ class RegOrdersController extends AppController
                 'order_date' => $orderDate,
                 'remark' => $remark,
             ]);
+            // まず注文書を保存
+            $ordersTable->saveOrFail($order);
             // 2. 各注文内容＆納品内容の登録
-            foreach ($data['order_items'] as $item) {
+            for ($i = 0; $i < count($data['order_items']); $i++) {
+                $item = $data['order_items'][$i];
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
                 $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
                 $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
@@ -146,10 +149,10 @@ class RegOrdersController extends AppController
                     continue;
                 }
                 // 3つすべて入力された行のみ登録
-                /** @var \App\Model\Entity\OrderItem $order */
+                $orderItemId = str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT);
                 $orderItem = $orderItemsTable->newEntity([
-                    'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
-                    'order_id' => $order->order_id,
+                    'orderItem_id' => $orderItemId,
+                    'order_id' => $nextOrderId,
                     'book_title' => $bookTitle,
                     'unit_price' => $unitPrice,
                     'book_amount' => $bookAmount,
@@ -157,10 +160,9 @@ class RegOrdersController extends AppController
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
 
-                /** @var \App\Model\Entity\DeliveryItem $DeliveryItem */
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
-                    'orderItem_id' => $orderItem->orderItem_id,
+                    'orderItem_id' => $orderItemId,
                     'delivery_id' => null,
                     'book_title' => $bookTitle,
                     'unit_price' => $unitPrice,
