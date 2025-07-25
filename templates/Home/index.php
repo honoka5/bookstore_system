@@ -10,7 +10,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+ 
         body {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #e5e5e5;
