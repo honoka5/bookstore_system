@@ -124,7 +124,7 @@ if (empty($keyword)) {
 <?php endif; ?>
 <!-- 戻るボタンを左下に配置 -->
 <div class="bottom-left-btn">
-    <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
+    <?= $this->Html->link('戻る', ['controller' => 'DeliveryList', 'action' => 'index'], ['class' => 'button']) ?>
 </div>
 <script>
     function checkKeyword() {
