@@ -81,6 +81,7 @@
                 background-color: white;
                 margin: 0;
                 padding: 0;
+                padding-top: 0 !important;
             }
             
             .main-container {
@@ -106,6 +107,31 @@
                 background: #f5f5f5 !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
+            }
+            
+            /* common_headerを含む全てのヘッダー要素を印刷時に非表示 */
+            .navbar {
+                display: none !important;
+            }
+            
+            nav {
+                display: none !important;
+            }
+            
+            header {
+                display: none !important;
+            }
+            
+            /* common_headerで作成される要素を直接指定 */
+            .navbar-brand {
+                display: none !important;
+            }
+            
+            /* ヘッダー関連のクラスを全て非表示 */
+            [class*="navbar"],
+            [class*="header"],
+            [class*="nav-"] {
+                display: none !important;
             }
             
             /* ボタンエリアを印刷時に非表示 */
