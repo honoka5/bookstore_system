@@ -65,27 +65,31 @@ class RegOrdersController extends AppController
      * @param string|null $customerId 顧客ID
      * @return \Cake\Http\Response|null レスポンスまたはリダイレクト
      */
+
     public function newOrder(?string $customerId = null)
     {
         if ($this->request->is('post')) {
             $data = $this->request->getData();
 
-            // バリデーション: いずれか一つでも入力があれば3つすべて必須
+            // バリデーション処理（既存のまま）
             $invalidMsg = '';
             foreach ($data['order_items'] as $idx => $item) {
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
                 $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
                 $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
                 $bookSummary = isset($item['book_summary']) ? trim($item['book_summary']) : '';
+                
                 // すべて空欄の行はスキップ
                 if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
                     continue;
                 }
+                
                 // いずれか一つでも入力があれば3つすべて必須
                 if ($bookTitle === '' || $bookAmount === '' || $unitPrice === '') {
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名・数量・単価はすべて入力してください。';
                     break;
                 }
+                
                 // 文字数制限
                 if (mb_strlen($bookTitle) > 255) {
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名は255文字以内で入力してください。';
@@ -95,7 +99,8 @@ class RegOrdersController extends AppController
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 摘要は255文字以内で入力してください。';
                     break;
                 }
-                // 数量・単価が0以下の場合はエラー
+                
+                // 数量・単価の範囲チェック
                 if (!is_numeric($bookAmount) || (int)$bookAmount <= 0 || !preg_match('/^[1-9][0-9]{0,2}$/', $bookAmount)) {
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1～999の整数で入力してください。';
                     break;
@@ -105,77 +110,96 @@ class RegOrdersController extends AppController
                     break;
                 }
             }
+            
             if ($invalidMsg !== '') {
                 $this->Flash->error($invalidMsg);
-                // POSTデータを再表示
                 $this->set(compact('customerId', 'data'));
                 return $this->render('new_order');
             }
 
-            $ordersTable = $this->fetchTable('Orders');
-            $orderItemsTable = $this->fetchTable('OrderItems');
-            $deliveryItemsTable = $this->fetchTable('DeliveryItems');
+            try {
+                $ordersTable = $this->fetchTable('Orders');
+                $orderItemsTable = $this->fetchTable('OrderItems');
+                $deliveryItemsTable = $this->fetchTable('DeliveryItems');
 
-            // 各IDの自動採番
-            $nextOrderId = $this->generateNextId($ordersTable, 'order_id', 5);
-            $nextOrderItemId = $this->generateNextId($orderItemsTable, 'orderItem_id', 6);
-            $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
+                // 各IDの自動採番
+                $nextOrderId = $this->generateNextId($ordersTable, 'order_id', 5);
+                $nextOrderItemId = $this->generateNextId($orderItemsTable, 'orderItem_id', 6);
+                $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
 
-            // 1. 注文書作成
-            $orderDate = $data['order_date'] ?? date('Y-m-d');
-            $remark = $data['orders']['remark'] ?? null;
-            if (mb_strlen($remark) > 255) {
-                $this->Flash->error('備考は255文字以内で入力してください。');
-                $this->set(compact('customerId', 'data'));
-                return $this->render('new_order');
-            }
-            $order = $ordersTable->newEntity([
-                'order_id' => $nextOrderId,
-                'customer_id' => $customerId,
-                'order_date' => $orderDate,
-                'remark' => $remark,
-            ]);
-            // 2. 各注文内容＆納品内容の登録
-            foreach ($data['order_items'] as $item) {
-                $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
-                $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
-                $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
-                // すべて空欄の行はスキップ
-                if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
-                    continue;
+                // 1. 注文書作成
+                $orderDate = $data['order_date'] ?? date('Y-m-d');
+                $remark = $data['orders']['remark'] ?? null;
+                
+                if (mb_strlen($remark) > 255) {
+                    $this->Flash->error('備考は255文字以内で入力してください。');
+                    $this->set(compact('customerId', 'data'));
+                    return $this->render('new_order');
                 }
-                // 3つすべて入力された行のみ登録
-                /** @var \App\Model\Entity\OrderItem $order */
-                $orderItem = $orderItemsTable->newEntity([
-                    'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
-                    'order_id' => $order->order_id,
-                    'book_title' => $bookTitle,
-                    'unit_price' => $unitPrice,
-                    'book_amount' => $bookAmount,
-                    'book_summary' => $item['book_summary'] ?? null,
+                
+                $order = $ordersTable->newEntity([
+                    'order_id' => $nextOrderId,
+                    'customer_id' => $customerId,
+                    'order_date' => $orderDate,
+                    'remark' => $remark,
                 ]);
-                $orderItemsTable->saveOrFail($orderItem);
 
-                /** @var \App\Model\Entity\DeliveryItem $DeliveryItem */
-                $deliveryItem = $deliveryItemsTable->newEntity([
-                    'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
-                    'orderItem_id' => $orderItem->orderItem_id,
-                    'delivery_id' => null,
-                    'book_title' => $bookTitle,
-                    'unit_price' => $unitPrice,
-                    'book_amount' => $bookAmount,
-                    'is_delivered_flag' => false,
-                    'leadTime' => null,
-                ]);
-                $deliveryItemsTable->saveOrFail($deliveryItem);
+                // 🔥 ここが重要: Orders テーブルに保存
+                if (!$ordersTable->save($order)) {
+                    $this->Flash->error('注文の保存に失敗しました。');
+                    $this->set(compact('customerId', 'data'));
+                    return $this->render('new_order');
+                }
+
+                // 2. 各注文内容＆納品内容の登録
+                foreach ($data['order_items'] as $item) {
+                    $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                    $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
+                    $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
+                    
+                    // すべて空欄の行はスキップ
+                    if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
+                        continue;
+                    }
+                    
+                    // OrderItem 保存
+                    $orderItem = $orderItemsTable->newEntity([
+                        'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
+                        'order_id' => $order->order_id,
+                        'book_title' => $bookTitle,
+                        'unit_price' => (int)$unitPrice,
+                        'book_amount' => (int)$bookAmount,
+                        'book_summary' => $item['book_summary'] ?? null,
+                    ]);
+                    $orderItemsTable->saveOrFail($orderItem);
+
+                    // DeliveryItem 保存
+                    $deliveryItem = $deliveryItemsTable->newEntity([
+                        'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
+                        'orderItem_id' => $orderItem->orderItem_id,
+                        'delivery_id' => null,
+                        'book_title' => $bookTitle,
+                        'unit_price' => (int)$unitPrice,
+                        'book_amount' => (int)$bookAmount,
+                        'is_delivered_flag' => false,
+                        'leadTime' => null,
+                    ]);
+                    $deliveryItemsTable->saveOrFail($deliveryItem);
+                }
+
+                $this->Flash->success('注文が登録されました');
+                return $this->redirect(['action' => 'selectCustomer']);
+
+            } catch (\Exception $e) {
+                // エラーログを確認できるように
+                \Cake\Log\Log::error('Order creation failed: ' . $e->getMessage());
+                $this->Flash->error('注文の登録中にエラーが発生しました: ' . $e->getMessage());
+                $this->set(compact('customerId', 'data'));
+                return $this->render('new_order');
             }
-
-            $this->Flash->success('注文が登録されました');
-
-            return $this->redirect(['action' => 'selectCustomer']);
         }
+        
         $this->set(compact('customerId'));
-
         return $this->render('new_order');
     }
 }
