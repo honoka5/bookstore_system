@@ -19,11 +19,11 @@
         }
 
         .main-content {
-            padding: 20px;
+            padding: 15px 20px;
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            height: 100vh;
+            height: calc(100vh - 60px);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -31,9 +31,9 @@
 
         h1 {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #333;
             flex-shrink: 0;
         }
@@ -42,9 +42,9 @@
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
             color: #155724;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 14px;
             flex-shrink: 0;
         }
@@ -52,7 +52,7 @@
         .create-section {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             flex-shrink: 0;
         }
 
@@ -62,9 +62,9 @@
             color: #fff;
             border: none;
             border-radius: 6px;
-            padding: 0 24px;
-            font-size: 16px;
-            height: 36px;
+            padding: 0 20px;
+            font-size: 15px;
+            height: 34px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.2s;
@@ -82,18 +82,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 24px;
-            gap: 12px;
+            margin-bottom: 15px;
+            gap: 10px;
             flex-shrink: 0;
         }
 
         .search-input {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 2px solid #ddd;
-            padding: 0 12px;
-            font-size: 16px;
-            height: 36px;
-            width: 400px;
+            padding: 0 10px;
+            font-size: 15px;
+            height: 34px;
+            width: 350px;
             border-radius: 4px;
             background-color: white;
         }
@@ -104,9 +104,9 @@
             color: #fff;
             border: none;
             border-radius: 4px;
-            padding: 0 20px;
-            font-size: 16px;
-            height: 36px;
+            padding: 0 18px;
+            font-size: 15px;
+            height: 34px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.2s;
@@ -119,7 +119,7 @@
         .table-container {
             background-color: white;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             overflow: hidden;
             box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             border: 1px solid #e0e0e0;
@@ -139,7 +139,7 @@
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             width: 100%;
             border-collapse: collapse;
-            font-size: 16px;
+            font-size: 15px;
             min-width: 900px;
             background: #fff;
         }
@@ -147,7 +147,7 @@
         .data-table th, .data-table td {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 1px solid #e0e0e0;
-            padding: 12px 8px;
+            padding: 10px 8px;
             text-align: left;
             white-space: nowrap;
         }
@@ -159,7 +159,7 @@
             top: 0;
             z-index: 2;
             text-align: center;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .data-table td {
@@ -189,8 +189,8 @@
         .delete-btn {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background: #dc3545;
-            font-size: 14px;
-            padding: 4px 8px;
+            font-size: 13px;
+            padding: 3px 6px;
             border-radius: 4px;
             border: none;
             color: #fff;
@@ -205,10 +205,10 @@
         .button-section {
             display: flex;
             justify-content: space-between;
-            gap: 16px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 15px;
             flex-shrink: 0;
-            padding-top: 10px;
+            padding-top: 8px;
             border-top: 1px solid #e9ecef;
         }
 
@@ -218,10 +218,10 @@
             color: #fff;
             border: none;
             border-radius: 6px;
-            padding: 0 30px;
-            font-size: 16px;
+            padding: 0 25px;
+            font-size: 15px;
             cursor: pointer;
-            height: 40px;
+            height: 36px;
             font-weight: bold;
             transition: background 0.2s;
             text-decoration: none;
@@ -246,7 +246,7 @@
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             text-align: center;
             color: #6c757d;
-            padding: 40px;
+            padding: 30px;
             background: #f8f9fa;
             border-radius: 4px;
             flex: 1;
@@ -264,9 +264,9 @@
         /* Flash メッセージのスタイル */
         .flash-message {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-            padding: 12px;
+            padding: 10px;
             border-radius: 4px;
-            margin: 20px 0;
+            margin: 15px 0;
             flex-shrink: 0;
         }
 
@@ -285,37 +285,57 @@
         /* レスポンシブ対応 */
         @media screen and (max-width: 768px) {
             .main-content {
-                padding: 15px;
+                padding: 12px 15px;
+                height: calc(100vh - 50px);
             }
 
             .search-input {
-                width: 300px;
+                width: 250px;
             }
 
             .button-section {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
 
             .data-table {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .data-table th, .data-table td {
                 padding: 8px 6px;
             }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
         }
 
         @media screen and (max-width: 600px) {
+            .main-content {
+                padding: 10px 12px;
+                height: calc(100vh - 45px);
+            }
+
             .data-table {
                 font-size: 12px;
                 min-width: 320px;
             }
-            h1 {
-                font-size: 20px;
+
+            .data-table th, .data-table td {
+                padding: 6px 4px;
             }
-            .main-content {
-                padding: 10px;
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .button {
+                height: 34px;
+                font-size: 14px;
+                padding: 0 20px;
             }
         }
     </style>
@@ -336,7 +356,7 @@
 
         <!-- 検索セクション -->
         <div class="search-section">
-            <form method="get" style="display: flex; gap: 12px;">
+            <form method="get" style="display: flex; gap: 10px;">
                 <input type="text" name="keyword" class="search-input" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
                 <button type="submit" class="search-btn">検索</button>
             </form>
