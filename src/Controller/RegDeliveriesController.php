@@ -169,9 +169,11 @@ class RegDeliveriesController extends AppController
             ->select([$column])
             ->order([$column => 'DESC'])
             ->first();
-        $next = $max
-            ? str_pad((string)(((int)$max[$column]) + 1), $length, '0', STR_PAD_LEFT)
-            : str_pad('1', $length, '0', STR_PAD_LEFT);
+        if (!$max || empty($max[$column]) || !is_numeric($max[$column])) {
+            // 1件も存在しない場合は最小値
+            return str_pad('1', $length, '0', STR_PAD_LEFT);
+        }
+        $next = str_pad((string)(((int)$max[$column]) + 1), $length, '0', STR_PAD_LEFT);
         return $next;
     }
 

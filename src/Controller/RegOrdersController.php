@@ -51,10 +51,11 @@ class RegOrdersController extends AppController
             ->select([$column])
             ->order([$column => 'DESC'])
             ->first();
-        $next = $max
-            ? str_pad((string)(((int)$max[$column]) + 1), $length, '0', STR_PAD_LEFT)
-            : str_pad('1', $length, '0', STR_PAD_LEFT);
-
+        if (!$max || empty($max[$column]) || !is_numeric($max[$column])) {
+            // 1件も存在しない場合は最小値
+            return str_pad('1', $length, '0', STR_PAD_LEFT);
+        }
+        $next = str_pad((string)(((int)$max[$column]) + 1), $length, '0', STR_PAD_LEFT);
         return $next;
     }
 
@@ -127,22 +128,58 @@ class RegOrdersController extends AppController
                 $nextOrderItemId = $this->generateNextId($orderItemsTable, 'orderItem_id', 6);
                 $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
 
-                // 1. 注文書作成
-                $orderDate = $data['order_date'] ?? date('Y-m-d');
-                $remark = $data['orders']['remark'] ?? null;
-                
-                if (mb_strlen($remark) > 255) {
-                    $this->Flash->error('備考は255文字以内で入力してください。');
-                    $this->set(compact('customerId', 'data'));
-                    return $this->render('new_order');
+
+            // 1. 注文書作成
+            $orderDate = $data['order_date'] ?? date('Y-m-d');
+            $remark = $data['orders']['remark'] ?? null;
+            if (mb_strlen($remark) > 255) {
+                $this->Flash->error('備考は255文字以内で入力してください。');
+                $this->set(compact('customerId', 'data'));
+                return $this->render('new_order');
+            }
+            $order = $ordersTable->newEntity([
+                'order_id' => $nextOrderId,
+                'customer_id' => $customerId,
+                'order_date' => $orderDate,
+                'remark' => $remark,
+            ]);
+            // まず注文書を保存
+            $ordersTable->saveOrFail($order);
+            // 2. 各注文内容＆納品内容の登録
+            for ($i = 0; $i < count($data['order_items']); $i++) {
+                $item = $data['order_items'][$i];
+                $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
+                $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
+                $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
+                // すべて空欄の行はスキップ
+                if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
+                    continue;
                 }
-                
-                $order = $ordersTable->newEntity([
+                // 3つすべて入力された行のみ登録
+                $orderItemId = str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT);
+                $orderItem = $orderItemsTable->newEntity([
+                    'orderItem_id' => $orderItemId,
                     'order_id' => $nextOrderId,
-                    'customer_id' => $customerId,
-                    'order_date' => $orderDate,
-                    'remark' => $remark,
+                    'book_title' => $bookTitle,
+                    'unit_price' => $unitPrice,
+                    'book_amount' => $bookAmount,
+                    'book_summary' => $item['book_summary'] ?? null,
                 ]);
+                $orderItemsTable->saveOrFail($orderItem);
+
+                $deliveryItem = $deliveryItemsTable->newEntity([
+                    'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
+                    'orderItem_id' => $orderItemId,
+                    'delivery_id' => null,
+                    'book_title' => $bookTitle,
+                    'unit_price' => $unitPrice,
+                    'book_amount' => $bookAmount,
+                    'is_delivered_flag' => false,
+                    'leadTime' => null,
+                ]);
+                $deliveryItemsTable->saveOrFail($deliveryItem);
+            }
+
 
                 // 🔥 ここが重要: Orders テーブルに保存
                 if (!$ordersTable->save($order)) {
