@@ -392,7 +392,7 @@
                             <?= $this->Form->control('delete_old_data', [
                                 'type' => 'checkbox',
                                 'label' => [
-                                    'text' => '古いデータを削除する（Excelファイルに含まれていない既存顧客を削除）',
+                                    'text' => '現在のデータを削除する（Excelファイルに含まれていない既存顧客を削除）',
                                     'class' => 'checkbox-label'
                                 ],
                                 'class' => 'checkbox-input',
