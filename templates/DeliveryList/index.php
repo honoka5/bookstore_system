@@ -11,42 +11,49 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            height: 100%;
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #f5f5f5;
-            min-height: 100vh;
+            overflow: hidden;
         }
 
         .main-content {
-            padding: 20px;
+            padding: 15px 20px;
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            min-height: calc(100vh - 60px);
+            height: calc(100vh - 60px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         h1 {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #333;
+            flex-shrink: 0;
         }
 
         .success-message {
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
             color: #155724;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 14px;
+            flex-shrink: 0;
         }
 
         .create-section {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
         }
 
         .create-btn {
@@ -55,9 +62,9 @@
             color: #fff;
             border: none;
             border-radius: 6px;
-            padding: 0 24px;
-            font-size: 16px;
-            height: 36px;
+            padding: 0 20px;
+            font-size: 15px;
+            height: 34px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.2s;
@@ -75,17 +82,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 24px;
-            gap: 12px;
+            margin-bottom: 15px;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .search-input {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 2px solid #ddd;
-            padding: 0 12px;
-            font-size: 16px;
-            height: 36px;
-            width: 400px;
+            padding: 0 10px;
+            font-size: 15px;
+            height: 34px;
+            width: 350px;
             border-radius: 4px;
             background-color: white;
         }
@@ -96,9 +104,9 @@
             color: #fff;
             border: none;
             border-radius: 4px;
-            padding: 0 20px;
-            font-size: 16px;
-            height: 36px;
+            padding: 0 18px;
+            font-size: 15px;
+            height: 34px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.2s;
@@ -111,23 +119,27 @@
         .table-container {
             background-color: white;
             border-radius: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 15px;
             overflow: hidden;
             box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             border: 1px solid #e0e0e0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .scroll-table {
             overflow-y: auto;
             overflow-x: auto;
-            max-height: 60vh;
+            flex: 1;
         }
 
         .data-table {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             width: 100%;
             border-collapse: collapse;
-            font-size: 16px;
+            font-size: 15px;
             min-width: 900px;
             background: #fff;
         }
@@ -135,7 +147,7 @@
         .data-table th, .data-table td {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             border: 1px solid #e0e0e0;
-            padding: 12px 8px;
+            padding: 10px 8px;
             text-align: left;
             white-space: nowrap;
         }
@@ -147,7 +159,7 @@
             top: 0;
             z-index: 2;
             text-align: center;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .data-table td {
@@ -177,8 +189,8 @@
         .delete-btn {
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background: #dc3545;
-            font-size: 14px;
-            padding: 4px 8px;
+            font-size: 15px;
+            padding: 5px 10px;
             border-radius: 4px;
             border: none;
             color: #fff;
@@ -193,8 +205,11 @@
         .button-section {
             display: flex;
             justify-content: space-between;
-            gap: 16px;
-            margin-top: 24px;
+            gap: 15px;
+            margin-top: 15px;
+            flex-shrink: 0;
+            padding-top: 8px;
+            border-top: 1px solid #e9ecef;
         }
 
         .button {
@@ -203,10 +218,10 @@
             color: #fff;
             border: none;
             border-radius: 6px;
-            padding: 0 30px;
-            font-size: 16px;
+            padding: 0 25px;
+            font-size: 15px;
             cursor: pointer;
-            height: 40px;
+            height: 36px;
             font-weight: bold;
             transition: background 0.2s;
             text-decoration: none;
@@ -227,27 +242,100 @@
             background: #0056b3;
         }
 
+        .no-data {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            text-align: center;
+            color: #6c757d;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .no-data h3 {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            font-weight: bold;
+        }
+
+        /* Flash メッセージのスタイル */
+        .flash-message {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 15px 0;
+            flex-shrink: 0;
+        }
+
+        .flash-message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .flash-message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
         /* レスポンシブ対応 */
         @media screen and (max-width: 768px) {
             .main-content {
-                padding: 15px;
+                padding: 12px 15px;
+                height: calc(100vh - 50px);
             }
 
             .search-input {
-                width: 300px;
+                width: 250px;
             }
 
             .button-section {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
 
             .data-table {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .data-table th, .data-table td {
                 padding: 8px 6px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .main-content {
+                padding: 10px 12px;
+                height: calc(100vh - 45px);
+            }
+
+            .data-table {
+                font-size: 12px;
+                min-width: 320px;
+            }
+
+            .data-table th, .data-table td {
+                padding: 6px 4px;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .button {
+                height: 34px;
+                font-size: 14px;
+                padding: 0 20px;
             }
         }
     </style>
@@ -258,6 +346,9 @@
     <div class="main-content">
         <h1>納品書一覧</h1>
 
+        <!-- Flash メッセージ表示 -->
+        <?= $this->Flash->render() ?>
+
         <!-- 新規作成ボタン -->
         <div class="create-section">
             <?= $this->Html->link('新規作成', ['controller' => 'RegDeliveries', 'action' => 'select_customer'], ['class' => 'create-btn']) ?>
@@ -265,52 +356,70 @@
 
         <!-- 検索セクション -->
         <div class="search-section">
-            <form method="get" style="display: flex; gap: 12px;">
+            <form method="get" style="display: flex; gap: 10px;">
                 <input type="text" name="keyword" class="search-input" placeholder="検索キーワード" value="<?= h($keyword ?? '') ?>">
                 <button type="submit" class="search-btn">検索</button>
             </form>
         </div>
 
         <!-- データテーブル -->
-        <div class="table-container">
-            <div class="scroll-table">
-                <table class="data-table" id="deliveryTable">
-                    <thead>
-                        <tr>
-                            <th>納品書ID</th>
-                            <th>顧客ID</th>
-                            <th>顧客名</th>
-                            <th>金額</th>
-                            <th>納品日</th>
-                            <th>備考</th>
-                            <th>削除</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($deliveries ?? [] as $delivery): ?>
-                        <?php if (!is_object($delivery)) continue; ?>
-                        <tr>
-                            <td><?= h($delivery->delivery_id) ?></td>
-                            <td><?= h($delivery->customer_id) ?></td>
-                            <td><?= h($delivery->customer->name ?? '') ?></td>
-                            <td><?= h($delivery->total_amount ?? '') ?></td>
-                            <td><?= h($delivery->delivery_date) ?></td>
-                            <td><?= h($delivery->remark ?? '') ?></td>
-                            <td>
-                                <?= $this->Form->create(null, [
-                                    'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
-                                    'style' => 'display:inline;',
-                                    'type' => 'post',
-                                ]) ?>
-                                    <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">削除</button>
-                                <?= $this->Form->end() ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+        <?php if (!empty($deliveries)): ?>
+            <div class="table-container">
+                <div class="scroll-table">
+                    <table class="data-table" id="deliveryTable">
+                        <thead>
+                            <tr>
+                                <th>納品書ID</th>
+                                <th>顧客ID</th>
+                                <th>顧客名</th>
+                                <th>金額</th>
+                                <th>納品日</th>
+                                <th>備考</th>
+                                <th>削除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($deliveries ?? [] as $delivery): ?>
+                            <?php if (!is_object($delivery)) continue; ?>
+                            <tr>
+                                <td><?= h($delivery->delivery_id) ?></td>
+                                <td><?= h($delivery->customer_id) ?></td>
+                                <td><?= h($delivery->customer->name ?? '') ?></td>
+                                <td><?= h($delivery->total_amount ?? '') ?></td>
+                                <td><?php
+                                    // 納品日を「2025年7月12日」形式で表示
+                                    if (isset($delivery->delivery_date) && $delivery->delivery_date) {
+                                        $date = $delivery->delivery_date;
+                                        if (is_string($date)) {
+                                            $dateObj = new DateTime($date);
+                                        } else {
+                                            $dateObj = $date;
+                                        }
+                                        echo h($dateObj->format('Y年n月j日'));
+                                    }
+                                ?></td>
+                                <td><?= h($delivery->remark ?? '') ?></td>
+                                <td>
+                                    <?= $this->Form->create(null, [
+                                        'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
+                                        'style' => 'display:inline;',
+                                        'type' => 'post',
+                                    ]) ?>
+                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">✖</button>
+                                    <?= $this->Form->end() ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="no-data">
+                <h3>データがありません</h3>
+                <p>納品書データが見つかりませんでした。</p>
+            </div>
+        <?php endif; ?>
 
         <!-- ボタンセクション -->
         <div class="button-section">
