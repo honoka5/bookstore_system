@@ -77,7 +77,8 @@ class DeliveryListController extends AppController
                     $deliveryItemsTable->save($entity);
                 }
                 $this->Flash->success('納品内容を更新しました');
-                return $this->redirect(['action'=>'editDetail', $deliveryId]);
+                // 納品書一覧に戻る
+                return $this->redirect(['controller' => 'List', 'action' => 'product']);
             }
             // 画面再描画用
             $delivery = $deliveriesTable->get($deliveryId, [
@@ -169,7 +170,7 @@ class DeliveryListController extends AppController
             $conn->commit();
             $this->Flash->success('納品内容と関連データを削除しました');
             if ($deleteDelivery) {
-                return $this->redirect(['controller' => 'list', 'action' => 'product']);
+                return $this->redirect(['controller' => 'List', 'action' => 'product']);
             } else {
                 return $this->redirect(['action' => 'editDetail', $deliveryId]);
             }
@@ -290,7 +291,7 @@ class DeliveryListController extends AppController
             $conn->rollback();
             $this->Flash->error('削除に失敗しました: ' . $e->getMessage());
         }
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'List', 'action' => 'product']);
     }
 
     public function index()
