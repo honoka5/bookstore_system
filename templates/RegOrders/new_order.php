@@ -23,9 +23,9 @@
         </div>
         <table class="order-table">
           <tr>
-            <th>書籍名</th>
-            <th>数量</th>
-            <th>単価</th>
+            <th>書籍名<span style="color:#d32f2f;">*</span></th>
+            <th>数量<span style="color:#d32f2f;">*</span></th>
+            <th>単価<span style="color:#d32f2f;">*</span></th>
             <th>摘要</th>
           </tr>
 <?php
@@ -133,6 +133,13 @@ document.querySelectorAll('.page-link').forEach(link => {
 </script>
 
 <style>
+  html, body {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
   .container {
     width: 100vw;
     min-height: 100vh;
