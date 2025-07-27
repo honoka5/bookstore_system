@@ -7,8 +7,9 @@
       'accept-charset' => 'utf-8',
     ]) ?>
       <div class="order-box">
+        <?= $this->Form->hidden('customer_id', ['value' => $customerId]) ?>
         <div class="order-header" style="display:flex; align-items:center; justify-content:space-between;">
-          <span>注文書</span>
+          <span>注文書<?= isset($customerName) && $customerName ? '　　' . h($customerName) . ' 様' : '' ?></span>
           <div style="display:flex; align-items:center; gap:8px;">
             <label for="order-date" style="font-size:16px;">注文日</label>
             <?= $this->Form->control('order_date', [
@@ -48,21 +49,21 @@ for ($i = 0; $i < $totalItems; $i++):
             </td>
           </tr>
         </table>
-        <div class="order-btn-row">
+        <div class="pagination" style="display:flex; gap:8px; justify-content:center; margin: 16px 0 0 0;">
+          <?php
+            $totalPages = ceil($totalItems / $itemsPerPage);
+            for ($p = 1; $p <= $totalPages; $p++):
+          ?>
+            <a href="?page=<?= $p ?>" class="button page-link" data-page="<?= $p ?>" style="width:40px; text-align:center; padding:0;<?= ($page == $p) ? 'background:#1976d2;color:#fff;' : '' ?>">
+              <?= $p ?>
+            </a>
+          <?php endfor; ?>
+        </div>
+        <div class="order-btn-row" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
           <div class="order-btn-left">
             <?= $this->Html->link('戻る', ['controller' => 'RegOrders', 'action' => 'selectCustomer'], ['class' => 'button']) ?>
           </div>
-          <div style="display:flex; align-items:center; gap:16px; justify-content:center; width:100%;">
-            <div class="pagination" style="display:flex; gap:8px; justify-content:center; width:100%;">
-              <?php
-                $totalPages = ceil($totalItems / $itemsPerPage);
-                for ($p = 1; $p <= $totalPages; $p++):
-              ?>
-                <a href="?page=<?= $p ?>" class="button page-link" data-page="<?= $p ?>" style="width:40px; text-align:center; padding:0;<?= ($page == $p) ? 'background:#1976d2;color:#fff;' : '' ?>">
-                  <?= $p ?>
-                </a>
-              <?php endfor; ?>
-            </div>
+          <div style="display:flex; align-items:center; gap:16px; flex:1; justify-content:flex-end;">
             <button type="submit" class="button order-btn-left">作成</button>
           </div>
         </div>
@@ -201,14 +202,17 @@ document.querySelectorAll('.page-link').forEach(link => {
   }
   .order-btn-row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
+    align-items: center;
     margin-top: 24px;
     gap: 12px;
+    width: 100%;
   }
   .order-btn-left, .order-btn-right {
-    width: 160px;
-    min-width: 120px;
+    width: 140px;
+    min-width: 80px;
+    flex-shrink: 1;
   }
   .button {
     width: 100%;
@@ -282,13 +286,14 @@ document.querySelectorAll('.page-link').forEach(link => {
       padding: 4px 2px;
     }
     .order-btn-row {
-      flex-direction: column;
-      align-items: stretch;
+      flex-direction: row !important;
+      align-items: center !important;
       gap: 8px;
     }
     .order-btn-left, .order-btn-right {
-      width: 100%;
-      min-width: 0;
+      width: 100px;
+      min-width: 60px;
+      flex-shrink: 1;
     }
     .pagination {
       flex-wrap: wrap;
