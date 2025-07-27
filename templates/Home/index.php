@@ -15,7 +15,7 @@
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #e5e5e5;
             height: 100vh;
-            overflow: hidden; /* 外側のスクロールを無効化 */
+            overflow: hidden; /* デスクトップでは外側のスクロールを無効化 */
         }
 
         main {
@@ -26,7 +26,7 @@
             align-items: center;
             justify-content: center;
             padding: 40px;
-            overflow: hidden; /* メインコンテンツのスクロールも無効化 */
+            overflow: hidden; /* デスクトップではメインコンテンツのスクロールも無効化 */
         }
 
         .inner-content {
@@ -87,16 +87,37 @@
             line-height: 1.5;
         }
 
-        /* レスポンシブ対応 */
-        @media (max-width: 768px) {
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+        /* タブレット対応 */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            body {
+                overflow: hidden; /* タブレットでもスクロール無効 */
             }
             
             main {
+                overflow: hidden;
+            }
+        }
+
+        /* スマホ対応 - スクロール有効化 */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto; /* スマホでは縦スクロール有効 */
+                overflow-x: hidden; /* 横スクロールは無効 */
+                height: auto; /* 高さ制限を解除 */
+                min-height: 100vh; /* 最小高さは確保 */
+            }
+            
+            main {
+                height: auto; /* 高さ制限を解除 */
+                min-height: calc(100vh - 60px); /* 最小高さは確保 */
+                overflow: visible; /* スクロール有効 */
+                align-items: flex-start; /* 上揃えに変更 */
                 padding: 20px;
-                align-items: flex-start;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
             
             .inner-content {
@@ -106,6 +127,36 @@
             .page-title {
                 font-size: 20px;
                 margin-bottom: 30px;
+            }
+            
+            .menu-card {
+                aspect-ratio: auto; /* アスペクト比制限を解除 */
+                min-height: 100px; /* 最小高さを調整 */
+            }
+        }
+
+        /* 非常に小さいスマホ対応 */
+        @media (max-width: 480px) {
+            main {
+                padding: 15px;
+            }
+            
+            .inner-content {
+                padding: 15px;
+            }
+            
+            .menu-card {
+                padding: 20px;
+                min-height: 80px;
+            }
+            
+            .menu-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
+            .menu-description {
+                font-size: 12px;
             }
         }
     </style>

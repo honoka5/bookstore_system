@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBS - 顧客一覧</title>
     <style>
         * {
@@ -17,7 +18,7 @@
             color: #333;
             line-height: 1.6;
             height: 100vh;
-            overflow: hidden; /* 外側のスクロールを無効化 */
+            overflow: hidden; /* デスクトップでは外側のスクロールを無効化 */
         }
         
         /* メインコンテンツ */
@@ -233,8 +234,6 @@
             background: #5a6268;
         }
         
-       
-        
         /* ボタンセクション */
         .button-section {
             margin-top: 15px;
@@ -311,6 +310,265 @@
         .table-wrapper:hover .scroll-indicator {
             display: block;
         }
+
+        /* タブレット対応 (769px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            body {
+                overflow: hidden; /* タブレットでもスクロール無効 */
+            }
+            
+            .main-content {
+                overflow: hidden;
+            }
+            
+            .page-title {
+                font-size: 22px;
+            }
+            
+            .custom-dropdown {
+                min-width: 200px;
+            }
+        }
+
+        /* スマホ対応 (768px以下) */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto; /* スマホでは縦スクロール有効 */
+                overflow-x: hidden; /* 横スクロールは無効 */
+                height: auto; /* 高さ制限を解除 */
+                min-height: 100vh; /* 最小高さは確保 */
+            }
+            
+            .main-content {
+                height: auto; /* 高さ制限を解除 */
+                min-height: calc(100vh - 50px); /* 最小高さは確保 */
+                overflow: visible; /* スクロール有効 */
+                padding: 12px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .page-title {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+            
+            .add-button {
+                align-self: center;
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+            
+            .filter-label {
+                text-align: center;
+                font-size: 14px;
+            }
+            
+            .custom-dropdown {
+                min-width: 100%;
+                width: 100%;
+            }
+            
+            .dropdown-display {
+                padding: 10px 40px 10px 12px;
+                font-size: 15px;
+            }
+            
+            .dropdown-menu {
+                max-height: 150px;
+            }
+            
+            .dropdown-item {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
+            
+            .table-wrapper {
+                border-radius: 6px;
+                margin-bottom: 15px;
+            }
+            
+            .customer-table {
+                font-size: 12px;
+                min-width: 500px; /* 横スクロール対応 */
+            }
+            
+            .customer-table th,
+            .customer-table td {
+                padding: 8px 6px;
+                white-space: nowrap;
+            }
+            
+            .customer-table th {
+                font-size: 11px;
+                font-weight: 700;
+            }
+            
+            /* スマホでのテーブル列幅調整 */
+            .customer-table th:first-child,
+            .customer-table td:first-child {
+                width: 60px;
+            }
+            
+            .customer-table th:nth-child(2),
+            .customer-table td:nth-child(2) {
+                width: 120px;
+            }
+            
+            .customer-table th:nth-child(3),
+            .customer-table td:nth-child(3) {
+                width: 140px;
+            }
+            
+            .customer-table th:nth-child(4),
+            .customer-table td:nth-child(4) {
+                width: 120px;
+            }
+            
+            .customer-table th:nth-child(5),
+            .customer-table td:nth-child(5) {
+                width: 120px;
+            }
+            
+            .button-section {
+                margin-top: 12px;
+                padding-top: 8px;
+                text-align: center;
+            }
+            
+            .button {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .no-data-message {
+                padding: 30px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* 小型スマホ対応 (480px以下) */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 8px;
+            }
+            
+            .page-title {
+                font-size: 18px;
+            }
+            
+            .add-button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .filter-section {
+                padding: 8px;
+            }
+            
+            .filter-label {
+                font-size: 13px;
+            }
+            
+            .dropdown-display {
+                padding: 8px 35px 8px 10px;
+                font-size: 14px;
+            }
+            
+            .dropdown-item {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .customer-table {
+                font-size: 11px;
+                min-width: 450px;
+            }
+            
+            .customer-table th,
+            .customer-table td {
+                padding: 6px 4px;
+            }
+            
+            .customer-table th {
+                font-size: 10px;
+            }
+            
+            /* 小型スマホでのテーブル列幅調整 */
+            .customer-table th:first-child,
+            .customer-table td:first-child {
+                width: 50px;
+            }
+            
+            .customer-table th:nth-child(2),
+            .customer-table td:nth-child(2) {
+                width: 100px;
+            }
+            
+            .customer-table th:nth-child(3),
+            .customer-table td:nth-child(3) {
+                width: 120px;
+            }
+            
+            .customer-table th:nth-child(4),
+            .customer-table td:nth-child(4) {
+                width: 100px;
+            }
+            
+            .customer-table th:nth-child(5),
+            .customer-table td:nth-child(5) {
+                width: 100px;
+            }
+            
+            .button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .no-data-message {
+                padding: 20px 10px;
+                font-size: 13px;
+            }
+        }
+        
+        /* 非常に小さい画面対応 (360px以下) */
+        @media (max-width: 360px) {
+            .main-content {
+                padding: 6px;
+            }
+            
+            .page-title {
+                font-size: 16px;
+            }
+            
+            .customer-table {
+                font-size: 10px;
+                min-width: 320px;
+            }
+            
+            .customer-table th,
+            .customer-table td {
+                padding: 4px 3px;
+            }
+            
+            .customer-table th {
+                font-size: 9px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -385,7 +643,7 @@
         </div>
     </main>
 
-    <script>
+     <script>
         // ドロップダウンの表示/非表示切り替え
         document.getElementById('dropdownDisplay').addEventListener('click', function() {
             const menu = document.getElementById('dropdownMenu');
@@ -419,6 +677,21 @@
 
         // ドロップダウンアイテムクリックイベント
         document.addEventListener('DOMContentLoaded', function() {
+            // ページ読み込み時に選択済み店舗を表示
+            const currentBookstore = '<?= h($selectedBookstore ?? '') ?>';
+            if (currentBookstore) {
+                document.getElementById('dropdownDisplay').textContent = currentBookstore;
+                // アクティブ状態を設定
+                const activeItem = document.querySelector(`[data-value="${currentBookstore}"]`);
+                if (activeItem) {
+                    // 他のアクティブ状態をリセット
+                    document.querySelectorAll('.dropdown-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    activeItem.classList.add('active');
+                }
+            }
+            
             const dropdownItems = document.querySelectorAll('.dropdown-item');
             
             dropdownItems.forEach(function(item) {
@@ -444,32 +717,6 @@
                     document.getElementById('dropdownDisplay').classList.remove('active');
                 }
             });
-        });
-
-        // スクロール状態の監視
-        document.addEventListener('DOMContentLoaded', function() {
-            const scrollableTable = document.querySelector('.scrollable-table');
-            const scrollIndicator = document.querySelector('.scroll-indicator');
-
-            if (scrollableTable && scrollIndicator) {
-                scrollableTable.addEventListener('scroll', function() {
-                    const scrollTop = this.scrollTop;
-                    const scrollHeight = this.scrollHeight;
-                    const clientHeight = this.clientHeight;
-                    
-                    // スクロール可能な場合のみインジケーターを表示
-                    if (scrollHeight > clientHeight) {
-                        scrollIndicator.style.display = 'block';
-                        
-                        // 下端近くになったらインジケーターを隠す
-                        if (scrollTop + clientHeight >= scrollHeight - 10) {
-                            scrollIndicator.style.display = 'none';
-                        }
-                    } else {
-                        scrollIndicator.style.display = 'none';
-                    }
-                });
-            }
         });
     </script>
 </body>

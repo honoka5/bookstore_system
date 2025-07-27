@@ -389,7 +389,7 @@
 
         <!-- ボタンセクション -->
         <div class="button-section">
-            <?= $this->Html->link('戻る', ['controller' => 'Home', 'action' => 'index'], ['class' => 'button']) ?>
+            <?= $this->Html->link('戻る', ['controller' => 'List', 'action' => 'order'], ['class' => 'button']) ?>
         </div>
     </div>
 
