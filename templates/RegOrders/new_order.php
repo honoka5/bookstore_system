@@ -8,6 +8,9 @@
     ]) ?>
       <div class="order-box">
         <?= $this->Form->hidden('customer_id', ['value' => $customerId]) ?>
+        <?php if (isset($customerName) && $customerName): ?>
+          <?= $this->Form->hidden('customer_name', ['value' => $customerName]) ?>
+        <?php endif; ?>
         <div class="order-header" style="display:flex; align-items:center; justify-content:space-between;">
           <span>注文書<?= isset($customerName) && $customerName ? '　　' . h($customerName) . ' 様' : '' ?></span>
           <div style="display:flex; align-items:center; gap:8px;">

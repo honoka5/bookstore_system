@@ -73,9 +73,12 @@ class RegOrdersController extends AppController
         $customerName = $this->request->getQuery('customer_name');
         if ($this->request->is('post')) {
             $data = $this->request->getData();
-            // hiddenからcustomer_idを取得（URLパラメータより優先）
+            // hiddenからcustomer_id/customer_nameを取得（URLパラメータより優先）
             if (isset($data['customer_id']) && $data['customer_id']) {
                 $customerId = $data['customer_id'];
+            }
+            if (isset($data['customer_name']) && $data['customer_name']) {
+                $customerName = $data['customer_name'];
             }
 
             // バリデーション処理（既存のまま）
@@ -120,9 +123,8 @@ class RegOrdersController extends AppController
             }
             if ($invalidMsg !== '') {
                 $this->Flash->error($invalidMsg);
-                // 顧客名を再取得
-                $customerName = null;
-                if ($customerId) {
+                // POSTデータにcustomer_nameがなければDBから再取得
+                if (empty($customerName) && $customerId) {
                     $customer = $this->fetchTable('Customers')->find()->where(['customer_id' => $customerId])->first();
                     if ($customer) {
                         $customerName = $customer->Name;
