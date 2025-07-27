@@ -128,7 +128,6 @@ class RegOrdersController extends AppController
                 $nextOrderItemId = $this->generateNextId($orderItemsTable, 'orderItem_id', 6);
                 $nextDeliveryItemId = $this->generateNextId($deliveryItemsTable, 'deliveryItem_id', 6);
 
-
             // 1. 注文書作成
             $orderDate = $data['order_date'] ?? date('Y-m-d');
             $remark = $data['orders']['remark'] ?? null;
@@ -180,52 +179,8 @@ class RegOrdersController extends AppController
                 $deliveryItemsTable->saveOrFail($deliveryItem);
             }
 
-
-                // 🔥 ここが重要: Orders テーブルに保存
-                if (!$ordersTable->save($order)) {
-                    $this->Flash->error('注文の保存に失敗しました。');
-                    $this->set(compact('customerId', 'data'));
-                    return $this->render('new_order');
-                }
-
-                // 2. 各注文内容＆納品内容の登録
-                foreach ($data['order_items'] as $item) {
-                    $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
-                    $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
-                    $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
-                    
-                    // すべて空欄の行はスキップ
-                    if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
-                        continue;
-                    }
-                    
-                    // OrderItem 保存
-                    $orderItem = $orderItemsTable->newEntity([
-                        'orderItem_id' => str_pad((string)($nextOrderItemId++), 6, '0', STR_PAD_LEFT),
-                        'order_id' => $order->order_id,
-                        'book_title' => $bookTitle,
-                        'unit_price' => (int)$unitPrice,
-                        'book_amount' => (int)$bookAmount,
-                        'book_summary' => $item['book_summary'] ?? null,
-                    ]);
-                    $orderItemsTable->saveOrFail($orderItem);
-
-                    // DeliveryItem 保存
-                    $deliveryItem = $deliveryItemsTable->newEntity([
-                        'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
-                        'orderItem_id' => $orderItem->orderItem_id,
-                        'delivery_id' => null,
-                        'book_title' => $bookTitle,
-                        'unit_price' => (int)$unitPrice,
-                        'book_amount' => (int)$bookAmount,
-                        'is_delivered_flag' => false,
-                        'leadTime' => null,
-                    ]);
-                    $deliveryItemsTable->saveOrFail($deliveryItem);
-                }
-
-                $this->Flash->success('注文が登録されました');
-                return $this->redirect(['action' => 'selectCustomer']);
+            $this->Flash->success('注文が登録されました');
+            return $this->redirect(['action' => 'selectCustomer']);
 
             } catch (\Exception $e) {
                 // エラーログを確認できるように
