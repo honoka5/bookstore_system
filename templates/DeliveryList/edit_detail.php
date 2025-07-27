@@ -80,6 +80,13 @@
         .action-btn:hover { 
             background-color: #1565c0; 
         }
+        .action-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .action-btn:disabled:hover {
+            background-color: #cccccc;
+        }
         .delete-btn { 
             background: #e53935; 
             color: #fff; 
@@ -91,13 +98,19 @@
         .delete-btn:active { 
             background: #b71c1c; 
         }
+        .change-indicator {
+            color: #e53935;
+            font-weight: bold;
+            margin-left: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <?= $this->element('common_header') ?>
 
     <div class="main-container">
-        <h2>納品書詳細（編集）</h2>
+        <h2>納品書詳細（編集）<span id="change-indicator" class="change-indicator">（変更あり）</span></h2>
         <div class="info-list">
             <p>納品書ID: <?= h($delivery->delivery_id) ?></p>
             <p>顧客ID: <?= h($delivery->customer_id) ?></p>
@@ -136,7 +149,8 @@
                         'value' => $item->book_title,
                         'style' => 'width:120px;',
                         'form' => 'main-edit-form',
-                        'id' => 'book_title_' . $item->deliveryItem_id
+                        'id' => 'book_title_' . $item->deliveryItem_id,
+                        'data-original' => $item->book_title
                     ]) ?></td>
                     <td>
                         <?php
@@ -148,7 +162,8 @@
                             'empty' => false,
                             'style' => 'width:60px;',
                             'form' => 'main-edit-form',
-                            'id' => 'amount_select_' . $item->deliveryItem_id
+                            'id' => 'amount_select_' . $item->deliveryItem_id,
+                            'data-original' => $item->book_amount
                         ]) ?>
                         <?= $this->Form->text("book_amount[{$item->deliveryItem_id}]", [
                             'value' => $item->book_amount,
@@ -157,14 +172,16 @@
                             'inputmode' => 'numeric',
                             'title' => '数量を直接入力できます',
                             'form' => 'main-edit-form',
-                            'id' => 'amount_input_' . $item->deliveryItem_id
+                            'id' => 'amount_input_' . $item->deliveryItem_id,
+                            'data-original' => $item->book_amount
                         ]) ?>
                     </td>
                     <td><?= $this->Form->text("unit_price[{$item->deliveryItem_id}]", [
                         'value' => $item->unit_price,
                         'style' => 'width:70px;',
                         'form' => 'main-edit-form',
-                        'id' => 'unit_price_' . $item->deliveryItem_id
+                        'id' => 'unit_price_' . $item->deliveryItem_id,
+                        'data-original' => $item->unit_price
                     ]) ?></td>
                     <td>
                         <form method="post" action="<?= $this->Url->build(['controller'=>'DeliveryList','action'=>'deleteDeliveryItem', $item->deliveryItem_id, $delivery->delivery_id]) ?>" style="display:inline;">
@@ -185,43 +202,86 @@
 
     <!-- 確定ボタン（右下） -->
     <div class="button-area-right">
-        <button type="submit" form="main-edit-form" class="action-btn">確定</button>
+        <button type="submit" form="main-edit-form" class="action-btn" id="submit-btn" disabled>確定</button>
     </div>
 
     <script>
-        function confirmDelete(itemId, deliveryId) {
-            if (!confirm('本当に削除しますか？')) return;
+    document.addEventListener('DOMContentLoaded', function() {
+        var submitBtn = document.getElementById('submit-btn');
+        var changeIndicator = document.getElementById('change-indicator');
+        var hasChanges = false;
 
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `/delivery-list/deleteDeliveryItem/${itemId}/${deliveryId}`;
+        // 初期状態では確定ボタンを無効化
+        submitBtn.disabled = true;
 
-            const token = document.createElement('input');
-            token.type = 'hidden';
-            token.name = '_csrfToken';
-            token.value = <?= json_encode($this->request->getAttribute('csrfToken')) ?>;
+        // 変更状態を更新する関数
+        function updateChangeStatus() {
+            var currentHasChanges = false;
+            
+            // すべてのフォーム要素をチェック
+            var formElements = document.querySelectorAll('input[data-original], select[data-original]');
+            formElements.forEach(function(element) {
+                var original = element.getAttribute('data-original') || '';
+                var current = element.value || '';
+                
+                if (original !== current) {
+                    currentHasChanges = true;
+                }
+            });
 
-            form.appendChild(token);
-            document.body.appendChild(form);
-            form.submit();
+            hasChanges = currentHasChanges;
+            submitBtn.disabled = !hasChanges;
+            
+            if (hasChanges) {
+                changeIndicator.style.display = 'inline';
+                submitBtn.style.backgroundColor = '#1976d2';
+                submitBtn.style.cursor = 'pointer';
+            } else {
+                changeIndicator.style.display = 'none';
+                submitBtn.style.backgroundColor = '#cccccc';
+                submitBtn.style.cursor = 'not-allowed';
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            <?php foreach ($delivery->delivery_items ?? [] as $item): ?>
-            (function() {
-                var select = document.getElementById('amount_select_<?= $item->deliveryItem_id ?>');
-                var input = document.getElementById('amount_input_<?= $item->deliveryItem_id ?>');
-                if (select && input) {
-                    select.addEventListener('change', function() {
-                        input.value = select.value;
-                    });
-                    input.addEventListener('input', function() {
-                        select.value = input.value;
-                    });
-                }
-            })();
-            <?php endforeach; ?>
+        // 数量のセレクトボックスと入力フィールドの連携
+        <?php foreach ($delivery->delivery_items ?? [] as $item): ?>
+        (function() {
+            var select = document.getElementById('amount_select_<?= $item->deliveryItem_id ?>');
+            var input = document.getElementById('amount_input_<?= $item->deliveryItem_id ?>');
+            if (select && input) {
+                select.addEventListener('change', function() {
+                    input.value = select.value;
+                    updateChangeStatus();
+                });
+                input.addEventListener('input', function() {
+                    select.value = input.value;
+                    updateChangeStatus();
+                });
+            }
+        })();
+        <?php endforeach; ?>
+
+        // 全てのフォーム要素に変更監視を追加
+        var allFormElements = document.querySelectorAll('input[data-original], select[data-original]');
+        allFormElements.forEach(function(element) {
+            element.addEventListener('input', updateChangeStatus);
+            element.addEventListener('change', updateChangeStatus);
         });
+
+        // フォーム送信時の確認
+        document.getElementById('main-edit-form').addEventListener('submit', function(e) {
+            if (!hasChanges) {
+                e.preventDefault();
+                alert('変更がありません。何か編集してから確定ボタンを押してください。');
+                return false;
+            }
+            
+            return confirm('変更内容を保存しますか？');
+        });
+
+        // 初期状態をチェック
+        updateChangeStatus();
+    });
     </script>
 </body>
 </html>
