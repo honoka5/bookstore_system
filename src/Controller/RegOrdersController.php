@@ -80,24 +80,22 @@ class RegOrdersController extends AppController
 
             // バリデーション処理（既存のまま）
             $invalidMsg = '';
+            $hasInput = false;
             foreach ($data['order_items'] as $idx => $item) {
                 $bookTitle = isset($item['book_title']) ? trim($item['book_title']) : '';
                 $bookAmount = isset($item['book_amount']) ? trim($item['book_amount']) : '';
                 $unitPrice = isset($item['unit_price']) ? trim($item['unit_price']) : '';
                 $bookSummary = isset($item['book_summary']) ? trim($item['book_summary']) : '';
-                
                 // すべて空欄の行はスキップ
                 if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
-                    $invalidMsg = 'エラー : 書籍名・数量・単価を入力してください。';
-                    break;
+                    continue;
                 }
-                
+                $hasInput = true;
                 // いずれか一つでも入力があれば3つすべて必須
                 if ($bookTitle === '' || $bookAmount === '' || $unitPrice === '') {
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名・数量・単価はすべて入力してください。';
                     break;
                 }
-                
                 // 文字数制限
                 if (mb_strlen($bookTitle) > 255) {
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 書籍名は255文字以内で入力してください。';
@@ -107,7 +105,6 @@ class RegOrdersController extends AppController
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 摘要は255文字以内で入力してください。';
                     break;
                 }
-                
                 // 数量・単価の範囲チェック
                 if (!is_numeric($bookAmount) || (int)$bookAmount <= 0 || !preg_match('/^[1-9][0-9]{0,2}$/', $bookAmount)) {
                     $invalidMsg = 'エラー ' . ($idx+1) . '行目: 数量は1～999の整数で入力してください。';
@@ -118,7 +115,9 @@ class RegOrdersController extends AppController
                     break;
                 }
             }
-            
+            if (!$hasInput) {
+                $invalidMsg = 'エラー : 書籍名・数量・単価を入力してください。';
+            }
             if ($invalidMsg !== '') {
                 $this->Flash->error($invalidMsg);
                 // 顧客名を再取得
