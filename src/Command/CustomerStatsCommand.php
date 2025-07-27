@@ -5,7 +5,7 @@ use Cake\Console\Arguments;
 use Cake\Console\BaseCommand;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\I18n\FrozenDate;
+use Cake\I18n\Date;
 use Cake\Datasource\Exception\MissingTableException;
 use Cake\ORM\TableRegistry;
 
@@ -31,7 +31,7 @@ class CustomerStatsCommand extends BaseCommand
         $deliveryItemsTable = TableRegistry::getTableLocator()->get('DeliveryItems');
         $orderItemsTable = TableRegistry::getTableLocator()->get('OrderItems');
         $ordersTable = TableRegistry::getTableLocator()->get('Orders');
-        $now = FrozenDate::now();
+        $now = Date::now();
         $today = $now->format('Y-m-d');
         $customers = $customersTable->find()->all();
         $count = 0;
