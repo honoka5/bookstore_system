@@ -2,6 +2,10 @@
 
 ターミナルでbin/cake customer_stats を実行すると、統計情報の計算処理が実行されます。
 
+#バッチ処理の手順(windows環境)
+タスクスケジューラの「操作」にrun_customer_stats.vbsのフルパスを設定してください。
+
+
 # CakePHP Application Skeleton
 
 ![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=5.x)
