@@ -643,7 +643,7 @@
         </div>
     </main>
 
-    <script>
+     <script>
         // ドロップダウンの表示/非表示切り替え
         document.getElementById('dropdownDisplay').addEventListener('click', function() {
             const menu = document.getElementById('dropdownMenu');
@@ -677,6 +677,21 @@
 
         // ドロップダウンアイテムクリックイベント
         document.addEventListener('DOMContentLoaded', function() {
+            // ページ読み込み時に選択済み店舗を表示
+            const currentBookstore = '<?= h($selectedBookstore ?? '') ?>';
+            if (currentBookstore) {
+                document.getElementById('dropdownDisplay').textContent = currentBookstore;
+                // アクティブ状態を設定
+                const activeItem = document.querySelector(`[data-value="${currentBookstore}"]`);
+                if (activeItem) {
+                    // 他のアクティブ状態をリセット
+                    document.querySelectorAll('.dropdown-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    activeItem.classList.add('active');
+                }
+            }
+            
             const dropdownItems = document.querySelectorAll('.dropdown-item');
             
             dropdownItems.forEach(function(item) {
@@ -702,32 +717,6 @@
                     document.getElementById('dropdownDisplay').classList.remove('active');
                 }
             });
-        });
-
-        // スクロール状態の監視
-        document.addEventListener('DOMContentLoaded', function() {
-            const scrollableTable = document.querySelector('.scrollable-table');
-            const scrollIndicator = document.querySelector('.scroll-indicator');
-
-            if (scrollableTable && scrollIndicator) {
-                scrollableTable.addEventListener('scroll', function() {
-                    const scrollTop = this.scrollTop;
-                    const scrollHeight = this.scrollHeight;
-                    const clientHeight = this.clientHeight;
-                    
-                    // スクロール可能な場合のみインジケーターを表示
-                    if (scrollHeight > clientHeight) {
-                        scrollIndicator.style.display = 'block';
-                        
-                        // 下端近くになったらインジケーターを隠す
-                        if (scrollTop + clientHeight >= scrollHeight - 10) {
-                            scrollIndicator.style.display = 'none';
-                        }
-                    } else {
-                        scrollIndicator.style.display = 'none';
-                    }
-                });
-            }
         });
     </script>
 </body>
