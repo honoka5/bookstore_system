@@ -52,12 +52,6 @@ class CreateCustomers extends AbstractMigration
             'null' => true,
             'comment'=> '担当者名'
         ]);
-        $table->addColumn('remark', 'string', [
-            'default' => null,
-            'limit' => 255,
-            'null' => true,
-            'comment' => '備考'
-        ]);
         $table->addIndex(['customer_id'], ['unique' => true]);
         $table->create();
         
