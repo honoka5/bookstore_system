@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @var \App\View\AppView $this
@@ -21,7 +22,7 @@
             font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background-color: #f5f5f5;
             height: 100vh;
-            overflow: hidden;
+            overflow: hidden; /* デスクトップでは外側のスクロールを無効化 */
             font-size: 16px;
             line-height: 1.5;
             color: #333;
@@ -50,7 +51,7 @@
         h1 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 12px; /* 16px → 12px */
+            margin-bottom: 12px;
             color: #333;
             text-align: center;
             letter-spacing: 0.3px;
@@ -59,26 +60,26 @@
         h2 {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 10px; /* 14px → 10px */
+            margin-bottom: 10px;
             color: #555;
             border-bottom: 2px solid #007bff;
-            padding-bottom: 4px; /* 6px → 4px */
+            padding-bottom: 4px;
             letter-spacing: 0.2px;
         }
 
         h3 {
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 6px; /* 8px → 6px */
+            margin-bottom: 6px;
             color: #0056b3;
             letter-spacing: 0.1px;
         }
 
         .help-text {
             background: #e7f3ff;
-            padding: 10px; /* 12px → 10px */
+            padding: 10px;
             border-radius: 6px;
-            margin-bottom: 12px; /* 16px → 12px */
+            margin-bottom: 12px;
             border-left: 4px solid #007bff;
             flex-shrink: 0; /* 縮小させない */
         }
@@ -91,15 +92,15 @@
         }
 
         .help-text li {
-            margin-bottom: 3px; /* 4px → 3px */
+            margin-bottom: 3px;
             letter-spacing: 0.05px;
         }
 
         .upload-section {
             background: #f8f9fa;
-            padding: 14px; /* 16px → 14px */
+            padding: 14px;
             border-radius: 8px;
-            margin-bottom: 10px; /* 12px → 10px */
+            margin-bottom: 10px;
             border: 1px solid #e9ecef;
             flex: 1;
             display: flex;
@@ -115,7 +116,7 @@
         }
 
         .form-group {
-            margin-bottom: 12px; /* 14px → 12px */
+            margin-bottom: 12px;
             flex-shrink: 0; /* 縮小させない */
         }
 
@@ -144,8 +145,8 @@
         }
 
         .checkbox-group {
-            margin: 10px 0; /* 12px → 10px */
-            padding: 10px; /* 12px → 10px */
+            margin: 10px 0;
+            padding: 10px;
             background: #fff3cd;
             border: 1px solid #ffeaa7;
             border-radius: 6px;
@@ -176,9 +177,9 @@
             font-size: 13px;
             font-weight: 500;
             color: #dc3545;
-            margin-top: 6px; /* 8px → 6px */
+            margin-top: 6px;
             line-height: 1.3;
-            padding: 6px; /* 8px → 6px */
+            padding: 6px;
             background: #f8d7da;
             border-radius: 4px;
             border-left: 3px solid #dc3545;
@@ -188,7 +189,7 @@
         .upload-button {
             background: #28a745;
             color: white;
-            padding: 10px 20px; /* 12px 24px → 10px 20px */
+            padding: 10px 20px;
             border: none;
             border-radius: 6px;
             font-size: 16px;
@@ -198,7 +199,7 @@
             width: 100%;
             font-family: inherit;
             letter-spacing: 0.2px;
-            margin-top: 10px; /* auto → 10px */
+            margin-top: 10px;
             flex-shrink: 0; /* 縮小させない */
         }
 
@@ -219,7 +220,7 @@
         .back-button {
             background: #6c757d;
             color: white;
-            padding: 8px 14px; /* 10px 16px → 8px 14px */
+            padding: 8px 14px;
             border: none;
             border-radius: 6px;
             text-decoration: none;
@@ -229,7 +230,6 @@
             display: inline-block;
             font-family: inherit;
             letter-spacing: 0.1px;
-            /* align-self: flex-start; を削除して左寄せ */
         }
 
         .back-button:hover {
@@ -238,119 +238,367 @@
             color: white;
         }
 
-        /* レスポンシブ対応 */
+        /* タブレット対応 (769px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            body {
+                overflow: hidden; /* タブレットでもスクロール無効 */
+            }
+            
+            .main-content {
+                overflow: hidden;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+        }
+
+        /* スマホ対応 (768px以下) */
         @media (max-width: 768px) {
             body {
+                overflow-y: auto; /* スマホでは縦スクロール有効 */
+                overflow-x: hidden; /* 横スクロールは無効 */
+                height: auto; /* 高さ制限を解除 */
+                min-height: 100vh; /* 最小高さは確保 */
                 font-size: 15px;
             }
 
             .main-content {
-                padding: 10px; /* 12px → 10px */
-                height: calc(100vh - 50px);
+                height: auto; /* 高さ制限を解除 */
+                min-height: calc(100vh - 50px); /* 最小高さは確保 */
+                overflow: visible; /* スクロール有効 */
+                padding: 12px;
+                margin: 10px;
+                max-width: none; /* 最大幅制限を解除 */
+                border-radius: 6px;
+            }
+
+            .content-wrapper {
+                overflow: visible; /* スクロール有効 */
             }
 
             h1 {
-                font-size: 22px;
-                margin-bottom: 10px; /* 14px → 10px */
+                font-size: 20px;
+                margin-bottom: 15px;
+                padding: 0 5px;
             }
 
             h2 {
                 font-size: 18px;
-                margin-bottom: 8px; /* 12px → 8px */
+                margin-bottom: 12px;
+                padding-bottom: 6px;
             }
 
             h3 {
                 font-size: 16px;
-                margin-bottom: 4px; /* 6px → 4px */
-            }
-
-            .upload-section {
-                padding: 12px; /* 14px → 12px */
+                margin-bottom: 8px;
             }
 
             .help-text {
-                padding: 8px; /* 10px → 8px */
-                margin-bottom: 10px; /* 14px → 10px */
+                padding: 12px;
+                margin-bottom: 15px;
+                border-radius: 8px;
             }
 
             .help-text ul {
                 font-size: 13px;
+                margin-left: 18px;
+                line-height: 1.5;
+            }
+
+            .help-text li {
+                margin-bottom: 4px;
+            }
+
+            .upload-section {
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 8px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-label {
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 600;
+            }
+
+            .file-input {
+                padding: 12px;
+                font-size: 16px; /* iOSでのズーム防止 */
+                border-radius: 8px;
+                border-width: 2px;
+            }
+
+            .checkbox-group {
+                margin: 15px 0;
+                padding: 12px;
+                border-radius: 8px;
+                overflow-y: visible; /* スマホでは内部スクロール無効 */
             }
 
             .checkbox-label {
                 font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 8px;
+            }
+
+            .checkbox-input {
+                transform: scale(1.3); /* タップしやすいサイズ */
+                margin-right: 10px;
+                margin-top: 1px;
             }
 
             .warning-text {
                 font-size: 12px;
-                padding: 5px; /* 6px → 5px */
-            }
-
-            .form-label,
-            .upload-button,
-            .back-button {
-                font-size: 14px;
+                padding: 8px;
+                margin-top: 8px;
+                line-height: 1.4;
+                border-radius: 6px;
             }
 
             .upload-button {
-                padding: 8px 16px; /* 10px 20px → 8px 16px */
+                padding: 12px 20px;
+                font-size: 16px;
+                margin-top: 15px;
+                border-radius: 8px;
+                min-height: 48px; /* タップしやすい高さ */
+            }
+
+            .footer-section {
+                padding-top: 15px;
+                margin-top: 10px;
+                text-align: center;
             }
 
             .back-button {
-                padding: 6px 12px; /* 8px 14px → 6px 12px */
+                padding: 10px 20px;
+                font-size: 15px;
+                border-radius: 8px;
+                min-height: 44px; /* タップしやすい高さ */
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
-        /* 小さな画面用 */
+        /* 小型スマホ対応 (480px以下) */
         @media (max-width: 480px) {
             body {
                 font-size: 14px;
             }
 
             .main-content {
-                padding: 8px; /* 10px → 8px */
-            }
-
-            .upload-section {
-                padding: 10px; /* 12px → 10px */
+                padding: 10px;
+                margin: 5px;
+                border-radius: 4px;
             }
 
             h1 {
-                font-size: 20px;
+                font-size: 18px;
+                margin-bottom: 12px;
             }
 
             h2 {
-                font-size: 17px;
+                font-size: 16px;
+                margin-bottom: 10px;
             }
 
             h3 {
                 font-size: 15px;
+                margin-bottom: 6px;
+            }
+
+            .help-text {
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+
+            .help-text ul {
+                font-size: 12px;
+                margin-left: 16px;
+            }
+
+            .upload-section {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .form-label {
+                font-size: 13px;
+            }
+
+            .file-input {
+                padding: 10px;
+                font-size: 16px; /* iOSでのズーム防止 */
+            }
+
+            .checkbox-group {
+                padding: 10px;
+                margin: 12px 0;
             }
 
             .checkbox-label {
                 font-size: 13px;
             }
 
+            .checkbox-input {
+                transform: scale(1.4); /* さらに大きく */
+            }
+
             .warning-text {
                 font-size: 11px;
-            }
-
-            .help-text ul {
-                font-size: 12px;
-            }
-
-            .form-label,
-            .upload-button,
-            .back-button {
-                font-size: 13px;
+                padding: 6px;
             }
 
             .upload-button {
-                padding: 7px 14px; /* 8px 16px → 7px 14px */
+                padding: 10px 16px;
+                font-size: 15px;
+                margin-top: 12px;
+                min-height: 44px;
             }
 
             .back-button {
-                padding: 5px 10px; /* 6px 12px → 5px 10px */
+                padding: 8px 16px;
+                font-size: 14px;
+                min-height: 40px;
+            }
+        }
+
+        /* 極小スマホ対応 (360px以下) */
+        @media (max-width: 360px) {
+            body {
+                font-size: 13px;
+            }
+
+            .main-content {
+                padding: 8px;
+                margin: 3px;
+            }
+
+            h1 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            h2 {
+                font-size: 15px;
+            }
+
+            h3 {
+                font-size: 14px;
+            }
+
+            .help-text {
+                padding: 8px;
+            }
+
+            .help-text ul {
+                font-size: 11px;
+                margin-left: 14px;
+            }
+
+            .upload-section {
+                padding: 10px;
+            }
+
+            .checkbox-label {
+                font-size: 12px;
+            }
+
+            .warning-text {
+                font-size: 10px;
+                padding: 5px;
+            }
+
+            .upload-button {
+                padding: 8px 14px;
+                font-size: 14px;
+                min-height: 42px;
+            }
+
+            .back-button {
+                padding: 6px 14px;
+                font-size: 13px;
+                min-height: 38px;
+            }
+        }
+
+        /* 横向きスマホ対応 */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .main-content {
+                min-height: calc(100vh - 40px);
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .help-text {
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+
+            .upload-section {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+
+            .checkbox-group {
+                margin: 10px 0;
+                padding: 8px;
+            }
+        }
+
+        /* タッチデバイス向けの改善 */
+        @media (hover: none) and (pointer: coarse) {
+            .upload-button,
+            .back-button {
+                min-height: 44px; /* iOS Human Interface Guidelines */
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            }
+
+            .checkbox-input {
+                min-width: 44px;
+                min-height: 44px;
+                opacity: 0;
+                position: absolute;
+            }
+
+            .checkbox-label {
+                position: relative;
+                padding-left: 50px;
+            }
+
+            .checkbox-label::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #856404;
+                border-radius: 3px;
+                background: white;
+            }
+
+            .checkbox-input:checked + .checkbox-label::before {
+                background: #856404;
+            }
+
+            .checkbox-input:checked + .checkbox-label::after {
+                content: '✓';
+                position: absolute;
+                left: 4px;
+                top: -2px;
+                color: white;
+                font-size: 14px;
+                font-weight: bold;
             }
         }
     </style>
@@ -464,6 +712,22 @@
                     }
                 }
             });
+
+            // スマホでのファイル選択後の表示改善
+            const fileInput = document.querySelector('.file-input');
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        // ファイル名の表示（スマホで確認しやすく）
+                        const fileName = this.files[0].name;
+                        const maxLength = window.innerWidth < 480 ? 20 : 30;
+                        if (fileName.length > maxLength) {
+                            const truncated = fileName.substring(0, maxLength - 3) + '...';
+                            console.log('選択されたファイル:', truncated);
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>
