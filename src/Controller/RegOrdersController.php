@@ -69,8 +69,14 @@ class RegOrdersController extends AppController
 
     public function newOrder(?string $customerId = null)
     {
+        // GETパラメータでcustomer_nameが渡っていれば優先的にセット
+        $customerName = $this->request->getQuery('customer_name');
         if ($this->request->is('post')) {
             $data = $this->request->getData();
+            // hiddenからcustomer_idを取得（URLパラメータより優先）
+            if (isset($data['customer_id']) && $data['customer_id']) {
+                $customerId = $data['customer_id'];
+            }
 
             // バリデーション処理（既存のまま）
             $invalidMsg = '';
@@ -114,7 +120,15 @@ class RegOrdersController extends AppController
             
             if ($invalidMsg !== '') {
                 $this->Flash->error($invalidMsg);
-                $this->set(compact('customerId', 'data'));
+                // 顧客名を再取得
+                $customerName = null;
+                if ($customerId) {
+                    $customer = $this->fetchTable('Customers')->find()->where(['customer_id' => $customerId])->first();
+                    if ($customer) {
+                        $customerName = $customer->Name;
+                    }
+                }
+                $this->set(compact('customerId', 'data', 'customerName'));
                 return $this->render('new_order');
             }
 
@@ -165,7 +179,6 @@ class RegOrdersController extends AppController
                     'book_summary' => $item['book_summary'] ?? null,
                 ]);
                 $orderItemsTable->saveOrFail($orderItem);
-
                 $deliveryItem = $deliveryItemsTable->newEntity([
                     'deliveryItem_id' => str_pad((string)($nextDeliveryItemId++), 6, '0', STR_PAD_LEFT),
                     'orderItem_id' => $orderItemId,
@@ -186,12 +199,27 @@ class RegOrdersController extends AppController
                 // エラーログを確認できるように
                 \Cake\Log\Log::error('Order creation failed: ' . $e->getMessage());
                 $this->Flash->error('注文の登録中にエラーが発生しました: ' . $e->getMessage());
-                $this->set(compact('customerId', 'data'));
+                // 顧客名を再取得
+                $customerName = null;
+                if ($customerId) {
+                    $customer = $this->fetchTable('Customers')->find()->where(['customer_id' => $customerId])->first();
+                    if ($customer) {
+                        $customerName = $customer->Name;
+                    }
+                }
+                $this->set(compact('customerId', 'data', 'customerName'));
                 return $this->render('new_order');
             }
         }
         
-        $this->set(compact('customerId'));
+        // まだcustomerNameが空ならDBから取得
+        if (empty($customerName) && $customerId) {
+            $customer = $this->fetchTable('Customers')->find()->where(['customer_id' => $customerId])->first();
+            if ($customer) {
+                $customerName = $customer->Name;
+            }
+        }
+        $this->set(compact('customerId', 'customerName'));
         return $this->render('new_order');
     }
 }
