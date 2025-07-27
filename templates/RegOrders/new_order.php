@@ -173,6 +173,7 @@ document.querySelectorAll('.page-link').forEach(link => {
   .order-header {
     font-size: 18px;
     margin-bottom: 12px;
+    flex-wrap: wrap;
   }
   .order-date {
     margin-left: auto;
@@ -182,6 +183,8 @@ document.querySelectorAll('.page-link').forEach(link => {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 12px;
+    table-layout: fixed;
+    word-break: break-all;
   }
   .order-table th, .order-table td {
     font-size: 16px;
@@ -189,6 +192,7 @@ document.querySelectorAll('.page-link').forEach(link => {
     border: 1px solid #222;
     text-align: left;
     background: #fff;
+    word-break: break-word;
   }
   .order-table th {
     background: #fff;
@@ -197,18 +201,22 @@ document.querySelectorAll('.page-link').forEach(link => {
   }
   .order-btn-row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 24px;
+    gap: 12px;
   }
   .order-btn-left, .order-btn-right {
     width: 160px;
+    min-width: 120px;
   }
   .button {
     width: 100%;
     font-size: 18px;
-    padding: 8px 0;
+    padding: 0;
     border-radius: 6px;
     height: 40px;
+    line-height: 40px;
     border: 1px solid #222;
     background: #fff;
     color: #222;
@@ -217,8 +225,10 @@ document.querySelectorAll('.page-link').forEach(link => {
     margin: 0 8px;
     box-sizing: border-box;
     transition: background 0.2s;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
   }
-  /* .create-btn 削除（作成ボタンはbuttonクラスのみで統一） */
   .button:hover {
     background: #e0e0e0;
   }
@@ -230,5 +240,86 @@ document.querySelectorAll('.page-link').forEach(link => {
   }
   input[type=number] {
     -moz-appearance: textfield;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 1100px) {
+    .order-box {
+      width: 99vw;
+      min-width: 0;
+      padding: 12px 2vw 12px 2vw;
+    }
+    .order-table th, .order-table td {
+      font-size: 15px;
+      padding: 6px 4px;
+    }
+    .order-header {
+      font-size: 16px;
+    }
+    .button {
+      font-size: 16px;
+      height: 38px;
+      line-height: 38px;
+    }
+  }
+  @media (max-width: 700px) {
+    .order-box {
+      width: 100vw;
+      min-width: 0;
+      margin: 0;
+      border-width: 1px;
+      padding: 6vw 0 6vw 0;
+      border-radius: 0;
+    }
+    .order-header {
+      flex-direction: column;
+      align-items: flex-start !important;
+      gap: 8px;
+      font-size: 15px;
+    }
+    .order-table th, .order-table td {
+      font-size: 14px;
+      padding: 4px 2px;
+    }
+    .order-btn-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .order-btn-left, .order-btn-right {
+      width: 100%;
+      min-width: 0;
+    }
+    .pagination {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .button {
+      font-size: 15px;
+      height: 36px;
+      line-height: 36px;
+      margin: 0 0 8px 0;
+    }
+    td[colspan="4"] > .form-control {
+      min-width: 0 !important;
+      width: 100% !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .order-box {
+      padding: 2vw 0 2vw 0;
+    }
+    .order-header {
+      font-size: 14px;
+    }
+    .order-table th, .order-table td {
+      font-size: 13px;
+      padding: 2px 1px;
+    }
+    .button {
+      font-size: 13px;
+      height: 32px;
+      line-height: 32px;
+    }
   }
 </style>
