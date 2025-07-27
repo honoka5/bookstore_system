@@ -8,6 +8,9 @@
     ]) ?>
       <div class="order-box">
         <?= $this->Form->hidden('customer_id', ['value' => $customerId]) ?>
+        <?php if (isset($customerName) && $customerName): ?>
+          <?= $this->Form->hidden('customer_name', ['value' => $customerName]) ?>
+        <?php endif; ?>
         <div class="order-header" style="display:flex; align-items:center; justify-content:space-between;">
           <span>注文書<?= isset($customerName) && $customerName ? '　　' . h($customerName) . ' 様' : '' ?></span>
           <div style="display:flex; align-items:center; gap:8px;">
@@ -61,10 +64,10 @@ for ($i = 0; $i < $totalItems; $i++):
         </div>
         <div class="order-btn-row" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
           <div class="order-btn-left">
-            <?= $this->Html->link('戻る', ['controller' => 'RegOrders', 'action' => 'selectCustomer'], ['class' => 'button']) ?>
+            <?= $this->Html->link('戻る', ['controller' => 'RegOrders', 'action' => 'selectCustomer'], ['class' => 'button btn-gray']) ?>
           </div>
           <div style="display:flex; align-items:center; gap:16px; flex:1; justify-content:flex-end;">
-            <button type="submit" class="button order-btn-left">作成</button>
+            <button type="submit" class="button btn-blue order-btn-left">作成</button>
           </div>
         </div>
       </div>
@@ -235,6 +238,24 @@ document.querySelectorAll('.page-link').forEach(link => {
   }
   .button:hover {
     background: #e0e0e0;
+  }
+  .btn-gray {
+    background: #6c757d;
+    color: #fff;
+    border: 1px solid #6c757d;
+  }
+  .btn-gray:hover {
+    background: #5a6268;
+    color: #fff;
+  }
+  .btn-blue {
+    background: #1976d2;
+    color: #fff;
+    border: 1px solid #1976d2;
+  }
+  .btn-blue:hover {
+    background: #1565c0;
+    color: #fff;
   }
   /* スピンボタン非表示 */
   input[type=number]::-webkit-outer-spin-button,
