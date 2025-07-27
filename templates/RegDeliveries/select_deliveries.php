@@ -82,7 +82,7 @@
             </tbody>
         </table>
         <div style="text-align: right; margin-top: 1em;">
-            <button type="submit" class="btn btn-success">登録</button>
+            <button type="submit" class="btn btn-blue">登録</button>
         </div>
         <?php endif; ?>
     </div>
@@ -99,7 +99,7 @@
     </script>
 </div>
 <div class="bottom-left-btn">
-    <?= $this->Html->link('戻る', ['controller' => 'RegDeliveries', 'action' => 'selectCustomer'], ['class' => 'button']) ?>
+    <?= $this->Html->link('戻る', ['controller' => 'RegDeliveries', 'action' => 'selectCustomer'], ['class' => 'button button-gray']) ?>
 </div>
 <style>
 .bottom-left-btn {
@@ -107,5 +107,73 @@
     left: 20px;
     bottom: 20px;
     z-index: 100;
+}
+
+/* 戻るボタン専用（灰色） */
+.button {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.button-gray {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #fff !important;
+}
+
+.button-gray:hover {
+    background-color: #5a6268 !important;
+    border-color: #5a6268 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+/* 登録ボタン専用（青色） */
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-blue {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: #fff !important;
+}
+
+.btn-blue:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+    color: #fff !important;
+}
+
+/* 既存のbtn-successをオーバーライド */
+.btn-success {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: #fff !important;
+}
+
+.btn-success:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+    color: #fff !important;
 }
 </style>
