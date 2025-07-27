@@ -88,7 +88,8 @@ class RegOrdersController extends AppController
                 
                 // すべて空欄の行はスキップ
                 if ($bookTitle === '' && $bookAmount === '' && $unitPrice === '') {
-                    continue;
+                    $invalidMsg = 'エラー : 書籍名・数量・単価を入力してください。';
+                    break;
                 }
                 
                 // いずれか一つでも入力があれば3つすべて必須
