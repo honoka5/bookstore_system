@@ -392,7 +392,7 @@
                             <?= $this->Form->control('delete_old_data', [
                                 'type' => 'checkbox',
                                 'label' => [
-                                    'text' => '古いデータを削除する（Excelファイルに含まれていない既存顧客を削除）',
+                                    'text' => '顧客情報削除を含む操作（Excelファイルに含まれていない既存顧客を削除）',
                                     'class' => 'checkbox-label'
                                 ],
                                 'class' => 'checkbox-input',
@@ -400,7 +400,7 @@
                             ]) ?>
                             <div class="warning-text">
                                 <strong>重要な注意事項</strong><br>
-                                このオプションを有効にすると、Excelファイルに含まれていない既存の顧客データが削除されます。<br>
+                                このチェックボックスを有効にすると、Excelファイルに含まれていない既存の顧客データが削除されます。<br>
                                 ただし、注文履歴または納品履歴がある顧客は削除されません。<br>
                                 <strong>実行前に必ずバックアップを取ってください。</strong>
                             </div>
