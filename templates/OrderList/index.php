@@ -392,7 +392,7 @@
                                         'style' => 'display:inline;',
                                         'type' => 'post',
                                     ]) ?>
-                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">削除</button>
+                                        <button type="submit" class="delete-btn" title="削除" onclick="return confirm('本当に削除しますか？');">✖</button>
                                     <?= $this->Form->end() ?>
                                 </td>
                             </tr>
