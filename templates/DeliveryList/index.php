@@ -372,9 +372,7 @@
                                 <th>納品書ID</th>
                                 <th>顧客ID</th>
                                 <th>顧客名</th>
-                                <th>金額</th>
                                 <th>納品日</th>
-                                <th>備考</th>
                                 <th>削除</th>
                             </tr>
                         </thead>
@@ -385,7 +383,6 @@
                                 <td><?= h($delivery->delivery_id) ?></td>
                                 <td><?= h($delivery->customer_id) ?></td>
                                 <td><?= h($delivery->customer->name ?? '') ?></td>
-                                <td><?= h($delivery->total_amount ?? '') ?></td>
                                 <td><?php
                                     // 納品日を「2025年7月12日」形式で表示
                                     if (isset($delivery->delivery_date) && $delivery->delivery_date) {
@@ -398,7 +395,6 @@
                                         echo h($dateObj->format('Y年n月j日'));
                                     }
                                 ?></td>
-                                <td><?= h($delivery->remark ?? '') ?></td>
                                 <td>
                                     <?= $this->Form->create(null, [
                                         'url' => ['controller'=>'DeliveryList','action'=>'deleteDelivery', h($delivery->delivery_id)],
