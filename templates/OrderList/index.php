@@ -373,7 +373,6 @@
                                 <th>注文書ID</th>
                                 <th>顧客ID</th>
                                 <th>顧客名</th>
-                                <th>金額</th>
                                 <th>注文日</th>
                                 <th>削除</th>
                             </tr>
@@ -384,7 +383,6 @@
                                 <td><?= h($order->order_id) ?></td>
                                 <td><?= h($order->customer_id) ?></td>
                                 <td><?= h($order->customer->name ?? '') ?></td>
-                                <td><?= h($order->total_amount ?? '') ?></td>
                                 <td><?= h($order->order_date) ?></td>
                                 <td>
                                     <?= $this->Form->create(null, [
