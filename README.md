@@ -8,7 +8,7 @@
 ## 使用技術・フレームワーク
 
 - **言語**: PHP 8.1+
-- **フレームワーク**: CakePHP 5.1
+- **フレームワーク**: [CakePHP 5.1](https://cakephp.org/)
 - **CSSフレームワーク**: Milligram (v1.3)
 - **ライブラリ**: 
   - PhpSpreadsheet (Excel import/export機能)
@@ -145,6 +145,12 @@ MobileDetectライブラリによる端末判定機能も実装されていま�
 ## ライセンス
 
 MIT License
+
+## 参考資料・ドキュメント
+
+- [CakePHP公式サイト](https://cakephp.org/)
+- [CakePHP 5.x ドキュメント](https://book.cakephp.org/5/)
+- [Milligram CSS フレームワーク](https://milligram.io/)
 
 ---
 
