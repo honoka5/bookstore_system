@@ -140,7 +140,14 @@ MobileDetectライブラリによる端末判定機能も実装されていま�
 
 ## 作成者
 
-**作成者名**: [作成者名を記入してください]
+**作成者**:
+- honoka5
+- awa012
+- Gucci-2525
+- osakana-ocs
+- takoyakigod
+- Yuki-perform
+- zebra2525Tai (Taise_2525)
 
 ## ライセンス
 
